@@ -1,0 +1,16 @@
+.head{
+	position: fixed;
+	top: 0;
+	width: 100%;
+	height: 30px;
+	background-color: black;
+	padding: 4px 10px;
+}
+
+.head a{
+	text-decoration: none;
+	color: white;
+	float: right;
+	font-size: 13px;
+	margin-right: 15px;
+}
