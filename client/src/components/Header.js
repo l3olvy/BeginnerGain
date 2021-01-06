@@ -1,12 +1,14 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "./Header.css";
+import "./Main.css";
 
 function Header() {
 	return (
-		<div className="head">
-			<Link to="/signup">signup</Link>
-			<Link to="/login">login</Link>
+		<div className="box">
+			<div className="head">
+				<Link to="/signup">Signup</Link>
+				<Link to="/login">Signin</Link>
+			</div>
 		</div>
 	);
 }
