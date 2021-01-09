@@ -11,7 +11,7 @@ import Talk from "../routes/Talk";
 import Chat from "../routes/Chat";
 import Writing from "../components/Writing";
 import Post from "../components/Post";
-import "./Body.css";
+import "../css/Body.css";
 
 function Body() {
 	return (

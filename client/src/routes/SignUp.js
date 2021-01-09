@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import { Link } from "react-router-dom";
-import "./Menu.css";
+import "../css/Menu.css";
 
 //Formik, Yup 사용시 좀더 다이나믹,, 나중에,,.......
 
@@ -22,100 +22,30 @@ function SignUp(props) {
 
   return (
     <div className="container">
-    	<form style={{
-    		display: 'flex', flexDirection: 'column'
-    	}}>
-        <label style={{
-            fontSize: '20px',
-            margin: '10px 0px 10px 10px'
-        }}> 회원가입</label>
-    		<label style={{
-    			padding: '5px'
-    		}}>성명</label>
-        	<input className="Name-input"
-        		type='text'
-        		placeholder='성명'
-        		value={Name} 
-        		onChange={onNameHandler}
-        		name='name'
-        		style={{
-    			padding: '10px',
-    			margin: '5px'
-    		}}
-        	/>
-      		
-      		<label style={{
-    			padding: '5px'
-    		}}>이메일</label>
-        	<input className="Email-input"
-        		type='email'
-        		placeholder='이메일'
-        		value={Email} 
-        		onChange={onEmailHandler}
-        		name='email'
-        		style={{
-    			padding: '10px',
-    			margin: '5px'
-    		}}
-        	/>
+		<div className="joinBox">
+			<form>
+				<h3>회원가입</h3>
+				<label>성명</label>
+				<input className="Name-input" type='text' placeholder='성명' value={Name} onChange={onNameHandler} name='name' />
 
-       		<label style={{
-    			padding: '5px'
-    		}}>아이디</label>
-        	<input className="ID-input"
-        		type='text'
-        		placeholder='아이디'
-        		value={ID}
-        		onChange={onIDHandler}
-        		name='id'
-        		style={{
-    			padding: '10px',
-    			margin: '5px'
-    		}}
-        	/>
-      
-      		<label style={{
-    			padding: '5px'
-    		}}>비밀번호</label>
-        	<input className="PW-input"
-        		type='text'
-        		placeholder='비밀번호'
-        		value={PW}
-        		onChange={onPWHandler}
-        		name='pw'
-        		style={{
-    			padding: '10px',
-    			margin: '5px'
-    		}}/>
+				<label>이메일</label>
+				<input className="Email-input" type='email' placeholder='이메일' value={Email}  onChange={onEmailHandler} name='email'/>
 
-       		<label style={{
-     			//display: 'flex', flexDirection: 'row'
-     			float: 'right', 
-     			padding: '2px'
-     		  }}>
-     		  <Link to="/login">
-      			<button style={{
-    			padding: '8px',
-    			margin: '5px 2px',
-    			backgroundColor: '#0066CC',
-    			color: '#ffffff',
-    			borderWidth: '0px',
-    			borderRadius:'3px'
-    		  }}> 로그인</button>
-    		  </Link>
-      		  <button style={{
-    			padding: '8px',
-    			margin: '10px 2px',
-    			backgroundColor: '#0066CC',
-    			color: '#ffffff',
-    			borderWidth: '0px',
-    			borderRadius:'3px'
-    		}}>등록</button>
-		
-			{/*등록 성공시 로그인페이지로?*/}
-      		
-			</label>
-    	</form>
+				<label>아이디</label>
+				<input className="ID-input" type='text' placeholder='아이디' value={ID} onChange={onIDHandler} name='id'/>
+
+				<label>비밀번호</label>
+				<input className="PW-input" type='text' placeholder='비밀번호' value={PW} onChange={onPWHandler} name='pw' />
+
+				<label>
+				<Link to="/login">
+				    <button className="joinBtn"> 로그인</button>
+				</Link>
+					<button className="joinBtn">등록</button>
+					{/*등록 성공시 로그인페이지로?*/}
+				</label>
+			</form>
+		</div>
     </div>
   );
 }

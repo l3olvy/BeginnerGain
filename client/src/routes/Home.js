@@ -1,5 +1,5 @@
 import React from "react";
-import "./Menu.css";
+import "../css/Menu.css";
 
 function Home(props) {
   return (

@@ -1,6 +1,6 @@
 import React from "react";
 
-import "./Menu.css";
+import "../css/Menu.css";
 
 function Hire(props) {
   return (

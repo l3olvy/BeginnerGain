@@ -1,6 +1,6 @@
 import React from "react";
 import Board from "./Board";
-import "./Menu.css";
+import "../css/Menu.css";
 
 function Qna(props) {
   return (
