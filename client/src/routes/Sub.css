@@ -1,0 +1,42 @@
+/* sub page - board */
+.left { float: left; }
+.right { float: right; }
+
+.menu__container > .board_top { width: 100%; height: auto; overflow: auto; vertical-align: middle; }
+
+.menu__container > h2 { margin: 0; margin-top: 30px; }
+.menu__container > .board_top > p { font-size: 17px; float: left; }
+.menu__container > .board_top > .board_list { float: right; border: 1px solid #d2d2d2; border-radius: 4px; height: 40px; margin-top: 8px; }
+.menu__container > .board_top > .board_list > li { float: left; height: 100%; }
+.menu__container > .board_top > .board_list > li > input { background: none; border: none; height: 100%; padding-left: 10px; line-height: 40px; font-size: 16px; box-shadow: inset 7px 6px 4px -5px rgba(0,0,0,0.15); }
+.menu__container > .board_top > .board_list > li > button { width: 45px; height: 100%; background: none; border: none; }
+.menu__container > .board_top > .board_list > li > button > svg { color: #acacac; line-height: 38px; background: none; font-size: 23px; }
+
+.menu__container > .tagSearch { clear: both; width: 100%; overflow: hidden; height: 48px; background: #f7f7f7; border-top: 1px solid #c6c6c6; border-bottom: 1px solid #c6c6c6; margin-top: 3px; }
+.menu__container > .tagSearch > .tagTitle { font-weight: bold; font-size: 17px; line-height: 48px; text-align: center; width: 14%; color: #535353; }
+.menu__container > .tagSearch > .right { width: 86%; height: 100%; }
+.menu__container > .tagSearch > .right > .tagInput { height: 100%; }
+.menu__container > .tagSearch > .right > .tagInput > input { width: 210px; height: 37px; padding-left: 10px; line-height: 37px; border-radius: 4px; border: 1px solid #535353; margin-top: 5px; }
+
+.menu__container > .board_contents { clear: both; float: none; width: 100%; height: auto; overflow: hidden; }
+.menu__container > .board_contents > .list { width: 100%; height: 180px; }
+.menu__container > .board_contents > .list > .left { width: 13%; height: 100%; padding: 0 20px; }
+.menu__container > .board_contents > .list > .left > p { font-weight: bold; color: #f49a24; font-size: 18px; }
+
+.menu__container > .board_contents > .list > .right { width: 87%; height: 100%; padding: 0 20px; }
+.menu__container > .board_contents > .list > .right > p { font-size: 17px; line-height: 26px; margin: 0; }
+
+.menu__container > .board_contents > .list > .right > div { width: 100%; clear: both; float: none; height: 50px; padding-top: 21px;}
+.menu__container > .board_contents > .list > .right > div > .left { width: 75%; height: 100%; }
+.menu__container > .board_contents > .list > .right > div > .left > a { background: #f1f4f8; border: 1px solid #8792af; padding: 7px 15px; margin-right: 15px; border-radius: 4px; }
+
+.menu__container > .board_contents > .list > .right > div > .right { width: 25%; height: 100%; text-align: right; }
+.menu__container > .board_contents > .list > .right > div > .right > p { font-size: 16px; margin: 0; }
+.menu__container > .board_contents > .list > .right > div > .right > p > span { font-size: 16px; } 
+.menu__container > .board_contents > .list { border-bottom: 1px solid #c6c6c6; }
+
+.disabled { color: #999999 !important; }
+.selected { background: #428bca !important; color: white !important; }
+.menu__container > .paging { text-align: center; padding: 20px 0; margin-top: 20px; }
+.menu__container > .paging > a { padding: 10px 15px; background: white; border: 1px solid #b7b7b7; border-right: none; color: #2879d0; font-weight: bold; }
+.menu__container > .paging > a:last-child { border-right: 1px solid #b7b7b7; }

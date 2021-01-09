@@ -1,13 +1,11 @@
 import React from "react";
-
+import Board from "./Board";
 import "./Menu.css";
 
 function Talk(props) {
   return (
     <div className="menu__container">
-      <span>
-        “직군 별 사담 게시판”
-      </span>
+      <Board/>
     </div>
   );
 }

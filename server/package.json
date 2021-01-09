@@ -7,7 +7,7 @@
     "start": "node index.js",
     "dev": "nodemon index.js",
     "appClient": "cd ../client && npm start",
-    "ckeditor": "concurrently \" nodemon index.js\" \" npm run appClient\""
+    "bg": "concurrently \" nodemon index.js\" \" npm run appClient\""
   },
   "author": "",
   "license": "ISC",
