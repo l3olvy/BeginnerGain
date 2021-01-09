@@ -1,13 +1,11 @@
 import React from "react";
-
+import { Link } from "react-router-dom";
 import "./Menu.css";
 
 function News(props) {
   return (
     <div className="menu__container">
-      <span>
-        “개발 소식 (IT 관련 기사)”
-      </span>
+      <Link to="/writing"><button>작성</button></Link>
     </div>
   );
 }

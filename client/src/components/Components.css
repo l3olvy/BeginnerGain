@@ -1,0 +1,86 @@
+/*Writing.js & Post.js*/
+.Writing, .Post { 
+  margin: 0 auto;
+  margin-top: 40px;
+  width: 100%;
+  max-width: 850px;
+  font-size: 15px;
+  font-weight: 300;
+}
+
+.bolder{
+  font-size: 25px !important;
+  font-weight: 500 !important;
+}
+
+.bold{
+  font-size: 18px !important;
+  font-weight: 400 !important;
+}
+
+.ck.ck-editor__editable:not(.ck-editor__nested-editable) {
+  min-height: 400px;
+}
+
+.submit-button {
+  width: 100px;
+  height: 40px;
+  font-size: 20px;
+  font-weight: 300;
+  border: none;
+  background-color: #2782F4;
+  color: white;
+  border-radius: 5px;
+  margin-top: 30px;
+  margin-bottom: 50px;
+}
+
+/*Writing.js*/
+.Writing >.form-wrapper { 
+  margin-top: 40px;
+  margin-bottom: 5px;
+  box-shadow: 0 13px 27px -5px rgba(50, 50, 93, 0.25),
+    0 8px 16px -8px rgba(0, 0, 0, 0.3), 0 -6px 16px -6px rgba(0, 0, 0, 0.025);
+  padding: 2px 20px 20px 20px;
+  border-radius: 5px;
+  background-color: white;
+}
+
+.title-input, .tag-input {
+  width: 100%;
+  max-width: 850px;
+  height: 40px;
+  border: 1px solid hsl(0, 0%, 70%);
+}
+
+.title-input:focus, .tag-input:focus {
+  outline: none;
+  border: 1px solid #0e7fe1;
+}
+
+/*Post.js*/
+
+.Post > .form-wrapper > .grid{
+  margin-bottom: 20px;
+}
+
+.Post > .form-wrapper > .grid > div {
+  float: left;
+  text-align: left;
+  margin-right: 20px;
+}
+
+.Post > .form-wrapper > .grid > div > span {
+  margin-right: 5px;
+  color: #67676C;
+}
+
+.user-info{
+  text-align: right;
+  color: #67676C;
+}
+
+.user-info > span{
+  margin-left: 5px;
+}
+

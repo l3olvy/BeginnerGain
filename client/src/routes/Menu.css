@@ -9,9 +9,34 @@
   margin-bottom: 500px;
   width: 100%;
   max-width: 400px;
-  font-weight: 300;
 }
 
 .menu__container span {
   font-size: 20px;
+}
+
+.banner{
+  height: 400px;
+  background-color: #282c34;
+  color: white;
+}
+
+.banner > .banner_text {
+  padding-top: 70px;
+  text-align: center;
+}
+
+.banner > .banner_text > h1 {
+  font-size: 60px;
+  color: #D1F03C;
+}
+
+.banner > .banner_text > p {
+  margin-top: -20px;
+  font-size: 30px;
+  font-weight: 300;
+}
+
+.empty {
+  height: 600px;
 }

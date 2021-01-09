@@ -9,6 +9,8 @@ import Hire from "../routes/Hire";
 import Qna from "../routes/Qna";
 import Talk from "../routes/Talk";
 import Chat from "../routes/Chat";
+import Writing from "../components/Writing";
+import Post from "../components/Post";
 import "./Body.css";
 
 function Body() {
@@ -24,6 +26,8 @@ function Body() {
 			     <Route path="/qna" component={Qna} /> 
 			     <Route path="/talk" component={Talk} /> 
 			     <Route path="/chat" component={Chat} />
+			     <Route path="/writing" component={Writing} />
+			     <Route path="/post" component={Post} />
 	      	</HashRouter>
 		</div>
 	);
