@@ -10,9 +10,6 @@ function Home(props) {
 	        <p>한국 초보 개발자를 위한 개발자 커뮤니티</p>
 	      </div>
 	    </div>
-	    <div className="empty">
-	    
-	    </div>
 	</div>
   );
 }

@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import { Link } from "react-router-dom";
-import "../css/Menu.css";
+import "../css/Components.css";
 import Axios from 'axios';
 
 function Login(props) {
@@ -42,7 +42,7 @@ function Login(props) {
 			<button className="signBtn">로그인</button>
 			<label id="logBtnBox">
 				<Link to="/signup" className="signBtns">회원가입</Link>
-				<Link to="/#" className="signBtns">아이디/비밀번호 찾기</Link>
+				<Link to="/idpw" className="signBtns">아이디/비밀번호 찾기</Link>
 			</label>
         </form>
       </div>

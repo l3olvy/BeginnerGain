@@ -6,8 +6,13 @@ function Header() {
 	return (
 		<div className="box">
 			<div className="head">
-				<Link to="/signup">Signup</Link>
-				<Link to="/login">Signin</Link>
+				<div className="Signin">
+					<Link to="/signup">Signup</Link>
+					<Link to="/login">Signin</Link>
+				</div>
+				<div className="Signout">
+					Signout
+				</div>
 			</div>
 		</div>
 	);

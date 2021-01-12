@@ -2,6 +2,7 @@ import React from "react";
 import { HashRouter, Route } from "react-router-dom";
 import Login from "../routes/Login";
 import SignUp from "../routes/SignUp";
+import IdPw from "../routes/IdPw";
 import Home from "../routes/Home";
 import News from "../routes/News";
 import Forum from "../routes/Forum";
@@ -19,6 +20,7 @@ function Body() {
 			<HashRouter>
 				 <Route path="/login" component={Login} />
 			     <Route path="/signup" component={SignUp} />
+			     <Route path="/idpw" component={IdPw} />
 			     <Route path="/" exact={true} component={Home} />
 			     <Route path="/news" component={News} />
 			     <Route path="/forum" component={Forum} />

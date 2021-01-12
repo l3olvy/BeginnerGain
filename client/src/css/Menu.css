@@ -4,12 +4,6 @@
   min-height: 800px;
 }
 
-.container {
-  width: 1250px;
-  margin: 0 auto;
-  min-height: 800px;
-}
-
 .menu__container span {
   font-size: 20px;
 }
@@ -34,8 +28,4 @@
   margin-top: -20px;
   font-size: 30px;
   font-weight: 300;
-}
-
-.empty {
-  height: 600px;
 }

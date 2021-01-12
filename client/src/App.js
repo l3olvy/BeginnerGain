@@ -10,10 +10,14 @@ import "./App.css";
 function App() {
   return (
     <HashRouter>
-      <Header />
-      <Navigation />
-      <Body />
-      <Footer/>
+    	<div className="App Site">
+            <div className="Site-content">
+                <Header />
+             	<Navigation />
+                 <Body />
+            </div>
+            <Footer />
+        </div>
     </HashRouter>
   );
 }
