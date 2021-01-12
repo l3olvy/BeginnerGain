@@ -98,6 +98,7 @@ function Board(props) {
 			</div>
        </div>
 
+	   	<Link to="/writing"><button className="writeBtn">글쓰기</button></Link>
 
 		{/* 페이징 */}
 	   	<div className="paging">
@@ -114,9 +115,9 @@ function Board(props) {
 
 				<Link>다음</Link>
 				<Link>끝</Link>
-			
+				
 	   	</div>
-	
+
     </div>
   );
 }

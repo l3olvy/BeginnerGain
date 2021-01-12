@@ -62,27 +62,35 @@
 
 .Post > .form-wrapper > .grid{
   margin-bottom: 20px;
+
 }
 
 .Post > .form-wrapper > .grid > div {
   float: left;
   text-align: left;
-  margin-right: 20px;
+  margin-right: 5px;
 }
 
 .Post > .form-wrapper > .grid > div > span {
   margin-right: 5px;
   color: #67676C;
 }
+.Post > .form-wrapper > .grid > .writer { display: flex; flex-direction: row; float:right;}
+.Post > .form-wrapper > .grid > .writer > .modifyBtn { margin: 0px 2px 0px 2px; }
+.Post > .form-wrapper > .grid > .writer > .deleteBtn { margin: 0px 2px 0px 2px; }
 
 .user-info{
   text-align: right;
   color: #67676C;
+  display: flex; flex-direction: row;
+  float:right;
 }
 
 .user-info > span{
   margin-left: 5px;
 }
+.Post > .form-wrapper > .question-answer > .user-info > .modifyBtn { margin: 0px 2px 0px 2px; }
+.Post > .form-wrapper > .question-answer > .user-info > .deleteBtn { margin: 0px 2px 0px 2px; }
 
 
 /* sub page - board */
@@ -93,7 +101,7 @@
 
 .menu__container > h2 { margin: 0; margin-top: 30px; }
 .menu__container > .board_top > p { font-size: 17px; float: left; }
-.menu__container > .board_top > .board_list { float: right; border: 1px solid #d2d2d2; border-radius: 4px; height: 40px; margin-top: 8px; }
+.menu__container > .board_top > .board_list { float: right; border: 1px solid #d2d2d2; border-radius: 4px; height: 40px; margin-top: 8px;}
 .menu__container > .board_top > .board_list > li { float: left; height: 100%; }
 .menu__container > .board_top > .board_list > li > input { background: none; border: none; height: 100%; padding-left: 10px; line-height: 40px; font-size: 16px; box-shadow: inset 7px 6px 4px -5px rgba(0,0,0,0.15); }
 .menu__container > .board_top > .board_list > li > button { width: 45px; height: 100%; background: none; border: none; }
@@ -127,6 +135,7 @@
 .menu__container > .paging { text-align: center; padding: 20px 0; margin-top: 20px; }
 .menu__container > .paging > a { padding: 10px 15px; background: white; border: 1px solid #b7b7b7; border-right: none; color: #2879d0; font-weight: bold; }
 .menu__container > .paging > a:last-child { border-right: 1px solid #b7b7b7; }
+.writeBtn { padding: 10px 10px; margin-top: 28.5px; background: #428bca; color: #ffffff !important; border: none; border-radius: 4px; text-align: center; font-size: 16px; float: right;}
 
 /* Login, Signup */
 
