@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -78,7 +78,7 @@ function Board(props) {
 			<div className="list">
 				<div className="left">
 					<h3>Q.15</h3>
-					<p>답변 - 11개</p>
+					<p>답변 - 13개</p>
 				</div>
 				<div className="right">
 					<h3>졸리다. 메이플 하고 싶다. 아크 키워주고 싶다.</h3>
@@ -88,10 +88,49 @@ function Board(props) {
 						<div className="tags left">
 							<Link to="/#">Java</Link>
 							<Link to="/#">PHP</Link>
-							<Link to="/#">C#</Link>
 						</div>
 						<div className="info right">
-						 	<p>작성자 : <span className="writer">푸르딩딩딩딩</span> &nbsp;&nbsp;조회수 : <span className="hit">50</span></p>
+						 	<p>작성자 : <span className="writer">Goeun</span> &nbsp;&nbsp;조회수 : <span className="hit">50</span></p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div className="list">
+				<div className="left">
+					<h3>Q.15</h3>
+					<p>답변 - 13개</p>
+				</div>
+				<div className="right">
+					<h3>졸리다. 메이플 하고 싶다. 아크 키워주고 싶다.</h3>
+					<p>스크립트를 놔두고 리액트를 쓰는 이유는 무엇인가~? 아크는 잘생겼다. 메이플 헤어성형 돌릴거다. 방탄 패키지도 사야하는데.. 메이플 헤어성형 돌릴거다. 방탄 패키지도 사야하는데..</p>
+					
+					<div>
+						<div className="tags left">
+							<Link to="/#">Java</Link>
+							<Link to="/#">PHP</Link>
+						</div>
+						<div className="info right">
+						 	<p>작성자 : <span className="writer">Goeun</span> &nbsp;&nbsp;조회수 : <span className="hit">50</span></p>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div className="list">
+				<div className="left">
+					<h3>Q.15</h3>
+					<p>답변 - 13개</p>
+				</div>
+				<div className="right">
+					<h3>졸리다. 메이플 하고 싶다. 아크 키워주고 싶다.</h3>
+					<p>스크립트를 놔두고 리액트를 쓰는 이유는 무엇인가~? 아크는 잘생겼다. 메이플 헤어성형 돌릴거다. 방탄 패키지도 사야하는데.. 메이플 헤어성형 돌릴거다. 방탄 패키지도 사야하는데..</p>
+					
+					<div>
+						<div className="tags left">
+							<Link to="/#">Java</Link>
+							<Link to="/#">PHP</Link>
+						</div>
+						<div className="info right">
+						 	<p>작성자 : <span className="writer">Goeun</span> &nbsp;&nbsp;조회수 : <span className="hit">50</span></p>
 						</div>
 					</div>
 				</div>

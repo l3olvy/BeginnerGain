@@ -13,11 +13,11 @@ function App() {
     	<div className="App Site">
             <div className="Site-content">
                 <Header />
-             	<Navigation />
-                 <Body />
+               	<Navigation />
+                <Body />
             </div>
             <Footer />
-        </div>
+      </div>
     </HashRouter>
   );
 }

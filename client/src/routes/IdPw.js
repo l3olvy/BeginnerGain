@@ -5,18 +5,18 @@ import "../css/Components.css";
 
 function IdPw() {
 
-  const [Name,setName] = useState("")
-  const [Email,setEmail] = useState("")
-  const [ID,setID] = useState("")
-  const [PW,setPW] = useState("")
-  const onNameHandler = (event) => {
-  	setName (event.currentTarget.value)}
-  const onEmailHandler = (event) => {
-  	setEmail (event.currentTarget.value)}
-  const onIDHandler = (event) => {
- 	setID (event.currentTarget.value)}
-  const onPWHandler = (event) => {
-  	setPW (event.currentTarget.value)}
+	const [Name,setName] = useState("")
+	const [Email,setEmail] = useState("")
+	const [ID,setID] = useState("")
+	const [PW,setPW] = useState("")
+	const onNameHandler = (event) => {
+	setName (event.currentTarget.value)}
+	const onEmailHandler = (event) => {
+	setEmail (event.currentTarget.value)}
+	const onIDHandler = (event) => {
+	setID (event.currentTarget.value)}
+	const onPWHandler = (event) => {
+	setPW (event.currentTarget.value)}
 
   return (
     <div className="container">
