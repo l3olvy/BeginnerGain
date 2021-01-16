@@ -5,16 +5,24 @@ const bodyparser = require('body-parser');
 const multiparty = require('connect-multiparty');
 const MultipartyMiddleware = multiparty({uploadDir:"./images"});
 const morgan = require('morgan');
-
 const path = require('path');
-
 const fs = require('fs');
-
 const { error } = require('console');
-	
+const mysql = require('mysql');
+const cors = require('cors');
+const dbconfig = require('./database.js');
+
+
+app.use(cors());	
+app.use(express.json());
 app.use(bodyparser.urlencoded({extended: true})); 
 app.use(bodyparser.json());
 
+const board = require("./routes/board");
+app.use("/board", board);
+
+
+/*ckeditor image upload 구현*/
 app.get('/', (req, res)=>{
 	res.status(200).json({
 		message: "testing our server"

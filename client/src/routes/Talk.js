@@ -1,11 +1,23 @@
-import React from "react";
-import Board from "./Board";
-import "../css/Menu.css";
+import React, { useEffect, useState } from "react";
+import Board from "../components/Board";
+import Axios from 'axios';
 
 function Talk(props) {
+  const [viewContent, setViewContent] = useState([]);
+
+  useEffect(()=>{
+    Axios.get('http://localhost:8000/board/gettalk').then((response)=>{
+      setViewContent(response.data);
+    })
+  }, []) 
+
   return (
+
     <div className="menu__container">
-      <Board/>
+		<Board
+			viewContent = {viewContent}
+			name="TALK" />
+
     </div>
   );
 }
