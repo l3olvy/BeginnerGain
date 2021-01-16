@@ -25,11 +25,12 @@ function Body() {
 			     <Route path="/news" component={News} />
 			     <Route path="/forum" component={Forum} />
 			     <Route path="/hire" component={Hire} /> 
-			     <Route path="/qna" component={Qna} /> 
+			     <Route path="/qna" exact={true} component={Qna} /> 
 			     <Route path="/talk" component={Talk} /> 
 			     <Route path="/chat" component={Chat} />
 			     <Route path="/writing" component={Writing} />
 			     <Route path="/post" component={Post} />
+			     <Route path="/qna/:idx" component={Post} />
 	      	</HashRouter>
 		</div>
 	);

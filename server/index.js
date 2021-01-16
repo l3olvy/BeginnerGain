@@ -11,16 +11,16 @@ const morgan = require('morgan');
 const cors = require('cors');
 const PORT = process.env.port || 8000;
 
+app.set('port', PORT);
+// app.use("/public", serveStatic(path.join(__dirname, "public")));
+
 const path = require('path');
 const fs = require('fs');
 const { error } = require('console');
 
-app.set('port', PORT);
-// app.use("/public", serveStatic(path.join(__dirname, "public")));
-
-app.use(cors());
-app.use(bodyparser.json());
-app.use(bodyparser.urlencoded({extended: true}));
+app.use(cors());	
+app.use(express.json());
+app.use(bodyparser.urlencoded({extended: true})); 
 
 // Routing 등록
 const member = require("./routes/member");
@@ -30,6 +30,7 @@ const board = require("./routes/board");
 app.use("/board", board);
 
 
+/*ckeditor image upload 구현*/
 app.get('/', (req, res)=>{
 	res.status(200).json({
 		message: "testing our server"

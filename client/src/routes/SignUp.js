@@ -16,11 +16,11 @@ function SignUp(props) {
 	const onEmailHandler = (event) => {setEmail (event.currentTarget.value)}
 	const onIDHandler = (event) => {setID (event.currentTarget.value)}
 	const onPWHandler = (event) => {setPW (event.currentTarget.value)}
-	const test = "tesddt";
 
 	const onSubmitHandler = (event) => {
+
 		event.preventDefault();
-		
+
 		Axios.post('http://localhost:8000/member/join',
 		{
 		  id: Id,
@@ -32,7 +32,6 @@ function SignUp(props) {
 			props.history.push("/login");
 		})
 	}
-
 
 	return (
 		<div className="container">
@@ -46,7 +45,7 @@ function SignUp(props) {
 					<input className="Email-input" type='email' placeholder='이메일' value={Email}  onChange={onEmailHandler} name='email'/>
 
 					<label>아이디</label>
-					<input className="ID-input" type='text' placeholder={test} value={Id} onChange={onIDHandler} name='id'/>
+					<input className="ID-input" type='text' placeholder='아이디' value={Id} onChange={onIDHandler} name='id'/>
 
 					<label>비밀번호</label>
 					<input className="PW-input" type='password' placeholder='비밀번호' value={Pw} onChange={onPWHandler} name='pw' />
