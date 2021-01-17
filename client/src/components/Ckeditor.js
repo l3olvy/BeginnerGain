@@ -7,7 +7,7 @@ const editorConfiguration = {
       uploadUrl: '/upload'
     },
     toolbar: [ 'heading', '|', 'bold', 'italic',  '|', 
-    'link', 'blockquote', 'code', 'ckfinder', 'imageupload', 'codeblock', '|', 
+    'link', 'blockquote', 'code', 'imageupload', 'codeblock', '|', 
     'numberedlist', 'bulletedlist', 'horizontalline', '|', 'undo', 'redo' ]
 };
 

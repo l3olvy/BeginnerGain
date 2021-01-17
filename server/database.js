@@ -1,6 +1,7 @@
 module.exports = {
   host     : 'localhost',
   user     : 'root',
-  password: '1863rndnjs9158!',
-  database: 'bg'
+  password: 'Qlxnql-?1021',
+  database: 'bg',
+  multipleStatements: true
 };
