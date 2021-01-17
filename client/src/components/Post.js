@@ -69,7 +69,7 @@ class Post extends React.Component {
                <div className="grid">
                   <div>
                      <span>Asked</span>
-                     <time>{state.rdate.slice(0,10)}</time>
+                     <time>{state.rdate}</time>
                   </div>
                   <div>
                      <span>Viewed</span>
@@ -83,7 +83,7 @@ class Post extends React.Component {
                <br/>
                <hr />
                <div className="question-body">
-                  <p>{state.contents}</p>
+                  <div className="selctContents" dangerouslySetInnerHTML={ {__html: state.contents} }></div>
                   <div className="user-info">
                       asked <span>{state.rdate}</span>
                           <span>{state.writer}</span>
