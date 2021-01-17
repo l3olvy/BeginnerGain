@@ -1,9 +1,8 @@
-import React, { Component, useEffect, useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../css/Components.css";
-import Axios from 'axios';
 import List from './List';
 
 function Board({viewContent, name}) {

@@ -21,6 +21,7 @@ const { error } = require('console');
 app.use(cors());	
 app.use(express.json());
 app.use(bodyparser.urlencoded({extended: true})); 
+// app.use(session({secret: process.env.SESSION_SECRET}))
 
 // Routing 등록
 const member = require("./routes/member");
@@ -55,7 +56,7 @@ app.post('/upload', MultipartyMiddleware, (req, res)=>{
 			if(err) return console.log(err);
 		})
 	}
-	console.log(req.files);
+	// console.log(req.files);
 })
 
 app.listen(PORT, ()=>{

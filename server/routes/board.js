@@ -35,5 +35,20 @@ router.post("/deletetalk", (req, res) => {
     })
 });
 
+router.post("/writing", (req, res) => {
+    const writer = req.body.writer;
+    const title = req.body.title;
+    const contents = req.body.contents;
+    const img = req.body.img;
+    const tag = req.body.tag;
+    const hit = req.body.hit;
+    const rdate = req.body.rdate;
+
+    const sqlQuery = "INSERT INTO qboard (writer, title, contents, img, tag, hit, rdate ) VALUES (?,?,?,?,?,?,?)";
+    connection.query(sqlQuery, [writer, title, contents, img, tag, hit, rdate], (err, result)=>{
+        res.send('good');
+    })
+});
 
 module.exports = router;
+

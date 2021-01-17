@@ -1,7 +1,5 @@
-import React, { Component, useEffect, useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
-import Axios from 'axios';
-
 import "../css/Components.css";
 
 function List({idx, writer, title, contents, tag, category, hit, rdate, name}) {

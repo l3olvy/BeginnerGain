@@ -53,7 +53,7 @@ class Post extends React.Component {
                <div className="grid">
                   <div>
                      <span>Asked</span>
-                     <time>{rdate.slice(0,10)}</time>
+                     <time>{rdate}</time>
                   </div>
                   <div>
                      <span>Viewed</span>
@@ -67,8 +67,8 @@ class Post extends React.Component {
                <br/>
                <hr />
                <div className="question-body">
-                  <p>{contents}</p>
-                  <div class="user-info">
+                  <div className="selctContents" dangerouslySetInnerHTML={ {__html: contents} }></div>
+                  <div className="user-info">
                       asked <span>{rdate}</span>
                           <span>{writer}</span>
                   </div>               
@@ -79,7 +79,7 @@ class Post extends React.Component {
                <p className="bold">2개의 답변</p>
                <div className="question-answer">
                       <p>네 안 됩니다!<br/>수고염^-^</p>                    
-                  <div class="user-info">   
+                  <div className="user-info">   
                        <button className="modifyBtn"> 수정 </button>
                      <button className="deleteBtn"> 삭제 </button>
                       answered <span>20.01.09 15:17</span>
@@ -90,7 +90,7 @@ class Post extends React.Component {
                   <hr/>
                   <div className="question-answer">
                       <p>졸업은 해야죠..<br/>힘내셈 아자아자^^</p>                   
-                  <div class="user-info">
+                  <div className="user-info">
                      <button className="modifyBtn"> 수정 </button>
                      <button className="deleteBtn"> 삭제 </button>
                       answered <span>20.01.09 15:20</span>
