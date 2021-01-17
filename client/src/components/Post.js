@@ -8,29 +8,42 @@ import ReactHtmlParser from 'node-html-parser';
 
 class Post extends React.Component {
    state = {
-       state: this.props.location.state ? this.props.location.state : JSON.parse(localStorage.getItem('object'))
+       state: this.props.location.state ? this.props.location.state : JSON.parse(localStorage.getItem('object')),
+       comment: []
    }
    componentDidMount() {
-       if(this.props.location.state!==undefined)
-          localStorage.setItem("object", JSON.stringify(this.props.location.state));
+      if(this.props.location.state!==undefined)
+        localStorage.setItem("object", JSON.stringify(this.props.location.state));
+      else
+        this.state.state = JSON.parse(localStorage.getItem('object'));
+      this.loadComment();
    }
+
+   loadComment = async () => {
+    const idx = this.state.state.idx;
+    if(this.state.state.name === "QNA"){
+      Axios.post('http://localhost:8000/board/getqna_c', {
+        idx: idx
+      }).then((response)=>{
+        this.setState({comment:response.data});
+      })
+    }
+    else if(this.state.state.name === "TALK"){
+      Axios.post('http://localhost:8000/board/gettalk_c', {
+        idx: idx
+      }).then((response)=>{
+        this.setState({comment:response.data});
+      })
+    }
+  }
 
    render(){
       const { state } = this.state;
-      let title = state ? state.title : "";
-      let rdate = state ? state.rdate : "";
-      let hit = state ? state.hit :0;
-      let contents = state ? state.contents : "";
-      let writer = state ? state.writer : "";
-      let idx = state ? state.idx :0;
-      let name = state ? state.name : "";
-
-
-
-      const delBtn = (e) => {
+      const {comment} = this.state;
+       const delBtn = (e) => {
         if(window.confirm("삭제하시겠습니까?")){
           const idx = e.target.getAttribute('data-idx');
-          if(name === "QNA"){
+          if(state.name === "QNA"){
             Axios.post('http://localhost:8000/board/deleteqna', {
               idx : idx
             }).then(() => {
@@ -38,7 +51,7 @@ class Post extends React.Component {
               alert("삭제 되었습니다!");
               })
           }
-          else if(name === "TALK"){
+          else if(state.name === "TALK"){
             Axios.post('http://localhost:8000/board/deletetalk', {
             idx : idx
             }).then(() => {
@@ -52,57 +65,48 @@ class Post extends React.Component {
          <div className="Post">
             <div className='form-wrapper'>
                <div className="question-header">
-                  <p className="bolder">{title}</p>
+                  <p className="bolder">{state.title}</p>
                </div>
                <div className="grid">
                   <div>
                      <span>Asked</span>
-                     <time>{rdate}</time>
-                  </div>
+                     <time>{state.rdate}</time>
+                 </div>
                   <div>
                      <span>Viewed</span>
-                     {hit} times
+                     {state.hit} times
                   </div>
                   <div className="writer">
                   <button className="modifyBtn"> 수정 </button>
-                  <button className="deleteBtn" onClick={delBtn} data-idx={idx} data-name={name}> 삭제 </button>
+                  <button className="deleteBtn" onClick={delBtn} data-idx={state.idx} data-name={state.name}> 삭제 </button>
                   </div>
                </div>
                <br/>
                <hr />
                <div className="question-body">
-                  <div>{{ReactHtmlParser(contents){}}}</div>
-                  <div class="user-info">
-                      asked <span>{rdate}</span>
-                          <span>{writer}</span>
+                  <div className="selctContents" dangerouslySetInnerHTML={ {__html: state.contents} }></div>
+                  <div className="user-info">
+                      asked <span>{state.rdate}</span>
+                          <span>{state.writer}</span>
                   </div>               
                </div>
                <br/>
                <hr/>
                
                <p className="bold">2개의 답변</p>
-               <div className="question-answer">
-                      <p>네 안 됩니다!<br/>수고염^-^</p>                    
-                  <div class="user-info">   
-                       <button className="modifyBtn"> 수정 </button>
-                     <button className="deleteBtn"> 삭제 </button>
-                      answered <span>20.01.09 15:17</span>
-                          <span>송고은</span>
-                  </div>   
-                  </div>
-                  <br/>
-                  <hr/>
+               {comment.map(element =>(
+
                   <div className="question-answer">
-                      <p>졸업은 해야죠..<br/>힘내셈 아자아자^^</p>                   
-                  <div class="user-info">
-                     <button className="modifyBtn"> 수정 </button>
-                     <button className="deleteBtn"> 삭제 </button>
-                      answered <span>20.01.09 15:20</span>
-                          <span>임수빈</span>
-                  </div>   
+                      <p>{element.contents}</p>                    
+                      <div className="user-info">   
+                        <button className="modifyBtn"> 수정 </button>
+                         <button className="deleteBtn"> 삭제 </button>
+                          answered <span>{element.cdate}</span>
+                              <span>{element.writer}</span>
+                      </div>   
                   </div>
-                  <br/>
-                  <hr/>
+                ))}
+               
                   <p className="bold">답변</p>
                   <Ckeditor />
                   <button className="submit-button">작성</button>

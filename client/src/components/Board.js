@@ -1,11 +1,8 @@
-import React, { Component, useEffect, useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../css/Components.css";
-import Axios from 'axios';
-import List from './List';
-import ReactHtmlParser from 'node-html-parser';
 
 
 function Board({viewContent, name}) {
@@ -43,18 +40,46 @@ function Board({viewContent, name}) {
       </div>
 
        {viewContent.map(element =>(
-         <List
-            key={element.idx}
-            idx={element.idx}
-            writer={element.writer}
-             title={element.title}
-             contents={element.contents}
-             tag={element.tag}
-             category={element.category}
-             hit={element.hit}
-             rdate={element.rdate}
-             name={name}
-         />
+
+         <div className="board_contents">
+          {/* 이 구간은 select문을 통해 반복될 예정 */}
+        <div className="list">
+          <div className="left">
+            <h3>Q.{element.idx}</h3>
+            <p>답변 - 13개</p>
+          </div>
+          <div className="right">
+            <Link
+                  to={{
+                    pathname: `/${name.toLowerCase()}/${element.idx}`,
+                    state: {
+                      key : element.idx,
+                      idx : element.idx,
+                      writer : element.writer,
+                      title : element.title,
+                      contents : element.contents,
+                      tag : element.tag,
+                      category : element.category,
+                      hit : element.hit,
+                      rdate : element.rdate,
+                      name : name
+                    }
+                  }}
+                >
+            <h3>{element.title}</h3></Link>
+            <p>{element.contents}</p>
+            
+            <div>
+              <div className="tags left">
+                {(name === "TALK") ? <Link to="/#">{element.category}</Link> : <Link to="/#">{element.tag}</Link> }
+              </div>
+              <div className="info right">
+                <p>작성자 : <span className="writer">{element.writer}</span> &nbsp;&nbsp;조회수 : <span className="hit">{element.hit}</span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+       </div>
          ))}
 
          <Link to="/writing"><button className="writeBtn">글쓰기</button></Link>

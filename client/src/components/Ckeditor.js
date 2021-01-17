@@ -4,12 +4,13 @@ import Editor from 'ckeditor5-custom-build/build/ckeditor';
 
 
 const editorConfiguration = {
-  simpleUpload: {
-    uploadUrl: '/upload'
-  },
-  toolbar: [ 'heading', '|', 'bold', 'italic',  '|', 
-  'link', 'blockquote', 'code', 'ckfinder', 'imageupload', 'codeblock', '|', 
-  'numberedlist', 'bulletedlist', 'horizontalline', '|', 'undo', 'redo' ]
+
+    simpleUpload: {
+      uploadUrl: '/upload'
+    },
+    toolbar: [ 'heading', '|', 'bold', 'italic',  '|', 
+    'link', 'blockquote', 'code', 'imageupload', 'codeblock', '|', 
+    'numberedlist', 'bulletedlist', 'horizontalline', '|', 'undo', 'redo' ]
 };
 
 function Ckeditor(props) {

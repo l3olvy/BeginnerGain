@@ -4,7 +4,6 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import Editor from 'ckeditor5-custom-build/build/ckeditor';
 import { Link, Router } from "react-router-dom";
 import Axios from 'axios';
-//import ReactHtmlParser from 'node-html-parser';
 
 
 const editorConfiguration = {
@@ -12,7 +11,7 @@ const editorConfiguration = {
     uploadUrl: '/upload'
   },
   toolbar: [ 'heading', '|', 'bold', 'italic',  '|', 
-  'link', 'blockquote', 'code', 'ckfinder', 'imageupload', 'codeblock', '|', 
+  'link', 'blockquote', 'code', 'imageupload', 'codeblock', '|', 
   'numberedlist', 'bulletedlist', 'horizontalline', '|', 'undo', 'redo' ]
 };
 
@@ -75,6 +74,5 @@ function Writing(props) {
     );
 
 }
-
 
 export default Writing;

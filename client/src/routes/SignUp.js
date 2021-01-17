@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import { Link, Router } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "../css/Components.css";
 import Axios from 'axios';
 
@@ -26,6 +26,7 @@ function SignUp(props) {
 		  email : Email,
 		  name : Name
 		}).then((res) => {
+			console.log(res);
 			alert("가입 되었습니다.");
 			props.history.push("/login");
 		})

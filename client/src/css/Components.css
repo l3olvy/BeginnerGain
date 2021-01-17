@@ -91,7 +91,7 @@
 }
 .Post > .form-wrapper > .question-answer > .user-info > .modifyBtn { margin: 0px 2px 0px 2px; }
 .Post > .form-wrapper > .question-answer > .user-info > .deleteBtn { margin: 0px 2px 0px 2px; }
-
+.Post > .form-wrapper > .question-answer { border-bottom: 2.5px solid #c6c6c6; }
 
 /* sub page - board */
 .left { float: left; }

@@ -10,6 +10,7 @@ function Qna(props) {
   useEffect(()=>{
     Axios.get('http://localhost:8000/board/getqna').then((response)=>{
       setViewContent(response.data);
+      console.log(viewContent);
     })
   }, []) 
 
