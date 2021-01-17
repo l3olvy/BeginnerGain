@@ -1,32 +1,29 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import Editor from 'ckeditor5-custom-build/build/ckeditor';
 
+
 const editorConfiguration = {
-    simpleUpload: {
-      uploadUrl: '/upload'
-    },
-    toolbar: [ 'heading', '|', 'bold', 'italic',  '|', 
-    'link', 'blockquote', 'code', 'ckfinder', 'imageupload', 'codeblock', '|', 
-    'numberedlist', 'bulletedlist', 'horizontalline', '|', 'undo', 'redo' ]
+  simpleUpload: {
+    uploadUrl: '/upload'
+  },
+  toolbar: [ 'heading', '|', 'bold', 'italic',  '|', 
+  'link', 'blockquote', 'code', 'ckfinder', 'imageupload', 'codeblock', '|', 
+  'numberedlist', 'bulletedlist', 'horizontalline', '|', 'undo', 'redo' ]
 };
 
+function Ckeditor(props) {
 
-class Ckeditor extends React.Component {
-  state = {
-    content: ''
-  }
 
-  handleCkeditorState =(event, editor) =>{
-    const data = editor.getData();
-    this.setState({
-      content: data
-    })
-    console.log(data);
-  }
+const [content, setContent] = useState('');
+  
+const handleCkeditorState =(event, editor) =>{
+  const data = editor.getData();
+  setContent (data); 
+  console.log(data);
+}
 
-  render(){
-    return (
+return (       
         <CKEditor
             editor={ Editor }
             config={ editorConfiguration }
@@ -35,11 +32,10 @@ class Ckeditor extends React.Component {
             // You can store the "editor" and use when it is needed.
             console.log( 'Editor is ready to use!', editor );
             } }
-            onChange={ this.handleCkeditorState }
-              
-        /> 
+            onChange={ handleCkeditorState }              
+        />  
+        //<Writing text={data}> <Writing/>
     );
-  }
 }
 
 export default Ckeditor;

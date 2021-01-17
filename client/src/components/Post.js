@@ -3,6 +3,8 @@ import '../css/Components.css';
 //import { Link } from "react-router-dom";
 import Ckeditor from "./Ckeditor";
 import Axios from 'axios';
+import ReactHtmlParser from 'node-html-parser';
+
 
 class Post extends React.Component {
    state = {
@@ -16,14 +18,16 @@ class Post extends React.Component {
    render(){
       const { state } = this.state;
       let title = state ? state.title : "";
-       let rdate = state ? state.rdate : "";
-       let hit = state ? state.hit :0;
-       let contents = state ? state.contents : "";
-       let writer = state ? state.writer : "";
-       let idx = state ? state.idx :0;
+      let rdate = state ? state.rdate : "";
+      let hit = state ? state.hit :0;
+      let contents = state ? state.contents : "";
+      let writer = state ? state.writer : "";
+      let idx = state ? state.idx :0;
       let name = state ? state.name : "";
 
-       const delBtn = (e) => {
+
+
+      const delBtn = (e) => {
         if(window.confirm("삭제하시겠습니까?")){
           const idx = e.target.getAttribute('data-idx');
           if(name === "QNA"){
@@ -32,7 +36,7 @@ class Post extends React.Component {
             }).then(() => {
               this.props.history.push("/qna")
               alert("삭제 되었습니다!");
-            })
+              })
           }
           else if(name === "TALK"){
             Axios.post('http://localhost:8000/board/deletetalk', {
@@ -53,7 +57,7 @@ class Post extends React.Component {
                <div className="grid">
                   <div>
                      <span>Asked</span>
-                     <time>{rdate.slice(0,10)}</time>
+                     <time>{rdate}</time>
                   </div>
                   <div>
                      <span>Viewed</span>
@@ -67,7 +71,7 @@ class Post extends React.Component {
                <br/>
                <hr />
                <div className="question-body">
-                  <p>{contents}</p>
+                  <div>{{ReactHtmlParser(contents){}}}</div>
                   <div class="user-info">
                       asked <span>{rdate}</span>
                           <span>{writer}</span>

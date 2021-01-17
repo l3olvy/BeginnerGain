@@ -5,6 +5,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../css/Components.css";
 import Axios from 'axios';
 import List from './List';
+import ReactHtmlParser from 'node-html-parser';
+
 
 function Board({viewContent, name}) {
 

@@ -1,10 +1,8 @@
 import React, {useState} from "react";
-
 import { Link, Router } from "react-router-dom";
 import "../css/Components.css";
 import Axios from 'axios';
 
-//Formik, Yup 사용시 좀더 다이나믹,, 나중에,,.......
 
 function SignUp(props) {
 
