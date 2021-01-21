@@ -15,22 +15,23 @@ import Post from "../components/Post";
 import "../css/Body.css";
 
 function Body() {
-   return (
-      <div className="body">
-             <Route path="/login" component={Login} />
-              <Route path="/signup" component={SignUp} />
-              <Route path="/idpw" component={IdPw} />
-              <Route path="/" exact={true} component={Home} />
-              <Route path="/news" component={News} />
-              <Route path="/forum" component={Forum} />
-              <Route path="/hire" component={Hire} /> 
-              <Route path="/qna" exact={true} component={Qna} /> 
-              <Route path="/talk" exact={true} component={Talk} /> 
-              <Route path="/chat" component={Chat} />
-              <Route path="/:name/post/:idx" component={Post} />
-              <Route path="/:name/writing" component={Writing} />
-      </div>
-   );
+    return (
+        <div className="body">
+			<Route path="/login" component={Login} />
+			<Route path="/signup" component={SignUp} />
+			<Route path="/idpw" component={IdPw} />
+			<Route path="/" exact={true} component={Home} />
+			<Route path="/news" component={News} />
+			<Route path="/forum" component={Forum} />
+			<Route path="/hire" component={Hire} /> 
+			<Route path="/qna" exact={true} component={Qna} /> 
+			<Route path="/talk" exact={true} component={Talk} /> 
+			<Route path="/chat" component={Chat} />
+			<Route path="/:name/post/:idx" component={Post} />
+			<Route path="/:name/writing" component={Writing} />
+			<Route path="/:name/modify/:idx" component={Writing} />
+		</div>
+    );
 }
 
-export default Body; 
+export default Body;

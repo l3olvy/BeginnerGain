@@ -22,7 +22,7 @@
   min-height: 400px;
 }
 
-.submit-button {
+.submit-button , .modify-button{
   width: 100px;
   height: 40px;
   font-size: 20px;
@@ -33,6 +33,18 @@
   border-radius: 5px;
   margin-top: 30px;
   margin-bottom: 50px;
+}
+.posttoboard{
+  width: 100px;
+  height: 40px;
+  font-size: 19px;
+  font-weight: 300;
+  border: none;
+  background-color: #2782F4;
+  color: white;
+  border-radius: 5px;
+  
+  margin-left: 10px
 }
 
 /*Writing.js*/
@@ -89,9 +101,10 @@
 .user-info > span{
   margin-left: 5px;
 }
+.selctContents > figure > img{max-width: 770px; width: auto; height: auto; display: block; margin: 0px auto;}
 .Post > .form-wrapper > .question-answer > .user-info > .modifyBtn { margin: 0px 2px 0px 2px; }
 .Post > .form-wrapper > .question-answer > .user-info > .deleteBtn { margin: 0px 2px 0px 2px; }
-.Post > .form-wrapper > .question-answer { border-bottom: 2.5px solid #c6c6c6; }
+.Post > .form-wrapper > .question-answer {border-bottom: 2px solid #c6c6c6; }
 
 /* sub page - board */
 .left { float: left; }

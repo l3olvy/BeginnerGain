@@ -18,7 +18,7 @@ function Talk(props) {
 		name="TALK"
 		match={props.match.path}/>
 		</div>
-	);
+	);1
 }
 
 export default Talk;

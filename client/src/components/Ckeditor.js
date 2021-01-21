@@ -21,7 +21,7 @@ const [content, setContent] = useState('');
 const handleCkeditorState =(event, editor) =>{
   const data = editor.getData();
   setContent (data); 
-  console.log(data);
+  //console.log(data);
 }
 
 return (       
@@ -31,7 +31,7 @@ return (
             //data="<p>Hello from CKEditor 5!</p>"
             onReady={ editor => {
             // You can store the "editor" and use when it is needed.
-            console.log( 'Editor is ready to use!', editor );
+            //console.log( 'Editor is ready to use!', editor );
             } }
             onChange={ handleCkeditorState }              
         />  
