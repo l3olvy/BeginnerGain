@@ -3,5 +3,6 @@ module.exports = {
   user     : 'root',
   password: 'qusgPwlsa',
   database: 'bg',
-  multipleStatements: true
+  multipleStatements: true,
+  dateStrings: 'date'
 };

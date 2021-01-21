@@ -34,6 +34,18 @@
   margin-top: 30px;
   margin-bottom: 50px;
 }
+.posttoboard{
+  width: 100px;
+  height: 40px;
+  font-size: 19px;
+  font-weight: 300;
+  border: none;
+  background-color: #2782F4;
+  color: white;
+  border-radius: 5px;
+  
+  margin-left: 10px
+}
 
 /*Writing.js*/
 .Writing >.form-wrapper { 
