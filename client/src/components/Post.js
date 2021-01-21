@@ -6,7 +6,6 @@ import Editor from 'ckeditor5-custom-build/build/ckeditor';
 import { Link } from "react-router-dom";
 import Prism from "prismjs";
 import "prismjs/themes/prism-tomorrow.css";
-import striptags from 'striptags';
 
 const editorConfiguration = {
     simpleUpload: {
@@ -38,15 +37,18 @@ function Post(props) {
                 idx: idx
             }).then((response) => {
                 setComment(response.data);
+                Prism.highlightAll();
             })
         } else if (post.name === "TALK") {
             Axios.post('http://localhost:8000/board/gettalk_c', {
                 idx: idx
             }).then((response) => {
                 setComment(response.data);
+                Prism.highlightAll();
             })
         }
     }
+
     const delBtn = (e) => {
         if (window.confirm("삭제하시겠습니까?")) {
             const idx = e.target.getAttribute('post-idx');
@@ -67,6 +69,7 @@ function Post(props) {
             }
         }
     }
+
     const delBtn_c = (e) => {
         if (window.confirm("삭제하시겠습니까?")) {
             const idx = e.target.getAttribute('comment-idx');
@@ -86,6 +89,7 @@ function Post(props) {
         }
         loadComment();
     }
+
     const modBtn_c = (e) => {
         setMod(e.target.getAttribute('comment-contents'));
         setModIdx(e.target.getAttribute('comment-idx'));
@@ -121,31 +125,36 @@ function Post(props) {
         setComments(data);
     }
 
-     const onSubmitHandler = (event) => {
-        if(post.name === "QNA"){
-            Axios.post('http://localhost:8000/board/postqna',
-            { bid:post.idx, 
-              writer:"writer", 
-              contents:comments, 
-              img:null, 
-              good:8
-            }).then((res) => {alert("작성 되었습니다."); loadComment();})
-           .catch((error) => {console.log(error)} ); 
-        }    
-        else{
-            Axios.post('http://localhost:8000/board/posttalk',
-            { bid:post.idx, 
-              writer:"writer", 
-              contents:comments, 
-              img:null, 
-              good:8
-            }).then((res) => {alert("작성 되었습니다."); loadComment();})
-           .catch((error) => {console.log(error)} ); 
-        }       
+    const onSubmitHandler = (event) => {
+        if (post.name === "QNA") {
+            Axios.post('http://localhost:8000/board/postqna', {
+                bid: post.idx,
+                writer: "writer",
+                contents: comments,
+                img: null,
+                good: 8
+            }).then((res) => {
+                alert("작성 되었습니다.");
+                loadComment();
+            })
+            .catch((error) => { console.log(error) });
+        } else {
+            Axios.post('http://localhost:8000/board/posttalk', {
+                bid: post.idx,
+                writer: "writer",
+                contents: comments,
+                img: null,
+                good: 8
+            }).then((res) => {
+                alert("작성 되었습니다.");
+                loadComment();
+            })
+            .catch((error) => { console.log(error) });
+        }
     }
 
     const onptbHandler = (event) => {
-        if(post.name === "TALK")
+        if (post.name === "TALK")
             props.history.push("/talk")
         else
             props.history.push("/qna")
@@ -153,81 +162,75 @@ function Post(props) {
 
     return (
         <div className="Post">
-         <div className='form-wrapper'>
-            <div className="question-header">
-               <p className="bolder">{post.title}</p>
+            <div className='form-wrapper'>
+                <div className="question-header">
+                    <p className="bolder">{post.title}</p>
+                </div>
+                <div className="grid">
+                    <div>
+                        <span>Asked</span>
+                        <time>{post.rdate}</time>
+                    </div>
+                    <div>
+                        <span>Viewed</span>
+                        {post.hit} times
+                    </div>
+                    <div className="writer">
+                        <Link
+                        to={{
+                           pathname : `/${props.match.params.name}/modify/${post.idx}`,
+                           state: {
+                                key : post.idx,
+                                idx : post.idx,
+                                title : post.title,
+                                contents : post.contents,
+                                tag : post.tag,
+                                category : post.category,
+                                name : post.name
+                            }
+                        }}>
+                        <button className="modifyBtn"> 수정 </button></Link>
+                        <button className="deleteBtn" onClick={delBtn} post-idx={post.idx}> 삭제 </button>
+                    </div>
+                </div>
+                <br/>
+                <hr />
+                <div className="question-body">
+                    <div className="selctContents" dangerouslySetInnerHTML={ {__html: post.contents} }></div>
+                    <div className="user-info">
+                        asked <span>{post.rdate}</span>
+                        <span>{post.writer}</span>
+                    </div>               
+                </div>
+                <br/>
+                <hr/>
+
+                <p className="bold">2개의 답변</p>
+                {comment.map(element =>(
+                    <div className="question-answer">
+                        <p className="selctContents" dangerouslySetInnerHTML={ {__html: element.contents}}></p>                    
+                        <div className="user-info">   
+                            <button className="modifyBtn" onClick={modBtn_c} comment-contents={element.contents} comment-idx={element.idx}> 수정 </button>
+                            <button className="deleteBtn" onClick={delBtn_c} comment-idx={element.idx}> 삭제 </button>
+                            answered <span>{element.cdate}</span>
+                            <span>{element.writer}</span>
+                        </div>   
+                    </div>
+                ))}
+
+                <p className="bold">댓글작성</p>
+                <CKEditor
+                    editor={ Editor }
+                    config={ editorConfiguration }
+                    data= {mod}
+                    onChange={ handleCkeditorState }
+                    name={comments}           
+                />
+                {(mod.length === 0) ? <button className="submit-button" onClick={onSubmitHandler}>작성</button> : <button className="modify-button" onClick={updateBtn_c}>수정</button> }
+                <button className="posttoboard" onClick={onptbHandler}>목록으로</button> 
             </div>
-            <div className="grid">
-               <div>
-                  <span>Asked</span>
-                  <time>{post.rdate}</time>
-               </div>
-               <div>
-                  <span>Viewed</span>
-                  {post.hit} times
-                  </div>
-                  <div className="writer">
-                     <Link
-                      to={{
-                         pathname : `/${props.match.params.name}/modify/${post.idx}`,
-                        state: {
-                          key : post.idx,
-                          idx : post.idx,
-                          title : post.title,
-                          contents : post.contents,
-                          tag : post.tag,
-                          category : post.category,
-                          name : post.name
-                        }
-                      }}
-                  ><button className="modifyBtn"> 수정 </button></Link>
-                     <button className="deleteBtn" onClick={delBtn} post-idx={post.idx}> 삭제 </button>
-                  </div>
-            </div>
-         <br/>
-         <hr />
-         <div className="question-body">
-            <div className="selctContents" dangerouslySetInnerHTML={ {__html: post.contents} }></div>
-            <div className="user-info">
-               asked <span>{post.rdate}</span>
-               <span>{post.writer}</span>
-            </div>               
-         </div>
-         <br/>
-         <hr/>
-         
-        <p className="bold">2개의 답변</p>
-        {comment.map(element =>(
-            <div className="question-answer">
-               <p className="selctContents" dangerouslySetInnerHTML={ {__html: element.contents}}></p>                    
-               <div className="user-info">   
-                  <button className="modifyBtn" onClick={modBtn_c} comment-contents={element.contents} comment-idx={element.idx}> 수정 </button>
-                  <button className="deleteBtn" onClick={delBtn_c} comment-idx={element.idx}> 삭제 </button>
-                  answered <span>{element.cdate}</span>
-                  <span>{element.writer}</span>
-               </div>   
-            </div>
-        ))}
-         
-        <p className="bold">댓글작성</p>
-        <CKEditor
-            editor={ Editor }
-            config={ editorConfiguration }
-            data= {mod}
-            onReady={ editor => {
-            // You can store the "editor" and use when it is needed.
-            //console.log( 'Editor is ready to use!', editor );
-            } }
-            onChange={ handleCkeditorState }
-            name={comments}           
-        />
-        {(mod.length === 0) ? <button className="submit-button" onClick={onSubmitHandler}>작성</button> 
-        : <button className="modify-button" onClick={updateBtn_c}>수정</button> }
-        <button className="posttoboard" onClick={onptbHandler}>목록으로</button> 
-      </div>
-   </div>
+        </div>
     );
 }
-
 
 export default Post;

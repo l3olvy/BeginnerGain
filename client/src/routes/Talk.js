@@ -13,12 +13,12 @@ function Talk(props) {
 
 	return (
 		<div className="menu__container">
-		<Board
-		viewContent = {viewContent}
-		name="TALK"
-		match={props.match.path}/>
+			<Board
+				viewContent = {viewContent}
+				name="TALK"
+				match={props.match.path}/>
 		</div>
-	);1
+	);
 }
 
 export default Talk;

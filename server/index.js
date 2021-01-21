@@ -33,11 +33,10 @@ app.use(
 		methods: ["GET", "POST"],
 		credentials: true,
 	})
-);
+	);
 
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended: true}));
-
 
 app.use(
 	session({
@@ -49,7 +48,9 @@ app.use(
 			expires: 60 * 60 * 24,
 		},
 	})
-	);
+);
+
+/* 라우팅 */
 const board = require("./routes/board");
 app.use("/board", board);
 
@@ -114,12 +115,10 @@ app.post("/login", (req, res) => {
 		);
 });
 
-
 app.get("/logout", (req,res) => {
 	delete req.session.user;
 	req.session.save();
 });
-
 
 app.use(express.static("uploads"));
 app.post('/upload', MultipartyMiddleware, (req, res)=>{
@@ -139,7 +138,6 @@ app.post('/upload', MultipartyMiddleware, (req, res)=>{
 			if(err) return console.log(err);
 		})
 	}
-	// console.log(req.files);
 })
 
 app.listen(PORT, ()=>{

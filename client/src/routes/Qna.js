@@ -4,9 +4,6 @@ import "../css/Menu.css";
 import Axios from 'axios';
 
 function Qna(props) {
-    const [viewContent, setViewContent] = useState([]);
-
-
 	const [viewContent, setViewContent] = useState([]);
 	const [total, setTotal] = useState();
 
@@ -20,13 +17,10 @@ function Qna(props) {
 		Axios.get('http://localhost:8000/board/getTotal').then((response) => {
 			// 글의 총 개수
 			setTotal(response.data[0].Total);
-			console.log(total);
 		})
 
 		Axios.get('http://localhost:8000/board/getqna/1').then((response)=>{
 			setViewContent(response.data);
-			console.log(total);
-			//console.log(viewContent);
 		})
 		
 	}, []) 
