@@ -2,41 +2,123 @@ const express = require('express');
 const mysql = require('mysql');
 const dbconfig = require('./database.js');
 const connection = mysql.createConnection(dbconfig);
-const app = express();
-const serveStatic = require("serve-static");
-const bodyparser = require('body-parser');
-const multiparty = require('connect-multiparty');
-const MultipartyMiddleware = multiparty({uploadDir:"./images"});
-const morgan = require('morgan');
+
 const cors = require('cors');
 const PORT = process.env.port || 8000;
 
+const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+const session = require("express-session");
+
+const bcrypt = require("bcrypt");
+const saltRounds = 10;
+const app = express();
+
+const serveStatic = require("serve-static");
+
+const multiparty = require('connect-multiparty');
+const MultipartyMiddleware = multiparty({uploadDir:"./images"});
+const morgan = require('morgan');
+
 app.set('port', PORT);
-// app.use("/public", serveStatic(path.join(__dirname, "public")));
 
 const path = require('path');
 const fs = require('fs');
 const { error } = require('console');
 
-app.use(cors());	
 app.use(express.json());
-app.use(bodyparser.urlencoded({extended: true})); 
-// app.use(session({secret: process.env.SESSION_SECRET}))
+app.use(
+	cors({
+		origin: ["http://localhost:3000"],
+		methods: ["GET", "POST"],
+		credentials: true,
+	})
+	);
 
-// Routing 등록
-const member = require("./routes/member");
-app.use("/member", member);
+app.use(cookieParser());
+app.use(bodyParser.urlencoded({extended: true}));
 
+app.use(
+	session({
+		key: "userId",
+		secret: "subscribe",
+		resave: false,
+		saveUninitialized: false,
+		cookie: {
+			expires: 60 * 60 * 24,
+		},
+	})
+);
+
+/* 라우팅 */
 const board = require("./routes/board");
 app.use("/board", board);
 
+app.post("/join", (req, res) => {
+	const id = req.body.id;
+	const pw = req.body.pw;
+	const name = req.body.name;
+	const email = req.body.email;
 
-/*ckeditor image upload 구현*/
-app.get('/', (req, res)=>{
-	res.status(200).json({
-		message: "testing our server"
-	})
-})
+	bcrypt.hash(pw, saltRounds, (err, hash) => {
+		if (err) {
+			console.log(err);
+		}
+
+		connection.query(
+			"INSERT INTO member (id, pw, name, email) VALUES (?,?,?,?)",
+			[id, hash, name, email],
+			(err, result) => {
+				if(err){
+					console.log(err);
+					res.status(500).send("ERROR");
+				}
+				res.send("good");
+			}
+			);
+	});
+});
+
+app.get("/login", (req, res) => {
+	if (req.session.user) {
+		res.send({ loggedIn: true, user: req.session.user});
+	} else {
+		res.send({ loggedIn: false });
+	}
+});
+
+app.post("/login", (req, res) => {
+	const username = req.body.id;
+	const password = req.body.pw;
+
+	connection.query(
+		"SELECT * FROM member WHERE id = ?;",
+		username,
+		(err, result) => {
+			if (err) {
+				res.send({ err: err });
+			}
+
+			if (result.length > 0) {
+				bcrypt.compare(password, result[0].pw, (error, response) => {
+					if (response) {
+						req.session.user = result;
+						res.send("success");
+					} else {
+						res.send("fail");
+					}
+				});
+			} else {
+				res.send("undefined");
+			}
+		}
+		);
+});
+
+app.get("/logout", (req,res) => {
+	delete req.session.user;
+	req.session.save();
+});
 
 app.use(express.static("uploads"));
 app.post('/upload', MultipartyMiddleware, (req, res)=>{
@@ -56,11 +138,10 @@ app.post('/upload', MultipartyMiddleware, (req, res)=>{
 			if(err) return console.log(err);
 		})
 	}
-	// console.log(req.files);
 })
 
 app.listen(PORT, ()=>{
-    console.log(`running on port ${PORT}`);
+	console.log(`running on port ${PORT}`);
 });
 
 module.exports = app;

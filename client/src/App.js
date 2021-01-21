@@ -7,16 +7,16 @@ import Footer from "./components/Footer";
 import "./App.css";
 
 function App() {
-  return (
-       <div className="App Site">
+    return (
+        <div className="App Site">
             <div className="Site-content">
                 <Header />
-                  <Navigation />
+                <Navigation />
                 <Body />
             </div>
             <Footer />
-      </div>
-  );
+    	</div>
+    );
 }
 
 export default App;

@@ -19,14 +19,13 @@ function SignUp(props) {
 
 		event.preventDefault();
 
-		Axios.post('http://localhost:8000/member/join',
+		Axios.post('http://localhost:8000/join',
 		{
-		  id: Id,
-		  pw: Pw,
-		  email : Email,
-		  name : Name
+			id: Id,
+			pw: Pw,
+			email : Email,
+			name : Name
 		}).then((res) => {
-			console.log(res);
 			alert("가입 되었습니다.");
 			props.history.push("/login");
 		})
@@ -50,11 +49,10 @@ function SignUp(props) {
 					<input className="PW-input" type='password' placeholder='비밀번호' value={Pw} onChange={onPWHandler} name='pw' />
 
 					<label>
-					    <Link to="/login">
-					    	<button className="joinBtn"> 로그인</button>
-					    </Link>
+						<Link to="/login">
+							<button className="joinBtn"> 로그인</button>
+						</Link>
 						<button className="joinBtn" type="submit">등록</button>
-						{/*등록 성공시 로그인페이지로?*/}
 					</label>
 				</form>
 			</div>
