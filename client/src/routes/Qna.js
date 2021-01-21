@@ -4,7 +4,6 @@ import "../css/Menu.css";
 import Axios from 'axios';
 
 function Qna(props) {
-
     const [viewContent, setViewContent] = useState([]);
 
     useEffect(() => {
@@ -15,8 +14,8 @@ function Qna(props) {
 
     return (
         <div className="menu__container">
-		<Board viewContent = {viewContent} name="QNA" match={props.match.path}/>
-    </div>
+			<Board viewContent = {viewContent} name="QNA" match={props.match.path}/>
+    	</div>
     );
 }
 

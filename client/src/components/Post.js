@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import '../css/Components.css';
-import Ckeditor from "./Ckeditor";
 import Axios from 'axios';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import Editor from 'ckeditor5-custom-build/build/ckeditor';
 import { Link } from "react-router-dom";
 import Prism from "prismjs";
 import "prismjs/themes/prism-tomorrow.css";
+import striptags from 'striptags';
 
 const editorConfiguration = {
     simpleUpload: {
@@ -21,6 +21,7 @@ function Post(props) {
     const [mod, setMod] = useState('');
     const [modIdx, setModIdx] = useState('');
     const [contents, setContent] = useState('');
+    const [comments, setComments] = useState('');
 
     useEffect(() => {
         Prism.highlightAll();
@@ -117,7 +118,39 @@ function Post(props) {
     const handleCkeditorState = (event, editor) => {
         const data = editor.getData();
         setContent(data);
+        setComments(data);
     }
+
+     const onSubmitHandler = (event) => {
+        if(post.name === "QNA"){
+            Axios.post('http://localhost:8000/board/postqna',
+            { bid:post.idx, 
+              writer:"writer", 
+              contents:comments, 
+              img:null, 
+              good:8
+            }).then((res) => {alert("작성 되었습니다."); loadComment(); setMod('');})
+           .catch((error) => {console.log(error)} ); 
+        }    
+        else{
+            Axios.post('http://localhost:8000/board/posttalk',
+            { bid:post.idx, 
+              writer:"writer", 
+              contents:comments, 
+              img:null, 
+              good:8
+            }).then((res) => {alert("작성 되었습니다."); loadComment(); setMod('');})
+           .catch((error) => {console.log(error)} ); 
+        }       
+    }
+
+    const onptbHandler = (event) => {
+        if(post.name === "TALK")
+            props.history.push("/talk")
+        else
+            props.history.push("/qna")
+    }
+
     return (
         <div className="Post">
          <div className='form-wrapper'>
@@ -176,7 +209,7 @@ function Post(props) {
             </div>
         ))}
          
-        <p className="bold">답변</p>
+        <p className="bold">댓글작성</p>
         <CKEditor
             editor={ Editor }
             config={ editorConfiguration }
@@ -185,10 +218,12 @@ function Post(props) {
             // You can store the "editor" and use when it is needed.
             //console.log( 'Editor is ready to use!', editor );
             } }
-            onChange={ handleCkeditorState }           
+            onChange={ handleCkeditorState }
+            name={comments}           
         />
-        {(mod.length === 0) ? <button className="submit-button">작성</button> 
-        : <button className="modify-button" onClick={updateBtn_c}>수정</button> } 
+        {(mod.length === 0) ? <button className="submit-button" onClick={onSubmitHandler}>작성</button> 
+        : <button className="modify-button" onClick={updateBtn_c}>수정</button> }
+        <button className="posttoboard" onClick={onptbHandler}>목록으로</button> 
       </div>
    </div>
     );

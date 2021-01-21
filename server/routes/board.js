@@ -6,17 +6,17 @@ const connection = mysql.createConnection(dbconfig);
 
 /*board list 가져오기*/
 router.get("/getqna", (req, res)=>{
-	const sqlQuery = "SELECT * FROM qboard ORDER BY idx DESC"; //내림차순 정렬
-	connection.query(sqlQuery, (err, result)=>{
-		res.send(result);
-	})
+   const sqlQuery = "SELECT * FROM qboard ORDER BY idx DESC"; //내림차순 정렬
+   connection.query(sqlQuery, (err, result)=>{
+      res.send(result);
+   })
 })
 
 router.get("/gettalk", (req, res)=>{
-	const sqlQuery = "SELECT * FROM tboard ORDER BY idx DESC"; //내림차순 정렬
-	connection.query(sqlQuery, (err, result)=>{
-		res.send(result);
-	})
+   const sqlQuery = "SELECT * FROM tboard ORDER BY idx DESC"; //내림차순 정렬
+   connection.query(sqlQuery, (err, result)=>{
+      res.send(result);
+   })
 })
 
 /*comment 가져오기*/
@@ -54,7 +54,6 @@ router.post("/deletetalk", (req, res) => {
         res.send('good!');
     })
 });
-
 /*comment 삭제*/
 router.post("/deleteqna_c", (req, res) => {
     const idx = req.body.idx;
@@ -149,5 +148,33 @@ router.post("/updatetalk_c", (req, res) => {
     })
 });
 
-module.exports = router;
+/*comment insert*/
+router.post("/postqna", (req, res) => {
+    const bid = req.body.bid;
+    const writer = req.body.writer;
+    const contents = req.body.contents;
+    const img = req.body.img;
+    const good = req.body.good;
 
+    const sqlQuery = "INSERT INTO q_comment (bid, writer, contents, img, good, cdate) VALUES (?,?,?,?,?,NOW())";
+    connection.query(sqlQuery, [bid, writer, contents, img, good], (err, result)=>{
+        res.send('good');
+    })
+});
+
+router.post("/posttalk", (req, res) => {
+    const bid = req.body.bid;
+    const writer = req.body.writer;
+    const contents = req.body.contents;
+    const img = req.body.img;
+    const good = req.body.good;
+
+    const sqlQuery = "INSERT INTO t_comment (bid, writer, contents, img, good, cdate) VALUES (?,?,?,?,?,NOW())";
+    connection.query(sqlQuery, [bid, writer, contents, img, good], (err, result)=>{
+        res.send('good');
+    })
+});
+
+
+
+module.exports = router;

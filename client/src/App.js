@@ -11,7 +11,7 @@ function App() {
     	<div className="App Site">
             <div className="Site-content">
                 <Header />
-               	<Navigation />
+                  <Navigation />
                 <Body />
             </div>
             <Footer />

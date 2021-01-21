@@ -13,12 +13,12 @@ const editorConfiguration = {
 };
 
 function Writing(props) {
-    const [title, setTitle] = useState('');
-    const [contents, setContent] = useState('');
-    const [tag, setTag] = useState('');
-    const onTitleHandler = (event) => { setTitle(event.currentTarget.value); }
-    const onTagHandler = (event) => { setTag(event.currentTarget.value); }
     const [post, setPost] = useState(props.location.state ? props.location.state : JSON.parse(localStorage.getItem('prev')));
+    const [title,setTitle] = useState('');
+    const [contents,setContent] = useState('');
+    const [tag, setTag] = useState('');
+    const onTitleHandler = (event) => {setTitle (event.currentTarget.value);}
+    const onTagHandler = (event) => {setTag (event.currentTarget.value); }
 
     useEffect(() => {
         if (props.location.state !== undefined) {
@@ -123,17 +123,13 @@ function Writing(props) {
                     onChange={ handleCkeditorState }    
                     name = 'contents'          
                 /> 
-
                 <p className="bold">태그</p>
                 <input className="tag-input" type='text' onChange={onTagHandler} name = 'tag' value={tag}/>
             </div>
-            {/*<Link to="/post">*/}
             {(post) ? <button className="modify-button" onClick={updateBtn} comment-idx={post.idx}>수정</button>
             : <button className="submit-button" onClick={onSubmitHandler} >작성</button>}
-              
         </div>
     );
 
 }
-
 export default Writing;

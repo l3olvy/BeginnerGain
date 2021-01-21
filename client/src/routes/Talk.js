@@ -16,8 +16,8 @@ function Talk(props) {
 		<Board
 			viewContent = {viewContent}
 			name="TALK"
-      match={props.match.path}/>
-    </div>
+      		match={props.match.path}/>
+    	</div>
     );
 }
 
