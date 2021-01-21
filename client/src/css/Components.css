@@ -22,7 +22,7 @@
   min-height: 400px;
 }
 
-.submit-button {
+.submit-button , .modify-button{
   width: 100px;
   height: 40px;
   font-size: 20px;
@@ -89,9 +89,10 @@
 .user-info > span{
   margin-left: 5px;
 }
+.selctContents > figure > img{max-width: 770px; width: auto; height: auto; display: block; margin: 0px auto;}
 .Post > .form-wrapper > .question-answer > .user-info > .modifyBtn { margin: 0px 2px 0px 2px; }
 .Post > .form-wrapper > .question-answer > .user-info > .deleteBtn { margin: 0px 2px 0px 2px; }
-.Post > .form-wrapper > .question-answer { border-bottom: 2.5px solid #c6c6c6; }
+.Post > .form-wrapper > .question-answer {border-bottom: 2px solid #c6c6c6; }
 
 /* sub page - board */
 .left { float: left; }

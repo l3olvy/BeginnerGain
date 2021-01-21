@@ -5,20 +5,19 @@ import Axios from 'axios';
 
 function Qna(props) {
 
-  const [viewContent, setViewContent] = useState([]);
+    const [viewContent, setViewContent] = useState([]);
 
-  useEffect(()=>{
-    Axios.get('http://localhost:8000/board/getqna').then((response)=>{
-      setViewContent(response.data);
-      console.log(viewContent);
-    })
-  }, []) 
+    useEffect(() => {
+        Axios.get('http://localhost:8000/board/getqna').then((response) => {
+            setViewContent(response.data);
+        })
+    }, [])
 
-  return (
-    <div className="menu__container">
-		<Board viewContent = {viewContent} name="QNA" />
+    return (
+        <div className="menu__container">
+		<Board viewContent = {viewContent} name="QNA" match={props.match.path}/>
     </div>
-  );
+    );
 }
 
 export default Qna;
