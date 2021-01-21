@@ -17,8 +17,7 @@ function Login(props) {
 
 	const onSubmitHandler = (event) => {
 		event.preventDefault();
-		
-		Axios.post('http://localhost:8000/member/login',
+		Axios.post('http://localhost:8000/login',
 		{
 		  id: id,
 		  pw: pw

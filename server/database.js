@@ -1,7 +1,8 @@
 module.exports = {
   host     : 'localhost',
   user     : 'root',
-  password: 'qusgPwlsa',
+  password: '1863rndnjs9158!',
   database: 'bg',
-  multipleStatements: true
+  multipleStatements: true,
+  dateStrings: 'date'
 };

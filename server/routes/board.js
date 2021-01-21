@@ -4,12 +4,23 @@ const mysql = require('mysql');
 const dbconfig = require('../database.js');
 const connection = mysql.createConnection(dbconfig);
 
-router.get("/getqna", (req, res)=>{
-	const sqlQuery = "SELECT * FROM qboard ORDER BY idx DESC"; //내림차순 정렬
+router.get("/getqna/:page", (req, res)=>{
+    //let nowPage = if(req.params.page == "1") ? req.params.page : 1;
+    let nowPage = req.params.page;
+
+	const sqlQuery = "SELECT * FROM qboard ORDER BY idx DESC limit 0, 5"; //내림차순 정렬
 	connection.query(sqlQuery, (err, result)=>{
 		res.send(result);
 	})
 })
+
+router.get("/getTotal", (req, res)=>{
+    const sqlQuery = "SELECT count(*) as Total FROM qboard ORDER BY idx DESC"; //내림차순 정렬
+    connection.query(sqlQuery, (err, result)=>{
+        res.send(result);
+    })
+})
+
 
 router.post("/getqna_c", (req, res)=>{
     const bid = req.body.idx;
@@ -59,10 +70,9 @@ router.post("/writing", (req, res) => {
     const img = req.body.img;
     const tag = req.body.tag;
     const hit = req.body.hit;
-    const rdate = req.body.rdate;
 
-    const sqlQuery = "INSERT INTO qboard (writer, title, contents, img, tag, hit, rdate ) VALUES (?,?,?,?,?,?,?)";
-    connection.query(sqlQuery, [writer, title, contents, img, tag, hit, rdate], (err, result)=>{
+    const sqlQuery = "INSERT INTO qboard (writer, title, contents, img, tag, hit, rdate ) VALUES (?,?,?,?,?,?,NOW())";
+    connection.query(sqlQuery, [writer, title, contents, img, tag, hit], (err, result)=>{
         res.send('good');
     })
 });

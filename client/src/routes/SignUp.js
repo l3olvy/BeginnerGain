@@ -19,14 +19,13 @@ function SignUp(props) {
 
 		event.preventDefault();
 
-		Axios.post('http://localhost:8000/member/join',
+		Axios.post('http://localhost:8000/join',
 		{
 		  id: Id,
 		  pw: Pw,
 		  email : Email,
 		  name : Name
 		}).then((res) => {
-			console.log(res);
 			alert("가입 되었습니다.");
 			props.history.push("/login");
 		})
