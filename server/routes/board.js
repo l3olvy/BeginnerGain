@@ -3,7 +3,10 @@ const router = express.Router();
 const mysql = require('mysql');
 const dbconfig = require('../database.js');
 const connection = mysql.createConnection(dbconfig);
+const bodyParser = require('body-parser');
+router.use(bodyParser.urlencoded({extended: true}));
 
+/* 페이징 해야함 */
 router.get("/getqna/:page", (req, res)=>{
     //let nowPage = if(req.params.page == "1") ? req.params.page : 1;
     let nowPage = req.params.page;

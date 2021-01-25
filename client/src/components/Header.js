@@ -8,27 +8,31 @@ function Header(props) {
 
     Axios.defaults.withCredentials = true;
 
-    const handleClick = (req, res) => {
-        alert("로그아웃 되었습니다");
-        Axios.get("http://localhost:8000/logout").then(() => {
-            props.history.push("/");
+    const handleClick = async () => {
+        await Axios.get("http://localhost:8000/logout").then((res) => {
+            console.log("test");
+            alert("로그아웃 되었습니다");    
             setRole(false);
         });
     }
 
-    useEffect(() => {
-        Axios.get("http://localhost:8000/login").then((response) => {
-            if (response.data.loggedIn === true) {
+    const getUser = async () => {
+        await Axios.get("http://localhost:8000/login").then((res) => {
+            if(res.data.loggedIn === true) {
                 setRole(true);
             }
         });
-    }, [role]);
+    }
+
+    useEffect(() => {
+       getUser();
+    }, []);
 
     return (
         <div className="box">
 			<div className="head">
 			{
-				role ? (<div className="Signout" onClick={handleClick}>Signout</div>) : 
+				(role) ? (<div className="Signout" onClick={handleClick}>Signout</div>) : 
 				(
 					<div className="Signin">
 						<Link to="/signup">Signup</Link>
