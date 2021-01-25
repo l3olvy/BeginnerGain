@@ -3,7 +3,10 @@ const router = express.Router();
 const mysql = require('mysql');
 const dbconfig = require('../database.js');
 const connection = mysql.createConnection(dbconfig);
+const bodyParser = require('body-parser');
+router.use(bodyParser.urlencoded({extended: true}));
 
+/* 페이징 해야함 */
 router.get("/getqna/:page", (req, res)=>{
     //let nowPage = if(req.params.page == "1") ? req.params.page : 1;
     let nowPage = req.params.page;
@@ -14,19 +17,12 @@ router.get("/getqna/:page", (req, res)=>{
 	})
 })
 
-router.get("/getTotal", (req, res)=>{
-    const sqlQuery = "SELECT count(*) as Total FROM qboard ORDER BY idx DESC"; //내림차순 정렬
-    connection.query(sqlQuery, (err, result)=>{
-    	res.send(result);
-    })
-})
-
 
 router.get("/gettalk", (req, res)=>{
-   const sqlQuery = "SELECT * FROM tboard ORDER BY idx DESC"; //내림차순 정렬
-   connection.query(sqlQuery, (err, result)=>{
-   	res.send(result);
-   })
+	const sqlQuery = "SELECT * FROM tboard ORDER BY idx DESC"; //내림차순 정렬
+	connection.query(sqlQuery, (err, result)=>{
+		res.send(result);
+	})
 })
 
 /*comment 가져오기*/
@@ -165,6 +161,7 @@ router.post("/postqna", (req, res) => {
 	const img = req.body.img;
 	const good = req.body.good;
 
+	// bid로 qboard cnt 1증가해서 수정 해야함
 	const sqlQuery = "INSERT INTO q_comment (bid, writer, contents, img, good, cdate) VALUES (?,?,?,?,?,NOW())";
 	connection.query(sqlQuery, [bid, writer, contents, img, good], (err, result)=>{
 		res.send('good');

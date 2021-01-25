@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import { Link } from "react-router-dom";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -14,7 +14,7 @@ function Board({ viewContent, name, match }) {
 			<h2>{name}</h2>
 			
 			<div className="board_top">
-				<p>총 게시물 126개</p>
+				<p>총 게시물 n개</p>
 				<ul className="board_list">
 					<li>
 						<input type="text" placeholder="검색"/>

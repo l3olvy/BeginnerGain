@@ -14,11 +14,6 @@ function Qna(props) {
 	let startPage = (nowPage - 1) * listCount;
 	
 	useEffect(()=>{
-		Axios.get('http://localhost:8000/board/getTotal').then((response) => {
-			// 글의 총 개수
-			setTotal(response.data[0].Total);
-		})
-
 		Axios.get('http://localhost:8000/board/getqna/1').then((response)=>{
 			setViewContent(response.data);
 		})

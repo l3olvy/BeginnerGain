@@ -118,6 +118,7 @@ app.post("/login", (req, res) => {
 app.get("/logout", (req,res) => {
 	delete req.session.user;
 	req.session.save();
+	res.send("good");
 });
 
 app.use(express.static("uploads"));

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import '../css/Components.css';
 import Axios from 'axios';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
@@ -22,15 +22,7 @@ function Post(props) {
     const [contents, setContent] = useState('');
     const [comments, setComments] = useState('');
 
-    useEffect(() => {
-        Prism.highlightAll();
-        if (props.location.state !== undefined) {
-            localStorage.setItem("prev", JSON.stringify(props.location.state));
-        }
-        loadComment();
-    }, [])
-
-    const loadComment = async () => {
+    const loadComment = useCallback( async () => {
         const idx = post.idx;
         if (post.name === "QNA") {
             Axios.post('http://localhost:8000/board/getqna_c', {
@@ -47,7 +39,16 @@ function Post(props) {
                 Prism.highlightAll();
             })
         }
-    }
+    }, [post.idx, post.name]);
+
+    useEffect(() => {
+        Prism.highlightAll();
+        if (props.location.state !== undefined) {
+            localStorage.setItem("prev", JSON.stringify(props.location.state));
+        }
+        loadComment();
+    }, [loadComment, props.location.state])
+
 
     const delBtn = (e) => {
         if (window.confirm("삭제하시겠습니까?")) {
