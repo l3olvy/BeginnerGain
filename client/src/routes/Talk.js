@@ -4,7 +4,7 @@ import Axios from 'axios';
 
 function Talk(props) {
 	const [viewContent, setViewContent] = useState([]);
-
+    let boardnum_talk=0;
 	useEffect(()=>{
 		Axios.get('http://localhost:8000/board/gettalk').then((response)=>{
 			setViewContent(response.data);
@@ -16,7 +16,8 @@ function Talk(props) {
 			<Board
 				viewContent = {viewContent}
 				name="TALK"
-				match={props.match.path}/>
+				match={props.match.path}
+				/>
 		</div>
 	);
 }

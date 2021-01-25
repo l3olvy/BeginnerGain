@@ -5,9 +5,7 @@ import Editor from 'ckeditor5-custom-build/build/ckeditor';
 import Axios from 'axios';
 
 const editorConfiguration = {
-	simpleUpload: {
-		uploadUrl: '/upload'
-	},
+	simpleUpload: {uploadUrl: '/upload'},
 	toolbar: ['heading', '|', 'bold', 'italic', '|', 'link', 'blockquote', 'code', 'imageupload', 'codeblock', '|', 'numberedlist', 'bulletedlist', 'horizontalline', '|', 'undo', 'redo']
 };
 
@@ -18,6 +16,8 @@ function Writing(props) {
 	const [tag, setTag] = useState('');
 	const onTitleHandler = (event) => {setTitle (event.currentTarget.value);}
 	const onTagHandler = (event) => {setTag (event.currentTarget.value); }
+
+
 
 	useEffect(() => {
 		if (props.location.state !== undefined) {
@@ -104,6 +104,10 @@ function Writing(props) {
 		}
 	}
 
+	const wtobBtnHandler = (event) => {
+		props.history.push(`/${props.match.params.name}`)
+	}
+
 	return (
 		<div className="Writing">
 			<p className="bolder">Ask a public question</p>
@@ -122,6 +126,7 @@ function Writing(props) {
 	            <input className="tag-input" type='text' onChange={onTagHandler} name = 'tag' value={tag}/>
 	        </div>
 	            {(post) ? <button className="modify-button" onClick={updateBtn} comment-idx={post.idx}>수정</button> : <button className="submit-button" onClick={onSubmitHandler} >작성</button>}
+        		<button className="toboard" onClick={wtobBtnHandler} >목록으로</button>
         </div>
 	);
 }

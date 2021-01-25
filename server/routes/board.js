@@ -14,20 +14,46 @@ router.get("/getqna/:page", (req, res)=>{
 	})
 })
 
-router.get("/getTotal", (req, res)=>{
-    const sqlQuery = "SELECT count(*) as Total FROM qboard ORDER BY idx DESC"; //내림차순 정렬
-    connection.query(sqlQuery, (err, result)=>{
-    	res.send(result);
-    })
-})
-
-
 router.get("/gettalk", (req, res)=>{
    const sqlQuery = "SELECT * FROM tboard ORDER BY idx DESC"; //내림차순 정렬
    connection.query(sqlQuery, (err, result)=>{
    	res.send(result);
    })
 })
+
+/*board contents total*/
+router.get("/getqTotal", (req, res)=>{
+    const sqlQuery = "SELECT count(*) as Total FROM qboard";
+    connection.query(sqlQuery, (err, result)=>{
+    	res.send(result);
+    })
+})
+
+router.get("/gettTotal", (req, res)=>{
+    const sqlQuery = "SELECT count(*) as Total FROM tboard";
+    connection.query(sqlQuery, (err, result)=>{
+    	res.send(result);
+    })
+})
+
+
+/*post comment total*/
+router.post("/getqna_total", (req, res)=>{
+	const bid = req.body.idx;
+    const sqlQuery = "SELECT count(*) as Total FROM q_comment where bid=?"; //내림차순 정렬
+    connection.query(sqlQuery, [bid], (err, result)=>{
+    	res.send(result);
+    })
+})
+
+router.post("/gettalk_total", (req, res)=>{
+	const bid = req.body.idx;
+    const sqlQuery = "SELECT count(*) as Total FROM t_comment where bid=?"; //내림차순 정렬
+    connection.query(sqlQuery, [bid], (err, result)=>{
+    	res.send(result);
+    })
+})
+
 
 /*comment 가져오기*/
 router.post("/getqna_c", (req, res)=>{
@@ -64,10 +90,11 @@ router.post("/deletetalk", (req, res) => {
 		res.send('good!');
 	})
 });
+
 /*comment 삭제*/
-router.post("/deleteqna_c", (req, res) => {
+router.post("/deleteqna_c", (req, res) => {	
 	const idx = req.body.idx;
-	const sqlQuery = "delete from q_comment where idx=?";
+	const sqlQuery = "delete from q_comment where idx=?";"delete from q_comment where idx=?;"
 	connection.query(sqlQuery, [idx], (err, result) => {
 		res.send('good!');
 	})
@@ -77,6 +104,25 @@ router.post("/deletetalk_c", (req, res) => {
 	const idx = req.body.idx;
 	const sqlQuery = "delete from t_comment where idx=?";
 	connection.query(sqlQuery, [idx], (err, result) => {
+		res.send('good!');
+	})
+});
+
+/*comment 삭제 commentN-1*/
+router.post("/deleteqna_cN", (req, res) => {	
+	const commentN = req.body.commentN;
+	const idx = req.body.idx;
+	const sqlQuery = "UPDATE qboard SET commentN=? WHERE idx=?";
+	connection.query(sqlQuery, [commentN, idx], (err, result) => {
+		res.send('good!');
+	})
+});
+
+router.post("/deletetalk_cN", (req, res) => {	
+	const commentN = req.body.commentN;
+	const idx = req.body.idx;
+	const sqlQuery = "UPDATE tboard SET commentN=? WHERE idx=?";
+	connection.query(sqlQuery, [commentN, idx], (err, result) => {
 		res.send('good!');
 	})
 });
@@ -103,7 +149,7 @@ router.post("/writing_talk", (req, res) => {
 	const img = req.body.img;
 	const category = req.body.category;
 	const hit = req.body.hit;
-	const rdate = req.body.rdate;
+	//const rdate = req.body.rdate;
 
 	const sqlQuery = "INSERT INTO tboard (writer, title, contents, img, category, hit, rdate ) VALUES (?,?,?,?,?,?,NOW())";
 	connection.query(sqlQuery, [writer, title, contents, img, category, hit], (err, result)=>{
@@ -157,16 +203,18 @@ router.post("/updatetalk_c", (req, res) => {
 	})
 });
 
-/*comment insert*/
+/*comment insert / commentN+1*/
 router.post("/postqna", (req, res) => {
 	const bid = req.body.bid;
 	const writer = req.body.writer;
 	const contents = req.body.contents;
 	const img = req.body.img;
 	const good = req.body.good;
+	const idx = req.body.bid;
+	const commentN = req.body.commentN;
 
-	const sqlQuery = "INSERT INTO q_comment (bid, writer, contents, img, good, cdate) VALUES (?,?,?,?,?,NOW())";
-	connection.query(sqlQuery, [bid, writer, contents, img, good], (err, result)=>{
+	const sqlQuery = "UPDATE qboard SET commentN=? WHERE idx=?;"+"INSERT INTO q_comment (bid, writer, contents, img, good, cdate) VALUES (?,?,?,?,?,NOW());";
+	connection.query(sqlQuery, [commentN, idx, bid, writer, contents, img, good], (err, result)=>{
 		res.send('good');
 	})
 });
@@ -177,9 +225,11 @@ router.post("/posttalk", (req, res) => {
 	const contents = req.body.contents;
 	const img = req.body.img;
 	const good = req.body.good;
+	const idx = req.body.bid;
+	const commentN = req.body.commentN;
 
-	const sqlQuery = "INSERT INTO t_comment (bid, writer, contents, img, good, cdate) VALUES (?,?,?,?,?,NOW())";
-	connection.query(sqlQuery, [bid, writer, contents, img, good], (err, result)=>{
+	const sqlQuery = "UPDATE tboard SET commentN=? WHERE idx=?;"+"INSERT INTO t_comment (bid, writer, contents, img, good, cdate) VALUES (?,?,?,?,?,NOW());";
+	connection.query(sqlQuery, [commentN, idx, bid, writer, contents, img, good], (err, result)=>{
 		res.send('good');
 	})
 });
