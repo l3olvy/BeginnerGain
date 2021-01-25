@@ -184,4 +184,22 @@ router.post("/posttalk", (req, res) => {
 	})
 });
 
+/*general search*/
+router.post("/searchqna", (req, res)=>{
+	const value = req.body.value;
+	const sqlQuery = "SELECT * FROM qboard WHERE title LIKE ? OR contents LIKE ? ORDER BY idx DESC"; //내림차순 정렬
+	connection.query(sqlQuery, ['%' + value + '%', '%' + value + '%'], (err, result)=>{
+		res.send(result);
+		console.log(result);
+	})
+})
+
+router.post("/searchtalk", (req, res)=>{
+	const value = req.body.value;
+	const sqlQuery = "SELECT * FROM tboard WHERE title LIKE ? OR contents LIKE ? ORDER BY idx DESC"; //내림차순 정렬
+   	connection.query(sqlQuery, ['%' + value + '%', '%' + value + '%'], (err, result)=>{
+		res.send(result);
+	})
+})
+
 module.exports = router;

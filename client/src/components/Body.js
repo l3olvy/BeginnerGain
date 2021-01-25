@@ -13,7 +13,7 @@ import Chat from "../routes/Chat";
 import Writing from "../components/Writing";
 import Post from "../components/Post";
 import "../css/Body.css";
-
+import Board from "./Board";
 function Body() {
     return (
         <div className="body">
@@ -30,6 +30,8 @@ function Body() {
 			<Route path="/:name/post/:idx" component={Post} />
 			<Route path="/:name/writing" component={Writing} />
 			<Route path="/:name/modify/:idx" component={Writing} />
+			<Route path="/qna/search/:q" component={Board} /> 
+			<Route path="/talk/search/:q" component={Board} />
 		</div>
     );
 }

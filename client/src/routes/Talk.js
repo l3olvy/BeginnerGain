@@ -16,7 +16,8 @@ function Talk(props) {
 			<Board
 				viewContent = {viewContent}
 				name="TALK"
-				match={props.match.path}/>
+				match={props.match.path}
+				history={props.history}/>
 		</div>
 	);
 }

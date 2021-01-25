@@ -27,7 +27,7 @@ function Qna(props) {
 
 	return (
 		<div className="menu__container">
-			<Board viewContent = {viewContent} name="QNA" match={props.match.path}/>
+			<Board viewContent = {viewContent} name="QNA" match={props.match.path} history={props.history}/>
 		</div>
 	);
 

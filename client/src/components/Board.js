@@ -1,26 +1,76 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { Link } from "react-router-dom";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../css/Components.css";
 import striptags from 'striptags';
+import Axios from 'axios';
 
-function Board({ viewContent, name, match }) {
+function Board(props) {
+	const [generalSearch, setGeneralSearch] = useState('');
+	const [searchValue, setSearchValue] = useState([]);
+	const onGeneralSearchHandler = (event) => {setGeneralSearch(event.currentTarget.value);}
+
+	let name = '';
+	if(props.location !== undefined){
+		name = props.match.path.split("/").[1];
+	}else{
+		name = props.match.split("/").[1];
+	}
+
     let search = "태그";
-    if (name === "TALK") search = "카테고리";
+    if (name === "talk") search = "카테고리";
+
+    useEffect(() => {
+		if (props.location !== undefined) {
+			loadSearch();
+		}
+	}, [searchValue])
+
+	const loadSearch = async () => {
+        let value = props.match.params.q;
+
+		if (name === "qna") {
+			Axios.post('http://localhost:8000/board/searchqna', {
+				value : value
+			}).then((response) => {
+				if(response.data.length === 0)
+					alert("검색 결과가 없습니다");
+				else{
+					setSearchValue(response.data);
+				}
+			})
+		} else if (name === "talk") {
+			Axios.post('http://localhost:8000/board/searchtalk', {
+				value : value
+			}).then((response) => {
+				if(response.data.length === 0)
+					alert("검색 결과가 없습니다");
+				else{
+					setSearchValue(response.data);
+				}
+			})
+		}
+    }
+
+    const searchBtn = (e) => {
+		props.history.push(`/${name}/search/${generalSearch}`);
+	}
+
 
     return (
         <div className="menu__container">
-			<h2>{name}</h2>
+        {console.log(searchValue)}
+			<h2>{name.toUpperCase()}</h2>
 			
 			<div className="board_top">
 				<p>총 게시물 126개</p>
 				<ul className="board_list">
 					<li>
-						<input type="text" placeholder="검색"/>
+						<input type="text" placeholder="검색" onChange={onGeneralSearchHandler}/>
 					</li>
 					<li>
-					<button type="submit">
+					<button type="submit" onClick={searchBtn}>
 						<FontAwesomeIcon icon={faSearch} size="2x" />
 					</button>
 					</li>
@@ -36,50 +86,91 @@ function Board({ viewContent, name, match }) {
 					<div className="tagBox"></div>
 				</div>
 			</div>
+			
+			<div className="board_contents">
+			{(props.location !== undefined) ?
+					searchValue.map(element =>(
+						<div className="list" key={element.idx}>
+							<div className="left">
+								<h3>Q.{element.idx}</h3>
+								<p>답변 - 13개</p>
+							</div>
+							<div className="right">
+								<Link
+									to={{
+										pathname: `/${name}/post/${element.idx}`,
+										state: {
+											idx : element.idx,
+											writer : element.writer,
+											title : element.title,
+											contents : element.contents,
+											tag : element.tag,
+											category : element.category,
+											hit : element.hit,
+											rdate : element.rdate,
+											name : name
+										}
+									}}
+								>
+									<h3>{element.title}</h3>
+								</Link>
+								<p>{striptags(element.contents)}</p>
 
-			{viewContent.map(element =>(
-				<div className="board_contents" key={element.idx}>
-					{/* 이 구간은 select문을 통해 반복될 예정 */}
-					<div className="list">
-						<div className="left">
-							<h3>Q.{element.idx}</h3>
-							<p>답변 - 13개</p>
-						</div>
-						<div className="right">
-							<Link
-								to={{
-									pathname: `${match}/post/${element.idx}`,
-									state: {
-										idx : element.idx,
-										writer : element.writer,
-										title : element.title,
-										contents : element.contents,
-										tag : element.tag,
-										category : element.category,
-										hit : element.hit,
-										rdate : element.rdate,
-										name : name
-									}
-								}}
-							>
-								<h3>{element.title}</h3>
-							</Link>
-							<p>{striptags(element.contents)}</p>
-
-							<div>
-								<div className="tags left">
-									{(name === "TALK") ? <Link to="/#">{element.category}</Link> : <Link to="/#">{element.tag}</Link> }
-								</div>
-								<div className="info right">
-									<p>작성자 : <span className="writer">{element.writer}</span> &nbsp;&nbsp;조회수 : <span className="hit">{element.hit}</span></p>
+								<div>
+									<div className="tags left">
+										{(name === "talk") ? <Link to="/#">{element.category}</Link> : <Link to="/#">{element.tag}</Link> }
+									</div>
+									<div className="info right">
+										<p>작성자 : <span className="writer">{element.writer}</span> &nbsp;&nbsp;조회수 : <span className="hit">{element.hit}</span></p>
+									</div>
 								</div>
 							</div>
 						</div>
-					</div>
-				</div>
-			))}
+					)) :
+					(props.viewContent.length === 0) ? <div className="list"><p>등록된 게시물이 없습니다</p></div> :
+					props.viewContent.map(element =>(
+						<div className="list" key={element.idx}>
+							<div className="left">
+								<h3>Q.{element.idx}</h3>
+								<p>답변 - 13개</p>
+							</div>
+							<div className="right">
+								<Link
+									to={{
+										pathname: `${props.match}/post/${element.idx}`,
+										state: {
+											idx : element.idx,
+											writer : element.writer,
+											title : element.title,
+											contents : element.contents,
+											tag : element.tag,
+											category : element.category,
+											hit : element.hit,
+											rdate : element.rdate,
+											name : props.name
+										}
+									}}
+								>
+									<h3>{element.title}</h3>
+								</Link>
+								<p>{striptags(element.contents)}</p>
+
+								<div>
+									<div className="tags left">
+										{(props.name === "TALK") ? <Link to="/#">{element.category}</Link> : <Link to="/#">{element.tag}</Link> }
+									</div>
+									<div className="info right">
+										<p>작성자 : <span className="writer">{element.writer}</span> &nbsp;&nbsp;조회수 : <span className="hit">{element.hit}</span></p>
+									</div>
+								</div>
+							</div>
+						</div>
+					)) 
+				}
+			</div>
 			
-			<Link to={`${match}/writing`}>
+			
+			<Link to={`/${name}/writing`}>
 				<button className="writeBtn">글쓰기</button>
 			</Link>
 

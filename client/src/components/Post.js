@@ -5,7 +5,25 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import Editor from 'ckeditor5-custom-build/build/ckeditor';
 import { Link } from "react-router-dom";
 import Prism from "prismjs";
-import "prismjs/themes/prism-tomorrow.css";
+// Include the toolbar languages
+import "prismjs/themes/prism.css";
+import "prismjs/components/prism-markup-templating";
+import "prismjs/components/prism-c";
+import "prismjs/components/prism-cpp";
+import "prismjs/components/prism-csharp";
+import "prismjs/components/prism-diff";
+import "prismjs/components/prism-python";
+import "prismjs/components/prism-ruby";
+import "prismjs/components/prism-typescript";
+import "prismjs/components/prism-xml-doc";
+import "prismjs/components/prism-java";
+import "prismjs/components/prism-php";
+// Include the toolbar plugin: (optional)
+import "prismjs/plugins/toolbar/prism-toolbar";
+import "prismjs/plugins/toolbar/prism-toolbar.css";
+// Include some other plugins: (optional)
+import "prismjs/plugins/copy-to-clipboard/prism-copy-to-clipboard";
+import "prismjs/plugins/show-language/prism-show-language";
 
 const editorConfiguration = {
     simpleUpload: {
@@ -208,7 +226,7 @@ function Post(props) {
                 <p className="bold">2개의 답변</p>
                 {comment.map(element =>(
                     <div className="question-answer">
-                        <p className="selctContents" dangerouslySetInnerHTML={ {__html: element.contents}}></p>                    
+                        <div className="selctContents" dangerouslySetInnerHTML={ {__html: element.contents}}></div>                    
                         <div className="user-info">   
                             <button className="modifyBtn" onClick={modBtn_c} comment-contents={element.contents} comment-idx={element.idx}> 수정 </button>
                             <button className="deleteBtn" onClick={delBtn_c} comment-idx={element.idx}> 삭제 </button>
