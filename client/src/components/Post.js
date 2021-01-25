@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import '../css/Components.css';
 import Axios from 'axios';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
@@ -26,9 +26,7 @@ import "prismjs/plugins/copy-to-clipboard/prism-copy-to-clipboard";
 import "prismjs/plugins/show-language/prism-show-language";
 
 const editorConfiguration = {
-    simpleUpload: {
-        uploadUrl: '/upload'
-    },
+    simpleUpload: { uploadUrl: '/upload'},
     toolbar: ['heading', '|', 'bold', 'italic', '|', 'link', 'blockquote', 'code', 'imageupload', 'codeblock', '|', 'numberedlist', 'bulletedlist', 'horizontalline', '|', 'undo', 'redo']
 };
 
@@ -36,19 +34,11 @@ function Post(props) {
     const [post, setPost] = useState(props.location.state ? props.location.state : JSON.parse(localStorage.getItem('prev')));
     const [comment, setComment] = useState([]);
     const [mod, setMod] = useState('');
+    const [mode, setMode] = useState(false);
     const [modIdx, setModIdx] = useState('');
-    const [contents, setContent] = useState('');
-    const [comments, setComments] = useState('');
+    const [commentnum, setCommentnum] = useState(0);
 
-    useEffect(() => {
-        Prism.highlightAll();
-        if (props.location.state !== undefined) {
-            localStorage.setItem("prev", JSON.stringify(props.location.state));
-        }
-        loadComment();
-    }, [])
-
-    const loadComment = async () => {
+    const loadComment = useCallback( async () => {
         const idx = post.idx;
         if (post.name === "QNA") {
             Axios.post('http://localhost:8000/board/getqna_c', {
@@ -57,6 +47,11 @@ function Post(props) {
                 setComment(response.data);
                 Prism.highlightAll();
             })
+            Axios.post('http://localhost:8000/board/getqna_total', {
+                idx: idx
+            }).then((response) => {
+              	setCommentnum(response.data[0].Total);
+            })
         } else if (post.name === "TALK") {
             Axios.post('http://localhost:8000/board/gettalk_c', {
                 idx: idx
@@ -64,8 +59,22 @@ function Post(props) {
                 setComment(response.data);
                 Prism.highlightAll();
             })
+            Axios.post('http://localhost:8000/board/gettalk_total', {
+                idx: idx
+            }).then((response) => {
+              	setCommentnum(response.data[0].Total);
+            })
         }
-    }
+    }, [post.idx, post.name]);
+
+    useEffect(() => {
+        Prism.highlightAll();
+        if (props.location.state !== undefined) {
+            localStorage.setItem("prev", JSON.stringify(props.location.state));
+        }
+        loadComment();
+    }, [loadComment, props.location.state])
+
 
     const delBtn = (e) => {
         if (window.confirm("삭제하시겠습니까?")) {
@@ -93,22 +102,27 @@ function Post(props) {
             const idx = e.target.getAttribute('comment-idx');
             if (post.name === "QNA") {
                 Axios.post('http://localhost:8000/board/deleteqna_c', {
-                    idx: idx
-                }).then(() => {
-                    alert("삭제 되었습니다!");
-                })
+                    idx: idx                   
+                }).then(() => { alert("삭제 되었습니다!"); })
+                Axios.post('http://localhost:8000/board/deleteqna_cN', {
+                	idx: post.idx,
+                    commentN: (post.commentN-1)
+            	}).then((response) => { loadComment(); })
+
             } else if (post.name === "TALK") {
                 Axios.post('http://localhost:8000/board/deletetalk_c', {
-                    idx: idx
-                }).then(() => {
-                    alert("삭제 되었습니다!");
-                })
+                    idx: idx                   
+                }).then(() => { alert("삭제 되었습니다!"); })
+                Axios.post('http://localhost:8000/board/deletetalk_cN', {
+                	idx: post.idx,
+                    commentN: (post.commentN-1)
+            	}).then((response) => { loadComment(); })
             }
         }
-        loadComment();
     }
 
     const modBtn_c = (e) => {
+    	setMode(true);
         setMod(e.target.getAttribute('comment-contents'));
         setModIdx(e.target.getAttribute('comment-idx'));
     }
@@ -119,28 +133,27 @@ function Post(props) {
             if (post.name === "QNA") {
                 Axios.post('http://localhost:8000/board/updateqna_c', {
                     idx: idx,
-                    contents: contents
+                    contents: mod
                 }).then(() => {
                     alert("수정 되었습니다!");
-                    setMod('');
                 })
             } else if (post.name === "TALK") {
                 Axios.post('http://localhost:8000/board/updatetalk_c', {
                     idx: idx,
-                    contents: contents
+                    contents: mod
                 }).then(() => {
                     alert("수정 되었습니다!");
-                    setMod('');
                 })
             }
         }
+        setMod('');
+        setMode(false);
         loadComment();
     }
 
     const handleCkeditorState = (event, editor) => {
         const data = editor.getData();
-        setContent(data);
-        setComments(data);
+        setMod(data);
     }
 
     const onSubmitHandler = (event) => {
@@ -148,10 +161,11 @@ function Post(props) {
             Axios.post('http://localhost:8000/board/postqna', {
                 bid: post.idx,
                 writer: "writer",
-                contents: comments,
+                contents:mod,
                 img: null,
-                good: 8
-            }).then((res) => {
+                good: 8,
+                commentN: (post.commentN+1)
+            }).then(() => {
                 alert("작성 되었습니다.");
                 loadComment();
             })
@@ -160,15 +174,18 @@ function Post(props) {
             Axios.post('http://localhost:8000/board/posttalk', {
                 bid: post.idx,
                 writer: "writer",
-                contents: comments,
+                contents:mod,
                 img: null,
-                good: 8
-            }).then((res) => {
+                good: 8,
+                commentN: (post.commentN+1)
+            }).then(() => {
                 alert("작성 되었습니다.");
                 loadComment();
             })
             .catch((error) => { console.log(error) });
         }
+        setMod('');
+        loadComment();
     }
 
     const onptbHandler = (event) => {
@@ -223,7 +240,7 @@ function Post(props) {
                 <br/>
                 <hr/>
 
-                <p className="bold">2개의 답변</p>
+                <p className="bold">{commentnum}개의 답변</p>
                 {comment.map(element =>(
                     <div className="question-answer">
                         <div className="selctContents" dangerouslySetInnerHTML={ {__html: element.contents}}></div>                    
@@ -242,10 +259,9 @@ function Post(props) {
                     config={ editorConfiguration }
                     data= {mod}
                     onChange={ handleCkeditorState }
-                    name={comments}           
                 />
-                {(mod.length === 0) ? <button className="submit-button" onClick={onSubmitHandler}>작성</button> : <button className="modify-button" onClick={updateBtn_c}>수정</button> }
-                <button className="posttoboard" onClick={onptbHandler}>목록으로</button> 
+                { mode? <button className="modify-button" onClick={updateBtn_c}>수정</button> : <button className="submit-button" onClick={onSubmitHandler}>작성</button> }
+                <button className="toboard" onClick={onptbHandler}>목록으로</button> 
             </div>
         </div>
     );

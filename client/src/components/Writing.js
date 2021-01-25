@@ -1,13 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import '../css/Components.css';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import Editor from 'ckeditor5-custom-build/build/ckeditor';
 import Axios from 'axios';
 
 const editorConfiguration = {
-	simpleUpload: {
-		uploadUrl: '/upload'
-	},
+	simpleUpload: {uploadUrl: '/upload'},
 	toolbar: ['heading', '|', 'bold', 'italic', '|', 'link', 'blockquote', 'code', 'imageupload', 'codeblock', '|', 'numberedlist', 'bulletedlist', 'horizontalline', '|', 'undo', 'redo']
 };
 
@@ -18,8 +16,30 @@ function Writing(props) {
 	const [tag, setTag] = useState('');
 	const onTitleHandler = (event) => {setTitle (event.currentTarget.value);}
 	const onTagHandler = (event) => {setTag (event.currentTarget.value); }
+	const [user, setUser] = useState();
+
+	const getUser = useCallback(() => {
+		Axios.get("http://localhost:8000/login").then((res) => {
+			if(res.data.loggedIn === true) {
+				setUser(res.data.user[0].id);
+			}
+		});
+	}, []);
+
+	const loadPrevData = useCallback((e) => {
+		setTitle(post.title);
+		setContent(post.contents);
+		if (post.name === "QNA")
+			setTag(post.tag);
+		else
+			setTag(post.category);
+	}, [post.title, post.contents, post.tag, post.category, post.name]);
+
+
+
 
 	useEffect(() => {
+		getUser();
 		if (props.location.state !== undefined) {
 			localStorage.setItem("prev", JSON.stringify(props.location.state));
 		}
@@ -28,7 +48,7 @@ function Writing(props) {
 		} else {
 			reset();
 		}
-	}, [])
+	}, [getUser, loadPrevData, props.location.state, props.match.params.idx])
 
 	const reset = (e) => {
 		setPost('');
@@ -36,14 +56,6 @@ function Writing(props) {
 		setTag('');
 	}
 
-	const loadPrevData = (e) => {
-		setTitle(post.title);
-		setContent(post.contents);
-		if (post.name === "QNA")
-			setTag(post.tag);
-		else
-			setTag(post.category);
-	}
 
 	const updateBtn = (e) => {
 		if (window.confirm("수정하시겠습니까?")) {
@@ -81,7 +93,7 @@ function Writing(props) {
 	const onSubmitHandler = (event) => {
 		if (props.match.params.name === "qna") {
 			Axios.post('http://localhost:8000/board/writing_qna', {
-				writer: "wwwww",
+				writer: user,
 				title: title,
 				contents: contents,
 				img: null,
@@ -92,7 +104,7 @@ function Writing(props) {
 			.catch((error) => { console.log(error) });
 		} else if (props.match.params.name === "talk") {
 			Axios.post('http://localhost:8000/board/writing_talk', {
-				writer: "wwwww",
+				writer: user,
 				title: title,
 				contents: contents,
 				img: null,
@@ -102,6 +114,10 @@ function Writing(props) {
 			props.history.push(`/${props.match.params.name}`); })
 			.catch((error) => { console.log(error) });
 		}
+	}
+
+	const wtobBtnHandler = (event) => {
+		props.history.push(`/${props.match.params.name}`)
 	}
 
 	return (
@@ -122,6 +138,7 @@ function Writing(props) {
 	            <input className="tag-input" type='text' onChange={onTagHandler} name = 'tag' value={tag}/>
 	        </div>
 	            {(post) ? <button className="modify-button" onClick={updateBtn} comment-idx={post.idx}>수정</button> : <button className="submit-button" onClick={onSubmitHandler} >작성</button>}
+        		<button className="toboard" onClick={wtobBtnHandler} >목록으로</button>
         </div>
 	);
 }

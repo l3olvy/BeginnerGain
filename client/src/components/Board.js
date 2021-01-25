@@ -9,6 +9,7 @@ import Axios from 'axios';
 function Board(props) {
 	const [generalSearch, setGeneralSearch] = useState('');
 	const [searchValue, setSearchValue] = useState([]);
+	const [total, setTotal] = useState(0);
 	const onGeneralSearchHandler = (event) => {setGeneralSearch(event.currentTarget.value);}
 
 	let name = '';
@@ -22,9 +23,16 @@ function Board(props) {
     if (name === "talk") search = "카테고리";
 
     useEffect(() => {
-		if (props.location !== undefined) {
+		if (props.location !== undefined) 
 			loadSearch();
-		}
+		if (name ==="qna"){
+			Axios.get('http://localhost:8000/board/getqTotal').then((response) => {
+				setTotal(response.data[0].Total);
+		})}
+		else{
+			Axios.get('http://localhost:8000/board/gettTotal').then((response) => {
+				setTotal(response.data[0].Total);
+		})}
 	}, [searchValue])
 
 	const loadSearch = async () => {
@@ -57,14 +65,11 @@ function Board(props) {
 		props.history.push(`/${name}/search/${generalSearch}`);
 	}
 
-
-    return (
+    return (   	
         <div className="menu__container">
-        {console.log(searchValue)}
-			<h2>{name.toUpperCase()}</h2>
-			
+			<h2>{name.toUpperCase()}</h2>		
 			<div className="board_top">
-				<p>총 게시물 126개</p>
+				<p>총 게시물 {total}개</p>
 				<ul className="board_list">
 					<li>
 						<input type="text" placeholder="검색" onChange={onGeneralSearchHandler}/>
@@ -78,7 +83,7 @@ function Board(props) {
 			</div>
 
 			<div className="tagSearch">
-				<div className="tagTitle left">{search} 검색</div>
+				<div className="tagTitle left">{search}검색</div>
 				<div className="right">
 					<div className="tagInput">
 						<input type="text" placeholder={`${search} 추가`}/>
@@ -89,11 +94,11 @@ function Board(props) {
 			
 			<div className="board_contents">
 			{(props.location !== undefined) ?
-					searchValue.map(element =>(
+					searchValue.map((element,i) =>(
 						<div className="list" key={element.idx}>
 							<div className="left">
-								<h3>Q.{element.idx}</h3>
-								<p>답변 - 13개</p>
+								<h3>Q.{total-i}</h3>
+								<p>답변 - {element.commentN}개</p>
 							</div>
 							<div className="right">
 								<Link
@@ -108,6 +113,7 @@ function Board(props) {
 											category : element.category,
 											hit : element.hit,
 											rdate : element.rdate,
+											commentN : element.commentN,
 											name : name
 										}
 									}}
@@ -128,11 +134,11 @@ function Board(props) {
 						</div>
 					)) :
 					(props.viewContent.length === 0) ? <div className="list"><p>등록된 게시물이 없습니다</p></div> :
-					props.viewContent.map(element =>(
+					props.viewContent.map((element,i) =>(
 						<div className="list" key={element.idx}>
 							<div className="left">
-								<h3>Q.{element.idx}</h3>
-								<p>답변 - 13개</p>
+								<h3>Q.{total-i}</h3>
+								<p>답변 - {element.commentN}개</p>
 							</div>
 							<div className="right">
 								<Link
@@ -147,6 +153,7 @@ function Board(props) {
 											category : element.category,
 											hit : element.hit,
 											rdate : element.rdate,
+											commentN : element.commentN,
 											name : props.name
 										}
 									}}
@@ -168,7 +175,6 @@ function Board(props) {
 					)) 
 				}
 			</div>
-			
 			
 			<Link to={`/${name}/writing`}>
 				<button className="writeBtn">글쓰기</button>

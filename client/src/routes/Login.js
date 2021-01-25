@@ -26,7 +26,8 @@ function Login(props) {
 				props.history.push("/login");
 			} else if(response.data === "success") {
 				alert("환영합니다!");
-				props.history.push("/");
+				window.location.replace("/")
+				//props.history.push("/");
 			}
 		});
 	}
