@@ -23,11 +23,9 @@ function Login(props) {
 				props.history.push("/login");
 			} else if(response.data === "undefined") {
 				alert("존재하지 않는 유저 입니다.");
-				props.history.push("/login");
 			} else if(response.data === "success") {
 				alert("환영합니다!");
 				window.location.replace("/")
-				//props.history.push("/");
 			}
 		});
 	}

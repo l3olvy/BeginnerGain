@@ -31,9 +31,9 @@ app.use(
 	cors({
 		origin: ["http://localhost:3000"],
 		methods: ["GET", "POST"],
-		credentials: true,
+		credentials: true
 	})
-	);
+);
 
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -45,8 +45,8 @@ app.use(
 		resave: false,
 		saveUninitialized: false,
 		cookie: {
-			expires: 60 * 60 * 24,
-		},
+			expires: 60 * 60 * 24
+		}
 	})
 );
 
@@ -77,6 +77,16 @@ app.post("/join", (req, res) => {
 			}
 			);
 	});
+});
+
+app.get("/qna", (req, res) => {
+	if (req.session.user) {
+		res.send(req.session.user);
+		console.log(req.session.user);
+	} else {
+		res.send(req.session.user);
+		console.log("test");
+	}
 });
 
 app.get("/login", (req, res) => {

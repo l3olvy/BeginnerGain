@@ -339,18 +339,23 @@
     margin-top: 20px;
 }
 
-.menu__container>.paging>a {
+/* 페이징 버튼 */
+.checkBtn { 
+    padding: 10px 15px;
+    background: #2879d0 !important;
+    border: 1px solid #b7b7b7;
+    color: white !important; 
+}
+
+.menu__container > .paging > button {
     padding: 10px 15px;
     background: white;
     border: 1px solid #b7b7b7;
-    border-right: none;
-    color: #2879d0;
-    font-weight: bold;
+    color: #2879d0;    
 }
 
-.menu__container>.paging>a:last-child {
-    border-right: 1px solid #b7b7b7;
-}
+.menu__container > .paging > button:focus { outline: 0; }
+
 
 .writeBtn {
     padding: 10px 10px;

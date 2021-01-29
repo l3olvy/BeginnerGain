@@ -1,24 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Board from "../components/Board";
-import Axios from 'axios';
 
 function Talk(props) {
-	const [viewContent, setViewContent] = useState([]);
-    let boardnum_talk=0;
-	useEffect(()=>{
-		Axios.get('http://localhost:8000/board/gettalk').then((response)=>{
-			setViewContent(response.data);
-		})
-	}, [])
-
 	return (
 		<div className="menu__container">
-			<Board
-				viewContent = {viewContent}
-				name="TALK"
-				match={props.match.path}
-				history={props.history}/>
-				/>
+			<Board match={props.match.path} history={props.history} />
 		</div>
 	);
 }

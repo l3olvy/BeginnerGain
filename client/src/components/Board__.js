@@ -7,14 +7,6 @@ import striptags from 'striptags';
 import Axios from 'axios';
 
 function Board(props) {
-	// 페이징
-	const [viewContent, setViewContent] = useState([]);
-	const [curPage, setcurPage] = useState(0);
-	const [lastPage, setlastPage] = useState(0);
-	const [minbtn, setMinBtn] = useState(0);
-	const [maxbtn, setMaxBtn] = useState(0);
-	let array = [];
-
 	const [generalSearch, setGeneralSearch] = useState('');
 	const [searchValue, setSearchValue] = useState([]);
 	const [total, setTotal] = useState(0);
@@ -30,35 +22,10 @@ function Board(props) {
     let search = "태그";
     if (name === "talk") search = "카테고리";
 
-    const loadList = async () => {
-    	let url = "http://localhost:8000/board/getBoard/1/qna";
-    	if(name === "talk") url = 'http://localhost:8000/board/getBoard/1/talk';
-    	await Axios.get(url).then((res)=>{
-			setViewContent(res.data.model.boardList);
-			setcurPage(res.data.model.currentPage);
-            setlastPage(res.data.model.lastPage);
-            setMinBtn(res.data.model.minBtn);
-            setMaxBtn(res.data.model.maxBtn);
-		})
-    }
-
-    const onClick = async (e) => {
-    	const idxs = e.target.dataset.idx;
-    	let url = "http://localhost:8000/board/getBoard/"+idxs+"/qna";
-    	if(name === "talk") url = "http://localhost:8000/board/getBoard/"+idxs+"/talk";
-    	
-        await Axios.get(url).then((res) => {
-            setcurPage(res.data.model.currentPage);
-            setlastPage(res.data.model.lastPage);
-            setMinBtn(res.data.model.minBtn);
-            setMaxBtn(res.data.model.maxBtn);
-            setViewContent(res.data.model.boardList);
-        })
-    }
-
     useEffect(() => {
-    	loadList();
-
+    	Axios.get("http://localhost:8000/qna").then((response) => {
+    		console.log(response);
+    	});
 		if (props.location !== undefined) 
 			loadSearch();
 		if (name ==="qna"){
@@ -133,7 +100,6 @@ function Board(props) {
 					searchValue.map((element,i) =>(
 						<div className="list" key={element.idx}>
 							<div className="left">
-								
 								<h3>Q.{total-i}</h3>
 								<p>답변 - {element.commentN}개</p>
 							</div>
@@ -170,11 +136,11 @@ function Board(props) {
 							</div>
 						</div>
 					)) :
-					(viewContent.length === 0) ? <div className="list"><p>등록된 게시물이 없습니다</p></div> :
-					viewContent.map((element,i) =>(
+					(props.viewContent.length === 0) ? <div className="list"><p>등록된 게시물이 없습니다</p></div> :
+					props.viewContent.map((element,i) =>(
 						<div className="list" key={element.idx}>
 							<div className="left">
-								<h3>Q.{element.idx}</h3>
+								<h3>Q.{total-i}</h3>
 								<p>답변 - {element.commentN}개</p>
 							</div>
 							<div className="right">
@@ -219,18 +185,18 @@ function Board(props) {
 
 			{/* 페이징 */}
 			<div className="paging">
-				{ (curPage !== 1) && (<button type="button" onClick={onClick} data-idx={curPage-1}>이전</button>) }
-				{
-					(() => {
-						for(let i = minbtn; i < maxbtn; i++) {
-							if(curPage === i) array.push(<button type="button" className="checkBtn" key={i} onClick={onClick} data-idx={i}>{i}</button>);
-							else array.push(<button type="button" onClick={onClick} key={i} data-idx={i}>{i}</button>);
-							if(i >= lastPage) break;
-						}
-						return (array);
-					})()
-				}
-				{ (curPage < lastPage) && (<button type="button" onClick={onClick} data-idx={curPage+1}>다음</button>) }
+				<Link className="disabled" to="/#">처음</Link>
+				<Link className="disabled" to="/#">이전</Link>
+
+				{/* 페이징 계산 구간 */}
+				<Link className="selected" to="/#">1</Link>
+				<Link to="/#">2</Link>
+				<Link to="/#">3</Link>
+				<Link to="/#">4</Link>
+				<Link to="/#">5</Link>
+
+				<Link to="/#">다음</Link>
+				<Link to="/#">끝</Link>
 			</div>
 		</div>
     );

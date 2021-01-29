@@ -18,6 +18,8 @@ function Writing(props) {
 	const onTagHandler = (event) => {setTag (event.currentTarget.value); }
 	const [user, setUser] = useState();
 
+	Axios.defaults.withCredentials = true;
+
 	const getUser = useCallback(() => {
 		Axios.get("http://localhost:8000/login").then((res) => {
 			if(res.data.loggedIn === true) {
@@ -34,9 +36,6 @@ function Writing(props) {
 		else
 			setTag(post.category);
 	}, [post.title, post.contents, post.tag, post.category, post.name]);
-
-
-
 
 	useEffect(() => {
 		getUser();

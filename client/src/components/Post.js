@@ -50,7 +50,7 @@ function Post(props) {
             Axios.post('http://localhost:8000/board/getqna_total', {
                 idx: idx
             }).then((response) => {
-              	setCommentnum(response.data[0].Total);
+                 setCommentnum(response.data[0].Total);
             })
         } else if (post.name === "TALK") {
             Axios.post('http://localhost:8000/board/gettalk_c', {
@@ -62,7 +62,7 @@ function Post(props) {
             Axios.post('http://localhost:8000/board/gettalk_total', {
                 idx: idx
             }).then((response) => {
-              	setCommentnum(response.data[0].Total);
+                 setCommentnum(response.data[0].Total);
             })
         }
     }, [post.idx, post.name]);
@@ -100,29 +100,30 @@ function Post(props) {
     const delBtn_c = (e) => {
         if (window.confirm("삭제하시겠습니까?")) {
             const idx = e.target.getAttribute('comment-idx');
+            setCommentnum(post.commentN-1);
             if (post.name === "QNA") {
                 Axios.post('http://localhost:8000/board/deleteqna_c', {
                     idx: idx                   
                 }).then(() => { alert("삭제 되었습니다!"); })
                 Axios.post('http://localhost:8000/board/deleteqna_cN', {
-                	idx: post.idx,
-                    commentN: (post.commentN-1)
-            	}).then((response) => { loadComment(); })
+                   idx: post.idx,
+                    commentN: (post.commentN)
+               }).then((response) => { loadComment(); })
 
             } else if (post.name === "TALK") {
                 Axios.post('http://localhost:8000/board/deletetalk_c', {
                     idx: idx                   
                 }).then(() => { alert("삭제 되었습니다!"); })
                 Axios.post('http://localhost:8000/board/deletetalk_cN', {
-                	idx: post.idx,
-                    commentN: (post.commentN-1)
-            	}).then((response) => { loadComment(); })
+                   idx: post.idx,
+                    commentN: (post.commentN)
+               }).then((response) => { loadComment(); })
             }
         }
     }
 
     const modBtn_c = (e) => {
-    	setMode(true);
+       setMode(true);
         setMod(e.target.getAttribute('comment-contents'));
         setModIdx(e.target.getAttribute('comment-idx'));
     }
@@ -157,6 +158,7 @@ function Post(props) {
     }
 
     const onSubmitHandler = (event) => {
+       setCommentnum(post.commentN+1);
         if (post.name === "QNA") {
             Axios.post('http://localhost:8000/board/postqna', {
                 bid: post.idx,
@@ -164,7 +166,7 @@ function Post(props) {
                 contents:mod,
                 img: null,
                 good: 8,
-                commentN: (post.commentN+1)
+                commentN: (post.commentN)
             }).then(() => {
                 alert("작성 되었습니다.");
                 loadComment();
@@ -177,7 +179,7 @@ function Post(props) {
                 contents:mod,
                 img: null,
                 good: 8,
-                commentN: (post.commentN+1)
+                commentN: (post.commentN)
             }).then(() => {
                 alert("작성 되었습니다.");
                 loadComment();
