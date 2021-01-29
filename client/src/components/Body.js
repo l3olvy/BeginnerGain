@@ -14,24 +14,26 @@ import Writing from "../components/Writing";
 import Post from "../components/Post";
 import "../css/Body.css";
 import Board from "./Board";
+import PublicRoute from "../lib/PublicRoute"
+import PrivateRoute from "../lib/PrivateRoute"
 function Body() {
     return (
         <div className="body">
-			<Route path="/login" component={Login} />
-			<Route path="/signup" component={SignUp} />
-			<Route path="/idpw" component={IdPw} />
-			<Route path="/" exact={true} component={Home} />
-			<Route path="/news" component={News} />
-			<Route path="/forum" component={Forum} />
-			<Route path="/hire" component={Hire} /> 
-			<Route path="/qna" exact={true} component={Qna} /> 
-			<Route path="/talk" exact={true} component={Talk} /> 
-			<Route path="/chat" component={Chat} />
-			<Route path="/:name/post/:idx" component={Post} />
-			<Route path="/:name/writing" component={Writing} />
-			<Route path="/:name/modify/:idx" component={Writing} />
-			<Route path="/qna/search/:q" component={Board} /> 
-			<Route path="/talk/search/:q" component={Board} />
+        	<PublicRoute restricted component={Login} path="/login" />
+        	<PublicRoute restricted component={SignUp} path="/signup" />
+        	<PublicRoute restricted component={IdPw} path="/idpw" />
+			<Route component={Home} path="/" exact={true} />
+			<Route component={News} path="/news" />
+			<Route component={Forum} path="/forum" />
+			<Route component={Hire} path="/hire" /> 
+			<Route component={Qna} path="/qna" exact={true} /> 
+			<Route component={Talk} path="/talk" exact={true} /> 
+			<PrivateRoute component={Chat} path="/chat" />
+			<PublicRoute component={Post} path="/:name/post/:idx" />
+			<PrivateRoute component={Writing} path="/:name/writing" />
+			<PrivateRoute component={Writing} path="/:name/modify/:idx" />
+			<Route component={Board} path="/qna/search/:q" /> 
+			<Route component={Board} path="/talk/search/:q" />
 		</div>
     );
 }

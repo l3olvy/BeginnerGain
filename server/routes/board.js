@@ -6,22 +6,55 @@ const connection = mysql.createConnection(dbconfig);
 const bodyParser = require('body-parser');
 router.use(bodyParser.urlencoded({extended: true}));
 
-/* 페이징 해야함 */
-router.get("/getqna/:page", (req, res)=>{
-    //let nowPage = if(req.params.page == "1") ? req.params.page : 1;
-    let nowPage = req.params.page;
+router.get("/getBoard/:currentPage/:category", (req, res)=> {
+	let listCount = 5;
+	let btnCount = 5;
+	let nowPage = 1;
 
-	const sqlQuery = "SELECT * FROM qboard ORDER BY idx DESC"; //내림차순 정렬
-	connection.query(sqlQuery, (err, result)=>{
-		res.send(result);
-	})
-})
+	let boardName;
 
-router.get("/gettalk", (req, res)=>{
-   const sqlQuery = "SELECT * FROM tboard ORDER BY idx DESC"; //내림차순 정렬
-   connection.query(sqlQuery, (err, result)=>{
-   	res.send(result);
-   })
+	if(req.params.currentPage) {
+		nowPage = parseInt(req.params.currentPage);
+	}
+
+	if(req.params.category) {
+		if(req.params.category == "qna") boardName = "qboard";
+		else boardName = "tboard";
+	}
+
+	let startPage = (nowPage-1) * listCount;
+	let model = {};
+
+	let lastPage = 0;
+
+	// 글의 총 개수를 구하는 쿼리
+	let sql = "SELECT COUNT(*) As cnt From "+boardName;
+	connection.query(sql, (err, result) => {
+		if(err) {
+			console.log(err);
+			res.end();
+		} else {
+			let totalRow = result[0].cnt; // 총 글의 개수
+			lastPage = Math.ceil(parseInt(totalRow) / parseInt(listCount)); // 마지막 페이지
+		}
+	});
+
+	let sqls = "SELECT * FROM "+boardName+" ORDER BY idx DESC LIMIT ?,?"
+	connection.query(sqls, [startPage, listCount], (err, rs) => { 
+		if(err) {
+			console.log(err);
+			res.end();
+		} else {
+			let btnBlock = Math.ceil(nowPage / btnCount);
+			let minBtn = ((btnBlock - 1) * btnCount) + 1;
+			model.minBtn =  minBtn;
+            model.maxBtn = minBtn + btnCount;
+            model.boardList = rs;
+            model.currentPage = nowPage;
+            model.lastPage = lastPage;
+            res.send({model: model});
+		}
+	});
 })
 
 /*board contents total*/
@@ -260,7 +293,6 @@ router.post("/searchqna", (req, res)=>{
 	const sqlQuery = "SELECT * FROM qboard WHERE title LIKE ? OR contents LIKE ? ORDER BY idx DESC"; //내림차순 정렬
 	connection.query(sqlQuery, ['%' + value + '%', '%' + value + '%'], (err, result)=>{
 		res.send(result);
-		console.log(result);
 	})
 })
 

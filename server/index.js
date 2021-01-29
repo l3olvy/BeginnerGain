@@ -33,7 +33,7 @@ app.use(
 		methods: ["GET", "POST"],
 		credentials: true
 	})
-	);
+);
 
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -46,7 +46,7 @@ app.use(
 		saveUninitialized: false,
 		cookie: {
 			expires: 60 * 60 * 24
-		},
+		}
 	})
 );
 
@@ -77,6 +77,16 @@ app.post("/join", (req, res) => {
 			}
 			);
 	});
+});
+
+app.get("/qna", (req, res) => {
+	if (req.session.user) {
+		res.send(req.session.user);
+		console.log(req.session.user);
+	} else {
+		res.send(req.session.user);
+		console.log("test");
+	}
 });
 
 app.get("/login", (req, res) => {

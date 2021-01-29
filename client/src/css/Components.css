@@ -24,7 +24,7 @@
 }
 
 .submit-button,
-.modify-button {
+.modify-button, .toboard {
     width: 100px;
     height: 40px;
     font-size: 20px;
@@ -35,19 +35,7 @@
     border-radius: 5px;
     margin-top: 30px;
     margin-bottom: 50px;
-}
-
-.toboard {
-    width: 100px;
-    height: 40px;
-    font-size: 19px;
-    font-weight: 300;
-    border: none;
-    background-color: #2782F4;
-    color: white;
-    border-radius: 5px;
-
-    margin-left: 10px
+    margin-right: 10px;
 }
 
 /*Writing.js*/
@@ -108,11 +96,9 @@
 }
 
 .user-info {
-    text-align: right;
     color: #67676C;
     display: flex;
-    flex-direction: row;
-    float: right;
+    flex-direction: row-reverse;
 }
 
 .user-info>span {
@@ -127,16 +113,16 @@
     margin: 0px auto;
 }
 
+.Post>.form-wrapper>.question-answer{
+    border-bottom: 2px solid #c6c6c6;
+}
+
 .Post>.form-wrapper>.question-answer>.user-info>.modifyBtn {
     margin: 0px 2px 0px 2px;
 }
 
 .Post>.form-wrapper>.question-answer>.user-info>.deleteBtn {
     margin: 0px 2px 0px 2px;
-}
-
-.Post>.form-wrapper>.question-answer {
-    border-bottom: 2px solid #c6c6c6;
 }
 
 /* sub page - board */
@@ -272,6 +258,10 @@
     padding: 0 20px;
 }
 
+.menu__container>.board_contents>.list>.right > a{
+    color: black;
+}
+
 .menu__container>.board_contents>.list>.right>p {
     font-size: 17px;
     line-height: 26px;
@@ -339,18 +329,23 @@
     margin-top: 20px;
 }
 
-.menu__container>.paging>a {
+/* 페이징 버튼 */
+.checkBtn { 
+    padding: 10px 15px;
+    background: #2879d0 !important;
+    border: 1px solid #b7b7b7;
+    color: white !important; 
+}
+
+.menu__container > .paging > button {
     padding: 10px 15px;
     background: white;
     border: 1px solid #b7b7b7;
-    border-right: none;
-    color: #2879d0;
-    font-weight: bold;
+    color: #2879d0;    
 }
 
-.menu__container>.paging>a:last-child {
-    border-right: 1px solid #b7b7b7;
-}
+.menu__container > .paging > button:focus { outline: 0; }
+
 
 .writeBtn {
     padding: 10px 10px;

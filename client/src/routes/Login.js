@@ -30,7 +30,6 @@ function Login(props) {
 			} else if(response.data === "success") {
 				alert("환영합니다!");
 				window.location.replace("/")
-				//props.history.push("/");
 			}
 		});
 	}
