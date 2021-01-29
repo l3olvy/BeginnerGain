@@ -90,28 +90,34 @@ function Writing(props) {
 	}
 
 	const onSubmitHandler = (event) => {
-		if (props.match.params.name === "qna") {
-			Axios.post('http://localhost:8000/board/writing_qna', {
-				writer: user,
-				title: title,
-				contents: contents,
-				img: null,
-				tag: tag,
-				hit: 0
-			}).then((res) => { alert("작성 되었습니다.");
-			props.history.push(`/${props.match.params.name}`); })
-			.catch((error) => { console.log(error) });
-		} else if (props.match.params.name === "talk") {
-			Axios.post('http://localhost:8000/board/writing_talk', {
-				writer: user,
-				title: title,
-				contents: contents,
-				img: null,
-				category: tag,
-				hit: 0
-			}).then((res) => { alert("작성 되었습니다.");
-			props.history.push(`/${props.match.params.name}`); })
-			.catch((error) => { console.log(error) });
+		if(title.length === 0)
+			alert("제목을 입력해주세요.");
+		else if(contents.length === 0)
+			alert("내용을 입력해주세요.");
+		else{
+			if (props.match.params.name === "qna") {
+				Axios.post('http://localhost:8000/board/writing_qna', {
+					writer: user,
+					title: title,
+					contents: contents,
+					img: null,
+					tag: tag,
+					hit: 0
+				}).then((res) => { alert("작성 되었습니다.");
+				props.history.push(`/${props.match.params.name}`); })
+				.catch((error) => { console.log(error) });
+			} else if (props.match.params.name === "talk") {
+				Axios.post('http://localhost:8000/board/writing_talk', {
+					writer: user,
+					title: title,
+					contents: contents,
+					img: null,
+					category: tag,
+					hit: 0
+				}).then((res) => { alert("작성 되었습니다.");
+				props.history.push(`/${props.match.params.name}`); })
+				.catch((error) => { console.log(error) });
+			}
 		}
 	}
 
