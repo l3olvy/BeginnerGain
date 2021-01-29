@@ -57,6 +57,14 @@ router.post("/gettalk_total", (req, res)=>{
     })
 })
 
+/*TAG 배열 가져오기*/
+router.get("/gettags", (req, res)=>{
+	//const idx = req.body.idx;
+   	const sqlQuery = "SELECT * FROM tag";
+   	connection.query(sqlQuery, (err, result)=>{
+   		res.send(result);
+   })
+})
 
 /*comment 가져오기*/
 router.post("/getqna_c", (req, res)=>{
@@ -75,12 +83,12 @@ router.post("/gettalk_c", (req, res)=>{
     })
 })
 
-/*post 삭제 - comment도 같이 삭제됨*/
+/*post 삭제 - comment도 같이 삭제됨  +qboard tag도 같이 삭제*/
 router.post("/deleteqna", (req, res) => {
 	const idx = req.body.idx;
 	const bid = req.body.idx;
-	const sqlQuery = "delete from qboard where idx=?;" + "delete from q_comment where bid=?;";
-	connection.query(sqlQuery, [idx, bid], (err, result) => {
+	const sqlQuery = "delete from qboard where idx=?;" + "delete from q_comment where bid=?;" + "delete from tag where idx=?;";
+	connection.query(sqlQuery, [idx, bid, idx], (err, result) => {
 		res.send('good!');
 	})
 });
@@ -130,7 +138,7 @@ router.post("/deletetalk_cN", (req, res) => {
 	})
 });
 
-/*board-writing*/
+/*board-writing tag추가*/
 router.post("/writing_qna", (req, res) => {
 	const writer = req.body.writer;
 	const title = req.body.title;
@@ -144,6 +152,16 @@ router.post("/writing_qna", (req, res) => {
 		res.send('good');
 	})
 });
+router.post("/writing_qnatag", (req, res) => {   
+   const tag1 = req.body.tag1;
+   const tag2 = req.body.tag2;
+   const tag3 = req.body.tag3;
+   const sqlQuery = "INSERT INTO tag (tag1, tag2, tag3) VALUES (?,?,?)";
+   connection.query(sqlQuery, [tag1, tag2, tag3], (err, result) => {
+      res.send('good!');
+   })
+});
+
 
 router.post("/writing_talk", (req, res) => {
 	const writer = req.body.writer;
@@ -152,7 +170,6 @@ router.post("/writing_talk", (req, res) => {
 	const img = req.body.img;
 	const category = req.body.category;
 	const hit = req.body.hit;
-	//const rdate = req.body.rdate;
 
 	const sqlQuery = "INSERT INTO tboard (writer, title, contents, img, category, hit, rdate ) VALUES (?,?,?,?,?,?,NOW())";
 	connection.query(sqlQuery, [writer, title, contents, img, category, hit], (err, result)=>{
@@ -252,6 +269,25 @@ router.post("/searchtalk", (req, res)=>{
 	const sqlQuery = "SELECT * FROM tboard WHERE title LIKE ? OR contents LIKE ? ORDER BY idx DESC"; //내림차순 정렬
    	connection.query(sqlQuery, ['%' + value + '%', '%' + value + '%'], (err, result)=>{
 		res.send(result);
+	})
+})
+
+/*hitCount*/
+router.post("/getqHit", (req, res)=>{
+	const idx = req.body.idx;
+	const hit = req.body.hit;
+	const sqlQuery = "UPDATE qboard SET hit=? WHERE idx=?"; //내림차순 정렬
+   	connection.query(sqlQuery, [hit, idx], (err, result)=>{
+		res.send('good');
+	})
+})
+
+router.post("/gettHit", (req, res)=>{
+	const idx = req.body.idx;
+	const hit = req.body.hit;
+	const sqlQuery = "UPDATE tboard SET hit=? WHERE idx=?"; //내림차순 정렬
+   	connection.query(sqlQuery, [hit, idx], (err, result)=>{
+		res.send('good');
 	})
 })
 

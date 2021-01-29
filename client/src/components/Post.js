@@ -37,6 +37,8 @@ function Post(props) {
     const [mode, setMode] = useState(false);
     const [modIdx, setModIdx] = useState('');
     const [commentnum, setCommentnum] = useState(0);
+    const [postcommentN, setpostCommentN] = useState(0);
+
 
     const loadComment = useCallback( async () => {
         const idx = post.idx;
@@ -45,33 +47,46 @@ function Post(props) {
                 idx: idx
             }).then((response) => {
                 setComment(response.data);
-                Prism.highlightAll();
-            })
+                Prism.highlightAll(); })
             Axios.post('http://localhost:8000/board/getqna_total', {
                 idx: idx
             }).then((response) => {
-              	setCommentnum(response.data[0].Total);
-            })
+                 setCommentnum(response.data[0].Total); })
+
         } else if (post.name === "TALK") {
             Axios.post('http://localhost:8000/board/gettalk_c', {
                 idx: idx
             }).then((response) => {
                 setComment(response.data);
-                Prism.highlightAll();
-            })
+                Prism.highlightAll(); })
             Axios.post('http://localhost:8000/board/gettalk_total', {
                 idx: idx
             }).then((response) => {
-              	setCommentnum(response.data[0].Total);
-            })
+                 setCommentnum(response.data[0].Total); })
         }
     }, [post.idx, post.name]);
 
+
+    useEffect(() => {
+    	if (post.name === "QNA") {
+	  		Axios.post('http://localhost:8000/board/getqHit',{
+	         idx: post.idx,
+	         hit: post.hit+1
+	      	}).then((response) => {})
+        } else if (post.name === "TALK") {
+			Axios.post('http://localhost:8000/board/gettHit',{
+	         idx: post.idx,
+	         hit: post.hit+1
+	      	}).then((response) => {})
+		}
+        setpostCommentN(post.commentN);
+	}, []);
     useEffect(() => {
         Prism.highlightAll();
         if (props.location.state !== undefined) {
             localStorage.setItem("prev", JSON.stringify(props.location.state));
         }
+
         loadComment();
     }, [loadComment, props.location.state])
 
@@ -101,28 +116,25 @@ function Post(props) {
         if (window.confirm("삭제하시겠습니까?")) {
             const idx = e.target.getAttribute('comment-idx');
             if (post.name === "QNA") {
-                Axios.post('http://localhost:8000/board/deleteqna_c', {
-                    idx: idx                   
-                }).then(() => { alert("삭제 되었습니다!"); })
+                Axios.post('http://localhost:8000/board/deleteqna_c', { idx: idx })
                 Axios.post('http://localhost:8000/board/deleteqna_cN', {
-                	idx: post.idx,
-                    commentN: (post.commentN-1)
-            	}).then((response) => { loadComment(); })
-
+                   idx: post.idx,
+                   commentN: (postcommentN-1)
+               }).then((response) => { loadComment(); })
             } else if (post.name === "TALK") {
-                Axios.post('http://localhost:8000/board/deletetalk_c', {
-                    idx: idx                   
-                }).then(() => { alert("삭제 되었습니다!"); })
+                Axios.post('http://localhost:8000/board/deletetalk_c', { idx: idx })
                 Axios.post('http://localhost:8000/board/deletetalk_cN', {
-                	idx: post.idx,
-                    commentN: (post.commentN-1)
-            	}).then((response) => { loadComment(); })
+                   idx: post.idx,
+                   commentN: (postcommentN-1)
+               }).then((response) => { loadComment(); })
+         	alert("삭제 되었습니다!");
             }
-        }
+            setpostCommentN(postcommentN-1);
+		}
     }
 
     const modBtn_c = (e) => {
-    	setMode(true);
+        setMode(true);
         setMod(e.target.getAttribute('comment-contents'));
         setModIdx(e.target.getAttribute('comment-idx'));
     }
@@ -134,21 +146,17 @@ function Post(props) {
                 Axios.post('http://localhost:8000/board/updateqna_c', {
                     idx: idx,
                     contents: mod
-                }).then(() => {
-                    alert("수정 되었습니다!");
-                })
+                }).then(() => { loadComment(); })
             } else if (post.name === "TALK") {
                 Axios.post('http://localhost:8000/board/updatetalk_c', {
                     idx: idx,
                     contents: mod
-                }).then(() => {
-                    alert("수정 되었습니다!");
-                })
+                }).then(() => { loadComment(); })
             }
+            alert("수정 되었습니다!");
         }
         setMod('');
         setMode(false);
-        loadComment();
     }
 
     const handleCkeditorState = (event, editor) => {
@@ -164,11 +172,8 @@ function Post(props) {
                 contents:mod,
                 img: null,
                 good: 8,
-                commentN: (post.commentN+1)
-            }).then(() => {
-                alert("작성 되었습니다.");
-                loadComment();
-            })
+                commentN: (postcommentN+1)
+            }).then(() => { loadComment(); })
             .catch((error) => { console.log(error) });
         } else {
             Axios.post('http://localhost:8000/board/posttalk', {
@@ -177,15 +182,13 @@ function Post(props) {
                 contents:mod,
                 img: null,
                 good: 8,
-                commentN: (post.commentN+1)
-            }).then(() => {
-                alert("작성 되었습니다.");
-                loadComment();
-            })
+                commentN: (postcommentN+1)
+            }).then(() => { loadComment(); })
             .catch((error) => { console.log(error) });
         }
+        setpostCommentN(postcommentN+1);
+        alert("작성 되었습니다.");
         setMod('');
-        loadComment();
     }
 
     const onptbHandler = (event) => {
@@ -208,7 +211,7 @@ function Post(props) {
                     </div>
                     <div>
                         <span>Viewed</span>
-                        {post.hit} times
+                        {post.hit+1} times
                     </div>
                     <div className="writer">
                         <Link

@@ -125,6 +125,12 @@ function Board(props) {
 								<div>
 									<div className="tags left">
 										{(name === "talk") ? <Link to="/#">{element.category}</Link> : <Link to="/#">{element.tag}</Link> }
+							            {/*{   (() => {
+							                  for(let i = ; i <; i++) {							                     
+							                  }
+							                  return ();
+							               })()
+							            }*/}
 									</div>
 									<div className="info right">
 										<p>작성자 : <span className="writer">{element.writer}</span> &nbsp;&nbsp;조회수 : <span className="hit">{element.hit}</span></p>

@@ -100,8 +100,16 @@ function Writing(props) {
 				tag: tag,
 				hit: 0
 			}).then((res) => { alert("작성 되었습니다.");
-			props.history.push(`/${props.match.params.name}`); })
-			.catch((error) => { console.log(error) });
+			///////////qboard-tag 서로 idx 맞춰야함  - 그래야 삭제 가능
+				const tagS = tag.split(';', 3);
+		        Axios.post('http://localhost:8000/board/writing_qnatag', {
+		            tag1:tagS[0],
+		            tag2:tagS[1],
+		            tag3:tagS[2]
+		        }).then((res) => {console.log(tagS);} );
+				props.history.push(`/${props.match.params.name}`);
+			}).catch((error) => { console.log(error) });
+
 		} else if (props.match.params.name === "talk") {
 			Axios.post('http://localhost:8000/board/writing_talk', {
 				writer: user,

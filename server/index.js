@@ -31,7 +31,7 @@ app.use(
 	cors({
 		origin: ["http://localhost:3000"],
 		methods: ["GET", "POST"],
-		credentials: true,
+		credentials: true
 	})
 	);
 
@@ -45,7 +45,7 @@ app.use(
 		resave: false,
 		saveUninitialized: false,
 		cookie: {
-			expires: 60 * 60 * 24,
+			expires: 60 * 60 * 24
 		},
 	})
 );

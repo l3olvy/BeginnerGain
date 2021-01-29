@@ -13,17 +13,20 @@ function Login(props) {
 
 	const onSubmitHandler = (event) => {
 		event.preventDefault();
-		Axios.post('http://localhost:8000/login',
-		{
+		Axios.post('http://localhost:8000/login', {
 			id: id,
 			pw: pw
 		}).then((response) => {
 			if(response.data === "fail") {
 				alert("비밀번호가 일치하지 않습니다.");
 				props.history.push("/login");
+				setID("");
+				setPW("");
 			} else if(response.data === "undefined") {
 				alert("존재하지 않는 유저 입니다.");
 				props.history.push("/login");
+				setID("");
+				setPW("");
 			} else if(response.data === "success") {
 				alert("환영합니다!");
 				window.location.replace("/")
@@ -40,7 +43,7 @@ function Login(props) {
 					<label htmlFor="userid">아이디</label>
 					<input className="ID-input" type='text' placeholder='아이디' name="username" value={id} onChange={onIDHandler} id='userid'/>
 					<label htmlFor='password'>비밀번호</label>
-					<input className="PW-input" type='password'placeholder='비밀번호' value={pw} onChange={onPWHandler} name='password' id='password' />
+					<input className="PW-input" type='password' placeholder='비밀번호' value={pw} onChange={onPWHandler} name='password' id='password' />
 					<button className="signBtn" type="submit">로그인</button>
 					<label id="logBtnBox">
 						<Link to="/signup" className="signBtns">회원가입</Link>
