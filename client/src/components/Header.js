@@ -13,6 +13,7 @@ function Header(props) {
             console.log("test");
             alert("로그아웃 되었습니다");    
             setRole(false);
+            window.location.replace("/")
         });
     }
 
