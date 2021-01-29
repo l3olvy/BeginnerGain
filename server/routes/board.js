@@ -276,7 +276,6 @@ router.post("/searchqna", (req, res)=>{
 	const sqlQuery = "SELECT * FROM qboard WHERE title LIKE ? OR contents LIKE ? ORDER BY idx DESC"; //내림차순 정렬
 	connection.query(sqlQuery, ['%' + value + '%', '%' + value + '%'], (err, result)=>{
 		res.send(result);
-		console.log(result);
 	})
 })
 
