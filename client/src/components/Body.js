@@ -32,8 +32,8 @@ function Body() {
 			<PublicRoute component={Post} path="/:name/post/:idx" />
 			<PrivateRoute component={Writing} path="/:name/writing" />
 			<PrivateRoute component={Writing} path="/:name/modify/:idx" />
-			<Route component={Board} path="/qna/search/:q" /> 
-			<Route component={Board} path="/talk/search/:q" />
+			<Route component={Board} path="/qna/search/:kind/:q" /> 
+			<Route component={Board} path="/talk/search/:kind/:q" />
 		</div>
     );
 }

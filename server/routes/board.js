@@ -12,14 +12,15 @@ router.get("/getBoard/:currentPage/:category", (req, res)=> {
 	let nowPage = 1;
 
 	let boardName;
+	let kind;
 
 	if(req.params.currentPage) {
 		nowPage = parseInt(req.params.currentPage);
 	}
 
 	if(req.params.category) {
-		if(req.params.category == "qna") boardName = "qboard";
-		else boardName = "tboard";
+		if(req.params.category == "qna") {boardName = "qboard"; kind = "tag";}
+		else {boardName = "tboard"; kind = "category";}
 	}
 
 	let startPage = (nowPage-1) * listCount;
@@ -39,7 +40,7 @@ router.get("/getBoard/:currentPage/:category", (req, res)=> {
 		}
 	});
 
-	let sqls = "SELECT * FROM "+boardName+" ORDER BY idx DESC LIMIT ?,?"
+	let sqls = "SELECT * FROM "+boardName+" LEFT JOIN "+kind+" ON "+boardName+".idx="+kind+".idx ORDER BY "+boardName+".idx DESC LIMIT ?,?";
 	connection.query(sqls, [startPage, listCount], (err, rs) => { 
 		if(err) {
 			console.log(err);
@@ -129,8 +130,8 @@ router.post("/deleteqna", (req, res) => {
 router.post("/deletetalk", (req, res) => {
 	const idx = req.body.idx;
 	const bid = req.body.idx;
-	const sqlQuery = "delete from tboard where idx=?;" + "delete from t_comment where bid=?;";
-	connection.query(sqlQuery, [idx, bid], (err, result) => {
+	const sqlQuery = "delete from tboard where idx=?;" + "delete from t_comment where bid=?;" + "delete from category where idx=?;";
+	connection.query(sqlQuery, [idx, bid, idx], (err, result) => {
 		res.send('good!');
 	})
 });
@@ -185,11 +186,12 @@ router.post("/writing_qna", (req, res) => {
 		res.send('good');
 	})
 });
-router.post("/writing_qnatag", (req, res) => {   
+
+router.post("/writing_tag", (req, res) => {   
    const tag1 = req.body.tag1;
    const tag2 = req.body.tag2;
    const tag3 = req.body.tag3;
-   const sqlQuery = "INSERT INTO tag (tag1, tag2, tag3) VALUES (?,?,?)";
+   const sqlQuery = "INSERT INTO tag (idx, tag1, tag2, tag3) VALUES (LAST_INSERT_ID(),?,?,?)";
    connection.query(sqlQuery, [tag1, tag2, tag3], (err, result) => {
       res.send('good!');
    })
@@ -208,6 +210,16 @@ router.post("/writing_talk", (req, res) => {
 	connection.query(sqlQuery, [writer, title, contents, img, category, hit], (err, result)=>{
 		res.send('good');
 	})
+});
+
+router.post("/writing_category", (req, res) => {   
+   const category1 = req.body.category1;
+   const category2 = req.body.category2;
+   const category3 = req.body.category3;
+   const sqlQuery = "INSERT INTO category (idx, category1, category2, category3) VALUES (LAST_INSERT_ID(),?,?,?)";
+   connection.query(sqlQuery, [category1, category2, category3], (err, result) => {
+      res.send('good!');
+   })
 });
 
 /*update post*/
@@ -290,18 +302,32 @@ router.post("/posttalk", (req, res) => {
 /*general search*/
 router.post("/searchqna", (req, res)=>{
 	const value = req.body.value;
-	const sqlQuery = "SELECT * FROM qboard WHERE title LIKE ? OR contents LIKE ? ORDER BY idx DESC"; //내림차순 정렬
-	connection.query(sqlQuery, ['%' + value + '%', '%' + value + '%'], (err, result)=>{
-		res.send(result);
-	})
+	if(req.body.kind === "general"){
+		const sqlQuery = "SELECT * FROM qboard LEFT JOIN tag ON qboard.idx=tag.idx WHERE qboard.title LIKE ? OR qboard.contents LIKE ? ORDER BY qboard.idx DESC"; //내림차순 정렬
+		connection.query(sqlQuery, ['%' + value + '%', '%' + value + '%'], (err, result)=>{
+			res.send(result);
+		})
+	}else{
+		const sqlQuery = "SELECT * FROM qboard LEFT JOIN tag ON qboard.idx=tag.idx WHERE qboard.tag LIKE ? ORDER BY qboard.idx DESC"; //내림차순 정렬
+		connection.query(sqlQuery, ['%' + value + '%'], (err, result)=>{
+			res.send(result);
+		})
+	}
 })
 
 router.post("/searchtalk", (req, res)=>{
 	const value = req.body.value;
-	const sqlQuery = "SELECT * FROM tboard WHERE title LIKE ? OR contents LIKE ? ORDER BY idx DESC"; //내림차순 정렬
-   	connection.query(sqlQuery, ['%' + value + '%', '%' + value + '%'], (err, result)=>{
-		res.send(result);
-	})
+	if(req.body.kind === "general"){
+		const sqlQuery = "SELECT * FROM tboard LEFT JOIN category ON tboard.idx=category.idx WHERE tboard.title LIKE ? OR tboard.contents LIKE ? ORDER BY tboard.idx DESC"; //내림차순 정렬
+		connection.query(sqlQuery, ['%' + value + '%', '%' + value + '%'], (err, result)=>{
+			res.send(result);
+		})
+	}else{
+		const sqlQuery = "SELECT * FROM tboard LEFT JOIN category ON tboard.idx=category.idx WHERE tboard.category LIKE ? ORDER BY tboard.idx DESC"; //내림차순 정렬
+		connection.query(sqlQuery, ['%' + value + '%'], (err, result)=>{
+			res.send(result);
+		})
+	}
 })
 
 /*hitCount*/

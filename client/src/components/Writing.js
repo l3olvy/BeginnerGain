@@ -3,6 +3,7 @@ import '../css/Components.css';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import Editor from 'ckeditor5-custom-build/build/ckeditor';
 import Axios from 'axios';
+import TagBox from "./TagBox";
 
 const editorConfiguration = {
 	simpleUpload: {uploadUrl: '/upload'},
@@ -15,7 +16,7 @@ function Writing(props) {
 	const [contents,setContent] = useState('');
 	const [tag, setTag] = useState('');
 	const onTitleHandler = (event) => {setTitle (event.currentTarget.value);}
-	const onTagHandler = (event) => {setTag (event.currentTarget.value); }
+	//const onTagHandler = (event) => {setTag (event.currentTarget.value); }
 	const [user, setUser] = useState();
 
 	Axios.defaults.withCredentials = true;
@@ -101,16 +102,15 @@ function Writing(props) {
 					title: title,
 					contents: contents,
 					img: null,
-					tag: tag,
+					tag: tag[0]+tag[1]+tag[2],
 					hit: 0
 				}).then((res) => { alert("작성 되었습니다.");
-				///////////qboard-tag 서로 idx 맞춰야함  - 그래야 삭제 가능
-					const tagS = tag.split(';', 3);
-			        Axios.post('http://localhost:8000/board/writing_qnatag', {
-			            tag1:tagS[0],
-			            tag2:tagS[1],
-			            tag3:tagS[2]
-			        }).then((res) => {console.log(tagS);} );
+				///////////qboard-tag 서로 idx 맞춰야함  - 그래야 삭제 가능 //나중에 두명 동시 작성 확인해보기
+			        Axios.post('http://localhost:8000/board/writing_tag', {
+			            tag1:tag[0],
+			            tag2:tag[1],
+			            tag3:tag[2]
+			        }).then((res) => {console.log(tag);} );
 					props.history.push(`/${props.match.params.name}`);
 				}).catch((error) => { console.log(error) });
 
@@ -120,17 +120,27 @@ function Writing(props) {
 					title: title,
 					contents: contents,
 					img: null,
-					category: tag,
+					category: tag[0]+tag[1]+tag[2],
 					hit: 0
 				}).then((res) => { alert("작성 되었습니다.");
-				props.history.push(`/${props.match.params.name}`); })
-				.catch((error) => { console.log(error) });		
+				///////////qboard-tag 서로 idx 맞춰야함  - 그래야 삭제 가능 //나중에 두명 동시 작성 확인해보기
+			        Axios.post('http://localhost:8000/board/writing_category', {
+			            category1:tag[0],
+			            category2:tag[1],
+			            category3:tag[2]
+			        }).then((res) => {console.log(tag);} );
+					props.history.push(`/${props.match.params.name}`);
+				}).catch((error) => { console.log(error) });
 			}	
 		}
 	}
 
 	const wtobBtnHandler = (event) => {
 		props.history.push(`/${props.match.params.name}`)
+	}
+
+	const setOnTag = (tagset) =>{
+		setTag(tagset);
 	}
 
 	return (
@@ -148,7 +158,8 @@ function Writing(props) {
 	                name = 'contents'          
 		        /> 
 		        <p className="bold">태그</p>
-	            <input className="tag-input" type='text' onChange={onTagHandler} name = 'tag' value={tag}/>
+		        <TagBox change={setOnTag}/>
+	            {/*<input className="tag-input" type='text' onChange={onTagHandler} name = 'tag' value={tag}/>*/}
 	        </div>
 	            {(post) ? <button className="modify-button" onClick={updateBtn} comment-idx={post.idx}>수정</button> : <button className="submit-button" onClick={onSubmitHandler} >작성</button>}
         		<button className="toboard" onClick={wtobBtnHandler} >목록으로</button>
