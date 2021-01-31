@@ -45,6 +45,37 @@ function Board(props) {
 		})
     }
 
+    const loadSearch = async () => {
+    	if (props.location !== undefined){
+	        let value = props.match.params.q;
+	        let kind = props.match.params.kind;
+			if (name === "qna") {
+				Axios.post('http://localhost:8000/board/searchqna', {
+					value : value,
+					kind : kind
+				}).then((response) => {
+					if(response.data.length === 0){
+						setSearchValue([]);
+					}
+					else {
+						setSearchValue(response.data);
+					}})
+			
+			} else if (name === "talk") {
+				Axios.post('http://localhost:8000/board/searchtalk', {
+					value : value,
+					kind : kind
+				}).then((response) => {
+					if(response.data.length === 0)
+						setSearchValue([]);
+					else{
+						setSearchValue(response.data);
+					}
+				})
+			}
+	    }
+    }
+
     const onClick = async (e) => {
     	const idxs = e.target.dataset.idx;
     	let url = "http://localhost:8000/board/getBoard/"+idxs+"/qna";
@@ -61,68 +92,26 @@ function Board(props) {
 
     useEffect(() => {
     	loadList();
-
-		if (props.location !== undefined){
-	        let value = props.match.params.q;
-			if (name === "qna") {
-				Axios.post('http://localhost:8000/board/searchqna', {
-					value : value
-				}).then((response) => {
-					if(response.data.length === 0){
-						setSearchValue([]);
-					}
-					else{
-						setSearchValue(response.data);
-					}})
-			
-			} else if (name === "talk") {
-				Axios.post('http://localhost:8000/board/searchtalk', {
-					value : value
-				}).then((response) => {
-					if(response.data.length === 0)
-						setSearchValue([]);
-					else{
-						setSearchValue(response.data);
-					}
-				})
-			}
-	    }
-
+    	loadSearch();
 		if (name ==="qna"){
 			Axios.get('http://localhost:8000/board/getqTotal').then((response) => {
 				setTotal(response.data[0].Total);
-		})
-
-			{/*
-	           (() => {
-	              	for(let i = 0; i < total; i++) {
-	                	Axios.post('http://localhost:8000/board/gettags', {
-							idx : i
-						}).then((response) => {
-							tagarray.push(<button type="button" className="checkBtn" key={i} onClick={onClick} data-idx={i}>{response.data}</button>);
-							console.log(tags);
-						})
-				    }
-	           })()
-			*/}
-
-		}
+		})}
 		else{
 			Axios.get('http://localhost:8000/board/gettTotal').then((response) => {
 				setTotal(response.data[0].Total);
 		})}
 
 		return () => setLoading(false);
-	}, [searchValue, props.location, name, props.match])
-
+	}, [searchValue])
 	
     
     const searchBtn = (e) => {
     	setLoading(true);
     	if(props.location !== undefined)
-			props.history.replace(`/${name}/search/${generalSearch}`);
+			props.history.replace(`/${name}/search/general/${generalSearch}`);
 		else
-			props.history.push(`/${name}/search/${generalSearch}`);
+			props.history.push(`/${name}/search/general/${generalSearch}`);
 		//props.history.push(`/${name}/search/${generalSearch}`);
 	}
 
@@ -152,7 +141,6 @@ function Board(props) {
 					<div className="tagBox"></div>
 				</div>
 			</div>
-	{/*//////////////////////////////////////////리스트 /*/}
 			<div className="board_contents">
 			{(props.location !== undefined) ?
 				((searchValue.length === 0) ? <div className="list"><p><strong>"{props.match.params.q}"</strong>와(과) 일치하는 검색 결과가 없습니다</p></div> 
@@ -219,13 +207,26 @@ function List(mapper, total, name, curPage){
 
 					<div>
 						<div className="tags left">
-							{element.category && <Link to="/#">{element.category}</Link>}
-							{element.tag && <Link to="/#">{element.tag}</Link>}
-								{/*
-					               	(() => {
-					                return (tagarray);
-					               	})()
-					            */}
+							{element.category && (
+								<span>
+									{(element.category1 !== null) && 
+									<Link to={`/${name}/search/tag/${element.category1}`}>{element.category1}</Link>}
+									{(element.category2 !== null) && 
+									<Link to={`/${name}/search/tag/${element.category2}`}>{element.category2}</Link>}
+									{(element.category3 !== null) && 
+									<Link to={`/${name}/search/tag/${element.category3}`}>{element.category3}</Link>}
+								</span>
+							)}
+							{element.tag && (
+								<span>
+									{(element.tag1 !== null) && 
+									<Link to={`/${name}/search/tag/${element.tag1}`}>{element.tag1}</Link>}
+									{(element.tag2 !== null) && 
+									<Link to={`/${name}/search/tag/${element.tag2}`}>{element.tag2}</Link>}
+									{(element.tag3 !== null) && 
+									<Link to={`/${name}/search/tag/${element.tag3}`}>{element.tag3}</Link>}
+								</span>
+							)}
 						</div>
 						<div className="info right">
 							<p>작성자 : <span className="writer">{element.writer}</span> &nbsp;&nbsp;조회수 : <span className="hit">{element.hit}</span></p>
