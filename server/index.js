@@ -102,7 +102,7 @@ app.post("/login", (req, res) => {
 	const password = req.body.pw;
 
 	connection.query(
-		"SELECT * FROM member WHERE id = ?;",
+		"SELECT * FROM member WHERE id=?",
 		username,
 		(err, result) => {
 			if (err) {
@@ -122,7 +122,27 @@ app.post("/login", (req, res) => {
 				res.send("undefined");
 			}
 		}
-		);
+	);
+});
+
+app.post("/idCheck", (req, res) => {
+	const id = req.body.id;
+
+	connection.query(
+		"SELECT * FROM member WHERE id=?",
+		id,
+		(err, result) => {
+			if (err) {
+				res.send({ err: err });
+			}
+
+			if(result.length > 0) {
+				res.send("exist");
+			} else {
+				res.send("good");
+			}
+		}
+	);
 });
 
 app.get("/logout", (req,res) => {
@@ -149,7 +169,8 @@ app.post('/upload', MultipartyMiddleware, (req, res)=>{
 			if(err) return console.log(err);
 		})
 	}
-})
+});
+
 
 app.listen(PORT, ()=>{
 	console.log(`running on port ${PORT}`);

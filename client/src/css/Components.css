@@ -406,6 +406,17 @@
     margin: 5px;
 }
 
+.container > div > form > ul { padding: 5px; }
+
+.container > div > form > ul > li {
+    float: left;
+}
+
+.container > div > form > ul > li:first-child { width: 77%; margin-right: 8px; }
+.container > div > form > ul > li > * { width: 100%; padding: 10px; }
+.container > div > form > ul > li > button { width: 100%; padding: 9px; }
+.container > div > form > span { margin: 0 0 3px 5px; font-size: 14.8px; color: red; }
+
 .signBtn {
     padding: 10px 6px;
     margin: 10px 2px 10px 2px;

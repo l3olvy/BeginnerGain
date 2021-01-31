@@ -10,10 +10,9 @@ function Header(props) {
 
     const handleClick = async () => {
         await Axios.get("http://localhost:8000/logout").then((res) => {
-            console.log("test");
             alert("로그아웃 되었습니다");    
             setRole(false);
-            window.location.replace("/")
+            window.location.replace("/");
         });
     }
 

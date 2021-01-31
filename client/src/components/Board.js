@@ -69,7 +69,7 @@ function Board(props) {
 					if(response.data.length === 0){
 						setSearchValue([]);
 					}
-					else{
+					else {
 						setSearchValue(response.data);
 					}
 				})
@@ -106,7 +106,7 @@ function Board(props) {
 			props.history.replace(`/${name}/search/${generalSearch}`);
 		else
 			props.history.push(`/${name}/search/${generalSearch}`);
-		//props.history.push(`/${name}/search/${generalSearch}`);
+			//props.history.push(`/${name}/search/${generalSearch}`);
 	}
 
     return (   	
