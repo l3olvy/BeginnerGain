@@ -13,6 +13,7 @@ function Login(props) {
 
 	const onSubmitHandler = (event) => {
 		event.preventDefault();
+
 		Axios.post('http://localhost:8000/login', {
 			id: id,
 			pw: pw
@@ -40,9 +41,9 @@ function Login(props) {
 				<form onSubmit={onSubmitHandler} method="post">
 					<h3>로그인</h3>
 					<label htmlFor="userid">아이디</label>
-					<input className="ID-input" type='text' placeholder='아이디' name="username" value={id} onChange={onIDHandler} id='userid'/>
+					<input className="ID-input" type='text' placeholder='아이디' name="username" value={id} onChange={onIDHandler} id='userid' required />
 					<label htmlFor='password'>비밀번호</label>
-					<input className="PW-input" type='password' placeholder='비밀번호' value={pw} onChange={onPWHandler} name='password' id='password' />
+					<input className="PW-input" type='password' placeholder='비밀번호' value={pw} onChange={onPWHandler} name='password' id='password' required />
 					<button className="signBtn" type="submit">로그인</button>
 					<label id="logBtnBox">
 						<Link to="/signup" className="signBtns">회원가입</Link>

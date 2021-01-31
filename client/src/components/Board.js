@@ -55,7 +55,7 @@ function Board(props) {
 					if(response.data.length === 0){
 						setSearchValue([]);
 					}
-					else{
+					else {
 						setSearchValue(response.data);
 					}
 				})
