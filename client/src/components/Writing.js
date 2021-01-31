@@ -148,7 +148,7 @@ function Writing(props) {
 	                name = 'contents'          
 		        /> 
 		        <p className="bold">태그</p>
-	            <input className="tag-input" type='text' onChange={onTagHandler} name = 'tag' value={tag}/>
+	            <input className="tag-input" type='text' onChange={onTagHandler} name = 'tag' value={tag} placeholder="태그는 3개 제한 입니다."/>
 	        </div>
 	            {(post) ? <button className="modify-button" onClick={updateBtn} comment-idx={post.idx}>수정</button> : <button className="submit-button" onClick={onSubmitHandler} >작성</button>}
         		<button className="toboard" onClick={wtobBtnHandler} >목록으로</button>

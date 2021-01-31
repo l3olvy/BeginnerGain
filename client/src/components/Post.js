@@ -11,6 +11,9 @@ const editorConfiguration = {
     toolbar: ['heading', '|', 'bold', 'italic', '|', 'link', 'blockquote', 'code', 'imageupload', 'codeblock', '|', 'numberedlist', 'bulletedlist', 'horizontalline', '|', 'undo', 'redo']
 };
 
+
+
+
 function Post(props) {
     const [post] = useState(props.location.state ? props.location.state : JSON.parse(localStorage.getItem('prev')));
     const [comment, setComment] = useState([]);
@@ -19,7 +22,15 @@ function Post(props) {
     const [modIdx, setModIdx] = useState('');
     const [commentnum, setCommentnum] = useState(0);
     const [postcommentN, setpostCommentN] = useState(0);
+    const [user, setUser] = useState();
 
+    const getUser = useCallback(() => {
+        Axios.get("http://localhost:8000/login").then((res) => {
+            if(res.data.loggedIn === true) {
+                setUser(res.data.user[0].id);
+            }
+        });
+    }, []);
 
     const loadComment = useCallback( async () => {
         const idx = post.idx;
@@ -50,7 +61,6 @@ function Post(props) {
         }
     }, [post.idx, post.name]);
 
-
     useEffect(() => {
     	if (post.name === "qna") {
 	  		Axios.post('http://localhost:8000/board/getqHit',{
@@ -66,13 +76,14 @@ function Post(props) {
         setpostCommentN(post.commentN);
 	}, []);
     useEffect(() => {
+        getUser();
         Prism();
         if (props.location.state !== undefined) {
             localStorage.setItem("prev", JSON.stringify(props.location.state));
         }
 
         loadComment();
-    }, [loadComment, props.location.state])
+    }, [getUser, loadComment, props.location.state])
 
 
     const delBtn = (e) => {
@@ -154,7 +165,7 @@ function Post(props) {
             if (post.name === "qna") {
                 Axios.post('http://localhost:8000/board/postqna', {
                     bid: post.idx,
-                    writer: "writer",
+                    writer: user,
                     contents:mod,
                     img: null,
                     good: 8,
@@ -166,7 +177,7 @@ function Post(props) {
             } else {
                 Axios.post('http://localhost:8000/board/posttalk', {
                     bid: post.idx,
-                    writer: "writer",
+                    writer: user,
                     contents:mod,
                     img: null,
                     good: 8,
@@ -242,7 +253,7 @@ function Post(props) {
                         <div className="selctContents" dangerouslySetInnerHTML={ {__html: element.contents}}></div>                    
                         <div className="user-info"> 
                             <span>answered {element.cdate} {element.writer}</span>
-                            {(props.id === post.writer) && //로그인 한 사람이 글 작성자라면 댓글 삭제만 가능
+                            {(props.id === post.writer)&&(props.id !== element.writer) && //로그인 한 사람이 글 작성자라면 댓글 삭제만 가능
                                 <button className="deleteBtn" onClick={delBtn_c} comment-idx={element.idx}> 삭제 </button>}
                             {(props.id === element.writer) && //로그인 한 사람이 댓글 작성자라면 댓글 삭제 및 수정 가능
                             <div>

@@ -20,6 +20,8 @@ function Board(props) {
 	const [total, setTotal] = useState(0);
 	const onGeneralSearchHandler = (event) => {setGeneralSearch(event.currentTarget.value);}
 	const [loading, setLoading] = useState(false);
+	const [tags, setTags] = useState([]);
+	let tagarray = [];
 
 	let name = '';
 	if(props.location !== undefined){
@@ -71,8 +73,8 @@ function Board(props) {
 					}
 					else{
 						setSearchValue(response.data);
-					}
-				})
+					}})
+			
 			} else if (name === "talk") {
 				Axios.post('http://localhost:8000/board/searchtalk', {
 					value : value
@@ -89,7 +91,22 @@ function Board(props) {
 		if (name ==="qna"){
 			Axios.get('http://localhost:8000/board/getqTotal').then((response) => {
 				setTotal(response.data[0].Total);
-		})}
+		})
+
+			{/*
+	           (() => {
+	              	for(let i = 0; i < total; i++) {
+	                	Axios.post('http://localhost:8000/board/gettags', {
+							idx : i
+						}).then((response) => {
+							tagarray.push(<button type="button" className="checkBtn" key={i} onClick={onClick} data-idx={i}>{response.data}</button>);
+							console.log(tags);
+						})
+				    }
+	           })()
+			*/}
+
+		}
 		else{
 			Axios.get('http://localhost:8000/board/gettTotal').then((response) => {
 				setTotal(response.data[0].Total);
@@ -135,7 +152,7 @@ function Board(props) {
 					<div className="tagBox"></div>
 				</div>
 			</div>
-			
+	{/*//////////////////////////////////////////리스트 /*/}
 			<div className="board_contents">
 			{(props.location !== undefined) ?
 				((searchValue.length === 0) ? <div className="list"><p><strong>"{props.match.params.q}"</strong>와(과) 일치하는 검색 결과가 없습니다</p></div> 
@@ -204,6 +221,11 @@ function List(mapper, total, name, curPage){
 						<div className="tags left">
 							{element.category && <Link to="/#">{element.category}</Link>}
 							{element.tag && <Link to="/#">{element.tag}</Link>}
+								{/*
+					               	(() => {
+					                return (tagarray);
+					               	})()
+					            */}
 						</div>
 						<div className="info right">
 							<p>작성자 : <span className="writer">{element.writer}</span> &nbsp;&nbsp;조회수 : <span className="hit">{element.hit}</span></p>
