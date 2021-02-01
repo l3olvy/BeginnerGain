@@ -12,9 +12,6 @@ a{
     line-height: 15px;
     color: #39739D;
 }
-.tag-list{
-    margin-top: 30px;
-}
 
 .btntest{
     background: #E1ECF4;
@@ -82,17 +79,43 @@ a{
     background-color: white;
 }
 
-.title-input,
-.tag-input {
+.title-input{
     width: 100%;
     max-width: 850px;
     height: 40px;
     border: 1px solid hsl(0, 0%, 70%);
-    margin-bottom: 5px;
 }
 
-.title-input:focus,
+.tag-box {
+    width: 100%;
+    max-width: 850px;
+    min-height: 40px;
+    border: 1px solid hsl(0, 0%, 70%);
+    background-color: white;
+}
+
+.tag-box:focus {
+    width: 100%;
+    max-width: 850px;
+    height: 40px;
+    border: 1px solid hsl(0, 0%, 70%);
+}
+
+.tag-input {
+    border: none;
+    width: auto;
+    height: 40px;
+}
 .tag-input:focus {
+    outline: none;
+}
+
+.tag-list{
+    width: auto;
+    margin-top: 5px;
+}
+.title-input:focus,
+.tag-box:focus-within {
     outline: none;
     border: 1px solid #0e7fe1;
 }
@@ -248,17 +271,24 @@ a{
 }
 
 .menu__container>.tagSearch>.right>.tagInput {
-    height: 100%;
+    width: 500px;
+    height: 35px;
+    padding-left: 10px;
+    margin-top: 2px;
 }
 
-.menu__container>.tagSearch>.right>.tagInput>input {
-    width: 210px;
-    height: 37px;
-    padding-left: 10px;
-    line-height: 37px;
-    border-radius: 4px;
-    border: 1px solid #535353;
-    margin-top: 5px;
+.menu__container>.tagSearch>.right > button {
+    width: 45px;
+    height: 100%;
+    background: none;
+    border: none;
+}
+
+.menu__container>.tagSearch>.right > button > svg {
+    color: #acacac;
+    line-height: 38px;
+    background: none;
+    font-size: 23px;
 }
 
 .menu__container>.board_contents {

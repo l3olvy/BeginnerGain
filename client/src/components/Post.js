@@ -65,6 +65,7 @@ function Post(props) {
 		}
         setpostCommentN(post.commentN);
 	}, []);
+    
     useEffect(() => {
         Prism();
         if (props.location.state !== undefined) {

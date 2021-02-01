@@ -307,9 +307,17 @@ router.post("/searchqna", (req, res)=>{
 		connection.query(sqlQuery, ['%' + value + '%', '%' + value + '%'], (err, result)=>{
 			res.send(result);
 		})
-	}else{
+	}else if(req.body.kind === "tag"){
 		const sqlQuery = "SELECT * FROM qboard LEFT JOIN tag ON qboard.idx=tag.idx WHERE qboard.tag LIKE ? ORDER BY qboard.idx DESC"; //내림차순 정렬
 		connection.query(sqlQuery, ['%' + value + '%'], (err, result)=>{
+			res.send(result);
+		})
+	}else{
+		const tag1 = value.split(",")[0];
+		const tag2 = value.split(",")[1];
+		const tag3 = value.split(",")[2];
+		const sqlQuery = "SELECT * FROM qboard LEFT JOIN tag ON qboard.idx=tag.idx WHERE tag.tag1 IN (?,?,?) OR tag.tag2 IN (?,?,?) OR tag.tag3 IN (?,?,?) ORDER BY qboard.idx DESC"; //내림차순 정렬
+		connection.query(sqlQuery, [tag1, tag2, tag3, tag1, tag2, tag3, tag1, tag2, tag3], (err, result)=>{
 			res.send(result);
 		})
 	}
@@ -322,9 +330,17 @@ router.post("/searchtalk", (req, res)=>{
 		connection.query(sqlQuery, ['%' + value + '%', '%' + value + '%'], (err, result)=>{
 			res.send(result);
 		})
-	}else{
+	}else if(req.body.kind === "tag"){
 		const sqlQuery = "SELECT * FROM tboard LEFT JOIN category ON tboard.idx=category.idx WHERE tboard.category LIKE ? ORDER BY tboard.idx DESC"; //내림차순 정렬
 		connection.query(sqlQuery, ['%' + value + '%'], (err, result)=>{
+			res.send(result);
+		})
+	}else{
+		const category1 = value.split(",")[0];
+		const category2 = value.split(",")[1];
+		const category3 = value.split(",")[2];
+		const sqlQuery = "SELECT * FROM tboard LEFT JOIN category ON tboard.idx=category.idx WHERE category.category1 IN (?,?,?) OR category.category2 IN (?,?,?) OR category.category3 IN (?,?,?) ORDER BY tboard.idx DESC"; //내림차순 정렬
+		connection.query(sqlQuery, [category1, category2, category3, category1, category2, category3, category1, category2, category3], (err, result)=>{
 			res.send(result);
 		})
 	}
