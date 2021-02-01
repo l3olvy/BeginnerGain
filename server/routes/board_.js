@@ -58,21 +58,6 @@ router.get("/getBoard/:currentPage/:category", (req, res)=> {
 	});
 })
 
-router.post("/getPost", (req, res) => {
-	const idx = req.body.idx;
-	const name = req.body.name;
-
-	let sqlQuery;
-	if(name === "talk") sqlQuery = "SELECT * FROM tboard WHERE idx=?";
-	else sqlQuery = "SELECT * FROM qboard WHERE idx=?";
-	
-	connection.query(sqlQuery, [idx], (err, result) => {
-		res.send(result);
-	});
-});
-
-
-
 /*board contents total*/
 router.get("/getqTotal", (req, res)=>{
     const sqlQuery = "SELECT count(*) as Total FROM qboard";
@@ -118,10 +103,8 @@ router.get("/gettags", (req, res)=>{
 /*comment 가져오기*/
 router.post("/getqna_c", (req, res)=>{
 	const bid = req.body.idx;
-
     const sqlQuery = "SELECT * FROM q_comment where bid=? ORDER BY idx DESC"; //내림차순 정렬
     connection.query(sqlQuery, [bid], (err, result)=>{
-    	
     	res.send(result);
     })
 })
@@ -348,17 +331,22 @@ router.post("/searchtalk", (req, res)=>{
 })
 
 /*hitCount*/
-router.post("/getHit", (req, res)=>{
+router.post("/getqHit", (req, res)=>{
 	const idx = req.body.idx;
-	const name = req.body.name;
-
-	let sqlQuery = "UPDATE qboard SET hit = IFNULL(hit, 0) + 1 where idx = ?";
-	if(name === "talk") sqlQuery = "UPDATE tboard SET hit = IFNULL(hit, 0) + 1 where idx = ?";
-
-   	connection.query(sqlQuery, [idx], (err, result)=>{
+	const hit = req.body.hit;
+	const sqlQuery = "UPDATE qboard SET hit=? WHERE idx=?"; //내림차순 정렬
+   	connection.query(sqlQuery, [hit, idx], (err, result)=>{
 		res.send('good');
-	});
+	})
 })
 
+router.post("/gettHit", (req, res)=>{
+	const idx = req.body.idx;
+	const hit = req.body.hit;
+	const sqlQuery = "UPDATE tboard SET hit=? WHERE idx=?"; //내림차순 정렬
+   	connection.query(sqlQuery, [hit, idx], (err, result)=>{
+		res.send('good');
+	})
+})
 
 module.exports = router;

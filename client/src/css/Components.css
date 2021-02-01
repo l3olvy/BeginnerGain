@@ -99,33 +99,33 @@ a{
 
 /*Post.js*/
 
-.Post>.form-wrapper>.grid {
+.Post>.form-wrapper>div>.grid {
     margin-bottom: 20px;
 
 }
 
-.Post>.form-wrapper>.grid>div {
+.Post>.form-wrapper>div>.grid>div {
     float: left;
     text-align: left;
     margin-right: 5px;
 }
 
-.Post>.form-wrapper>.grid>div>span {
+.Post>.form-wrapper>div>.grid>div>span {
     margin-right: 5px;
     color: #67676C;
 }
 
-.Post>.form-wrapper>.grid>.writer {
+.Post>.form-wrapper>div>.grid>.writer {
     display: flex;
     flex-direction: row;
     float: right;
 }
 
-.Post>.form-wrapper>.grid>.writer>.modifyBtn {
+.Post>.form-wrapper>div>.grid>.writer>.modifyBtn {
     margin: 0px 2px 0px 2px;
 }
 
-.Post>.form-wrapper>.grid>.writer>.deleteBtn {
+.Post>.form-wrapper>div>.grid>.writer>.deleteBtn {
     margin: 0px 2px 0px 2px;
 }
 
@@ -147,15 +147,15 @@ a{
     margin: 0px auto;
 }
 
-.Post>.form-wrapper>.question-answer{
+.Post>.form-wrapper > div >.question-answer{
     border-bottom: 2px solid #c6c6c6;
 }
 
-.Post>.form-wrapper>.question-answer>.user-info>.modifyBtn {
+.Post>.form-wrapper> div > .question-answer>.user-info>.modifyBtn {
     margin: 0px 2px 0px 2px;
 }
 
-.Post>.form-wrapper>.question-answer>.user-info>.deleteBtn {
+.Post>.form-wrapper> div > .question-answer>.user-info>.deleteBtn {
     margin: 0px 2px 0px 2px;
 }
 
