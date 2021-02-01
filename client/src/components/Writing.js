@@ -14,7 +14,7 @@ function Writing(props) {
 	const [post, setPost] = useState(props.location.state ? props.location.state : JSON.parse(localStorage.getItem('prev')));
 	const [title,setTitle] = useState('');
 	const [contents,setContent] = useState('');
-	const [tag, setTag] = useState('');
+	const [tag, setTag] = useState([]);
 	const onTitleHandler = (event) => {setTitle (event.currentTarget.value);}
 	//const onTagHandler = (event) => {setTag (event.currentTarget.value); }
 	const [user, setUser] = useState();
@@ -32,11 +32,9 @@ function Writing(props) {
 	const loadPrevData = useCallback((e) => {
 		setTitle(post.title);
 		setContent(post.contents);
-		if (post.name === "QNA")
-			setTag(post.tag);
-		else
-			setTag(post.category);
-	}, [post.title, post.contents, post.tag, post.category, post.name]);
+		console.log("내용",post.contents);
+
+	}, []);
 
 	useEffect(() => {
 		getUser();
@@ -61,7 +59,7 @@ function Writing(props) {
 		if (window.confirm("수정하시겠습니까?")) {
 			const idx = e.target.getAttribute('comment-idx');
 
-			if (post.name === "QNA") {
+			if (post.name === "qna") {
 				Axios.post('http://localhost:8000/board/updateqna', {
 					idx: idx,
 					title: title,
@@ -71,7 +69,7 @@ function Writing(props) {
 					alert("수정 되었습니다!");
 					props.history.push(`/${props.match.params.name}`);
 				})
-			} else if (post.name === "TALK") {
+			} else if (post.name === "talk") {
 				Axios.post('http://localhost:8000/board/updatetalk', {
 					idx: idx,
 					title: title,
@@ -102,7 +100,7 @@ function Writing(props) {
 					title: title,
 					contents: contents,
 					img: null,
-					tag: tag[0]+tag[1]+tag[2],
+					tag: tag[0]+" "+tag[1]+" "+tag[2],
 					hit: 0
 				}).then((res) => { alert("작성 되었습니다.");
 				///////////qboard-tag 서로 idx 맞춰야함  - 그래야 삭제 가능 //나중에 두명 동시 작성 확인해보기
@@ -120,7 +118,7 @@ function Writing(props) {
 					title: title,
 					contents: contents,
 					img: null,
-					category: tag[0]+tag[1]+tag[2],
+					category: tag[0]+" "+tag[1]+" "+tag[2],
 					hit: 0
 				}).then((res) => { alert("작성 되었습니다.");
 				///////////qboard-tag 서로 idx 맞춰야함  - 그래야 삭제 가능 //나중에 두명 동시 작성 확인해보기

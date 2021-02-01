@@ -16,6 +16,7 @@ import "../css/Body.css";
 import Board from "./Board";
 import PublicRoute from "../lib/PublicRoute"
 import PrivateRoute from "../lib/PrivateRoute"
+import NotFound from "./NotFound";
 function Body() {
     return (
         <div className="body">
@@ -34,6 +35,7 @@ function Body() {
 			<PrivateRoute component={Writing} path="/:name/modify/:idx" />
 			<Route component={Board} path="/qna/search/:kind/:q" /> 
 			<Route component={Board} path="/talk/search/:kind/:q" />
+			{/*<Route component={NotFound} path="/*" />*/}
 		</div>
     );
 }

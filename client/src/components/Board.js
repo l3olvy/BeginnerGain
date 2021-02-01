@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../css/Components.css";
 import striptags from 'striptags';
 import Axios from 'axios';
+import TagBox from "./TagBox";
 
 function Board(props) {
 	// 페이징
@@ -23,6 +24,8 @@ function Board(props) {
 	const [loading, setLoading] = useState(false);
 	const [tags, setTags] = useState([]);
 	let tagarray = [];
+
+	const [tag, setTag] = useState([]);
 
 	let name = '';
 	if(props.location !== undefined){
@@ -103,11 +106,30 @@ function Board(props) {
     
     const searchBtn = (e) => {
     	setLoading(true);
+    	if(generalSearch.length ===0){
+    		return;
+    	}
     	if(props.location !== undefined)
 			props.history.replace(`/${name}/search/general/${generalSearch}`);
 		else
 			props.history.push(`/${name}/search/general/${generalSearch}`);
 		//props.history.push(`/${name}/search/${generalSearch}`);
+	}
+
+    const searchTagsBtn = (e) => {
+    	setLoading(true);
+    	if(tag.length ===0){
+    		return;
+    	}
+    	if(props.location !== undefined)
+			props.history.replace(`/${name}/search/tags/${tag}`);
+		else
+			props.history.push(`/${name}/search/tags/${tag}`);
+		//props.history.push(`/${name}/search/${generalSearch}`);
+	}
+
+	const setOnTag = (tagset) =>{
+		setTag(tagset);
 	}
 
     return (   	
@@ -132,9 +154,12 @@ function Board(props) {
 			<div className="tagSearch">
 				<div className="tagTitle left">{search}검색</div>
 				<div className="right">
-					<div className="tagInput">
-						<input type="text" placeholder={`${search} 추가`}/>
+					<div className="tagInput left">
+						<TagBox change={setOnTag}/>
 					</div>
+					<button type="submit" onClick={searchTagsBtn}>
+						<FontAwesomeIcon icon={faSearch} size="2x" />
+					</button>
 					<div className="tagBox"></div>
 				</div>
 			</div>

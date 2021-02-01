@@ -75,6 +75,7 @@ function Post(props) {
 		}
         setpostCommentN(post.commentN);
 	}, []);
+    
     useEffect(() => {
         getUser();
         Prism();
