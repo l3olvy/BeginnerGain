@@ -199,7 +199,7 @@ router.post("/writing_category", (req, res) => {
    })
 });
 
-/*update post*/
+/*update post + tag*/ 
 router.post("/updateqna", (req, res) => {
 	const idx = req.body.idx;
 	const title = req.body.title;
@@ -221,6 +221,28 @@ router.post("/updatetalk", (req, res) => {
 	const sqlQuery = "UPDATE tboard SET title=?, contents=?, category=? WHERE idx=?";
 	connection.query(sqlQuery, [title, contents, category, idx], (err, result)=>{
 		res.send('good');
+	})
+});
+
+router.post("/update_tag", (req, res) => {   
+	const idx = req.body.idx;
+	const tag1 = req.body.tag1;
+	const tag2 = req.body.tag2;
+	const tag3 = req.body.tag3;
+	const sqlQuery = "UPDATE tag SET tag1=?, tag2=?, tag3=? WHERE idx=?";
+		connection.query(sqlQuery, [tag1, tag2, tag3, idx], (err, result) => {
+	res.send('good!');
+	})
+});
+
+router.post("/update_category", (req, res) => {   
+	const idx = req.body.idx;
+	const category1 = req.body.category1;
+	const category2 = req.body.category2;
+	const category3 = req.body.category3;
+	const sqlQuery = "UPDATE category SET category1=?, category2=?, category3=? WHERE idx=?";
+		connection.query(sqlQuery, [category1, category2, category3, idx], (err, result) => {
+	res.send('good!');
 	})
 });
 

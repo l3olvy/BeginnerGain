@@ -32,8 +32,6 @@ function Writing(props) {
 	const loadPrevData = useCallback((e) => {
 		setTitle(post.title);
 		setContent(post.contents);
-		console.log("내용",post.contents);
-
 	}, []);
 
 	useEffect(() => {
@@ -54,7 +52,6 @@ function Writing(props) {
 		setTag('');
 	}
 
-
 	const updateBtn = (e) => {
 		if (window.confirm("수정하시겠습니까?")) {
 			const idx = e.target.getAttribute('comment-idx');
@@ -64,21 +61,34 @@ function Writing(props) {
 					idx: idx,
 					title: title,
 					contents: contents,
-					tag: tag
+					tag: tag[0]+" "+tag[1]+" "+tag[2]
 				}).then(() => {
 					alert("수정 되었습니다!");
+					Axios.post('http://localhost:8000/board/update_tag', {
+						idx: idx,
+			            tag1:tag[0],
+			            tag2:tag[1],
+			            tag3:tag[2]
+			        }).then((res) => {console.log(tag);} );
 					props.history.push(`/${props.match.params.name}`);
-				})
+				}).catch((error) => { console.log(error) });
+
 			} else if (post.name === "talk") {
 				Axios.post('http://localhost:8000/board/updatetalk', {
 					idx: idx,
 					title: title,
 					contents: contents,
-					tag: tag
+					tag: tag[0]+" "+tag[1]+" "+tag[2]
 				}).then(() => {
 					alert("수정 되었습니다!");
+					Axios.post('http://localhost:8000/board/update_category', {
+						idx: idx,
+			            category1:tag[0],
+			            category2:tag[1],
+			            category3:tag[2]
+			        }).then((res) => {console.log(tag);} );
 					props.history.push(`/${props.match.params.name}`);
-				})
+				}).catch((error) => { console.log(error) });
 			}
 		}
 	}
