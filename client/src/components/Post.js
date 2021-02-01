@@ -237,7 +237,7 @@ function Post(props) {
                                         contents : post.contents,
                                         tag : post.tag,
                                         category : post.category,
-                                        name : post.name
+                                        name : name
                                     }
                                 }}>
                                 <button className="modifyBtn"> 수정 </button></Link>

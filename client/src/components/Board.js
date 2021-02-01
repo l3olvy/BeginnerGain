@@ -209,19 +209,7 @@ function List(mapper, total, searchtotal, name, curPage, viewContent, searchValu
 				<div className="right">
 					<Link
 						to={{
-							pathname: `/${name}/post/${element.idx}`,
-							state: {
-								idx : element.idx,
-								writer : element.writer,
-								title : element.title,
-								contents : element.contents,
-								tag : element.tag,
-								category : element.category,
-								hit : element.hit,
-								rdate : element.rdate,
-								commentN : element.commentN,
-								name : name
-							}
+							pathname: `/${name}/post/${element.idx}`
 						}}
 					>
 						<h3>{element.title}</h3>
