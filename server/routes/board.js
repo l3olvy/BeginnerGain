@@ -10,7 +10,7 @@ router.get("/getBoard/:currentPage/:category", (req, res)=> {
 	let listCount = 5;
 	let btnCount = 5;
 	let nowPage = 1;
-
+	let totalRow = 0;
 	let boardName;
 	let kind;
 
@@ -35,7 +35,7 @@ router.get("/getBoard/:currentPage/:category", (req, res)=> {
 			console.log(err);
 			res.end();
 		} else {
-			let totalRow = result[0].cnt; // 총 글의 개수
+			totalRow = result[0].cnt; // 총 글의 개수
 			lastPage = Math.ceil(parseInt(totalRow) / parseInt(listCount)); // 마지막 페이지
 		}
 	});
@@ -53,31 +53,17 @@ router.get("/getBoard/:currentPage/:category", (req, res)=> {
             model.boardList = rs;
             model.currentPage = nowPage;
             model.lastPage = lastPage;
+            model.total = totalRow;
             res.send({model: model});
 		}
 	});
-})
-
-/*board contents total*/
-router.get("/getqTotal", (req, res)=>{
-    const sqlQuery = "SELECT count(*) as Total FROM qboard";
-    connection.query(sqlQuery, (err, result)=>{
-    	res.send(result);
-    })
-})
-
-router.get("/gettTotal", (req, res)=>{
-    const sqlQuery = "SELECT count(*) as Total FROM tboard";
-    connection.query(sqlQuery, (err, result)=>{
-    	res.send(result);
-    })
 })
 
 
 /*post comment total*/
 router.post("/getqna_total", (req, res)=>{
 	const bid = req.body.idx;
-    const sqlQuery = "SELECT count(*) as Total FROM q_comment where bid=?"; //내림차순 정렬
+    const sqlQuery = "SELECT count(*) as Total FROM q_comment where bid=?";
     connection.query(sqlQuery, [bid], (err, result)=>{
     	res.send(result);
     })
@@ -85,19 +71,10 @@ router.post("/getqna_total", (req, res)=>{
 
 router.post("/gettalk_total", (req, res)=>{
 	const bid = req.body.idx;
-    const sqlQuery = "SELECT count(*) as Total FROM t_comment where bid=?"; //내림차순 정렬
+    const sqlQuery = "SELECT count(*) as Total FROM t_comment where bid=?";
     connection.query(sqlQuery, [bid], (err, result)=>{
     	res.send(result);
     })
-})
-
-/*TAG 배열 가져오기*/
-router.get("/gettags", (req, res)=>{
-	//const idx = req.body.idx;
-   	const sqlQuery = "SELECT * FROM tag";
-   	connection.query(sqlQuery, (err, result)=>{
-   		res.send(result);
-   })
 })
 
 /*comment 가져오기*/
@@ -329,6 +306,7 @@ router.post("/searchtalk", (req, res)=>{
 		})
 	}
 })
+
 
 /*hitCount*/
 router.post("/getqHit", (req, res)=>{

@@ -18,6 +18,7 @@ function Board(props) {
 	const [generalSearch, setGeneralSearch] = useState('');
 	const [searchValue, setSearchValue] = useState([]);
 	const [total, setTotal] = useState(0);
+	const [searchtotal, setSearchTotal] = useState(0);
 	const onGeneralSearchHandler = (event) => {setGeneralSearch(event.currentTarget.value);}
 	const [loading, setLoading] = useState(false);
 	const [tags, setTags] = useState([]);
@@ -42,6 +43,7 @@ function Board(props) {
             setlastPage(res.data.model.lastPage);
             setMinBtn(res.data.model.minBtn);
             setMaxBtn(res.data.model.maxBtn);
+            setTotal(res.data.model.total);
 		})
     }
 
@@ -59,9 +61,10 @@ function Board(props) {
 					}
 					else {
 						setSearchValue(response.data);
+						setSearchTotal(searchValue.length);
 					}})
-			
-			} else if (name === "talk") {
+
+			} else {
 				Axios.post('http://localhost:8000/board/searchtalk', {
 					value : value,
 					kind : kind
@@ -70,11 +73,12 @@ function Board(props) {
 						setSearchValue([]);
 					else{
 						setSearchValue(response.data);
-					}
-				})
+						setSearchTotal(searchValue.length);
+					}})	
 			}
-	    }
-    }
+		}
+	}	   
+  
 
     const onClick = async (e) => {
     	const idxs = e.target.dataset.idx;
@@ -87,24 +91,15 @@ function Board(props) {
             setMinBtn(res.data.model.minBtn);
             setMaxBtn(res.data.model.maxBtn);
             setViewContent(res.data.model.boardList);
+            setTotal(res.data.model.total);
         })
     }
 
     useEffect(() => {
     	loadList();
     	loadSearch();
-		if (name ==="qna"){
-			Axios.get('http://localhost:8000/board/getqTotal').then((response) => {
-				setTotal(response.data[0].Total);
-		})}
-		else{
-			Axios.get('http://localhost:8000/board/gettTotal').then((response) => {
-				setTotal(response.data[0].Total);
-		})}
-
 		return () => setLoading(false);
 	}, [searchValue])
-	
     
     const searchBtn = (e) => {
     	setLoading(true);
@@ -119,7 +114,9 @@ function Board(props) {
         <div className="menu__container">
 			<h2>{name.toUpperCase()}</h2>		
 			<div className="board_top">
-				<p>총 게시물 {total}개</p>
+				{((viewContent.length !== 0)&&(searchValue.length === 0)) ? 
+					((props.location !== undefined) ? <p>총 게시물 0개 </p> : <p>총 게시물 {total}개</p>)
+				: <p>총 게시물 {searchtotal}개</p>}
 				<ul className="board_list">
 					<li>
 						<input type="text" placeholder="검색" onChange={onGeneralSearchHandler}/>
@@ -144,10 +141,10 @@ function Board(props) {
 			<div className="board_contents">
 			{(props.location !== undefined) ?
 				((searchValue.length === 0) ? <div className="list"><p><strong>"{props.match.params.q}"</strong>와(과) 일치하는 검색 결과가 없습니다</p></div> 
-				: List(searchValue, total, name, curPage))
+				: List(searchValue, total, searchtotal, name, curPage, viewContent, searchValue))
 			:
 				((viewContent.length === 0) ? <div className="list"><p>등록된 게시물이 없습니다</p></div>
-				: List(viewContent, total, name, curPage))
+				: List(viewContent, total, searchtotal, name, curPage, viewContent, searchValue))
 			}
 
 			</div>
@@ -175,12 +172,13 @@ function Board(props) {
     );
 }
 
-function List(mapper, total, name, curPage){
+function List(mapper, total, searchtotal, name, curPage, viewContent, searchValue){
 	return(
 		mapper.map((element,i) =>(
 			<div className="list" key={element.idx}>
 				<div className="left">
-					<h3>Q.{total - i - ((curPage-1)*5)}</h3>
+					{(viewContent.length !== 0)&&(searchValue.length === 0) ? <h3>Q.{total - i - ((curPage-1)*5)}</h3> : <h3>Q.{searchtotal - i - ((curPage-1)*5)}</h3>}
+
 					<p>답변 - {element.commentN}개</p>
 				</div>
 				<div className="right">
