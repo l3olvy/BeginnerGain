@@ -23,7 +23,7 @@ const TagBox = ({change}) => {
 
 	useEffect(() => {
 		tagSet(localTags);
-	}, []);
+	}, [localTags]);
 
 	const insertTag = useCallback(
 		tag => {
@@ -35,7 +35,7 @@ const TagBox = ({change}) => {
 		},
 		[localTags],
 	);
-tagSet(localTags);
+
 	const onRemove = useCallback(
 		tag => {
 			setLocalTags(localTags.filter(t => t !== tag));
@@ -62,7 +62,10 @@ tagSet(localTags);
 
 
 	return(
-		<div>
+		<div className="tag-box">
+			<span className="tag-list left">
+				<TagList tags={localTags} onRemove={onRemove}/>
+			</span>
 			<input
 				className="tag-input"
 				placeholder="태그를 입력하세요"
@@ -70,9 +73,6 @@ tagSet(localTags);
 				onChange={onChange}
 				onKeyDown={handleKeyPress}
 			/>
-			<span className="tag-list">
-				<TagList tags={localTags} onRemove={onRemove}/>
-			</span>
 		</div>
 	);
 };

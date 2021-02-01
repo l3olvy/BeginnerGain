@@ -32,31 +32,31 @@ function Post(props) {
     });
 
     const loadComment = useCallback( async () => {
-    	if (name === "qna") {
-    		Axios.post('http://localhost:8000/board/getqna_c', {
-    			idx: idx
-    		}).then((response) => {
-    			setComment(response.data);
-    			Prism();
-    		})
-    		Axios.post('http://localhost:8000/board/getqna_total', {
-    			idx: idx
-    		}).then((response) => {
-    			setCommentnum(response.data[0].Total);
-    		})
-    	} else if (name === "talk") {
-    		Axios.post('http://localhost:8000/board/gettalk_c', {
-    			idx: idx
-    		}).then((response) => {
-    			setComment(response.data);
-    			Prism();
-    		})
-    		Axios.post('http://localhost:8000/board/gettalk_total', {
-    			idx: idx
-    		}).then((response) => {
-    			setCommentnum(response.data[0].Total);
-    		})
-    	}
+        if (name === "qna") {
+            Axios.post('http://localhost:8000/board/getqna_c', {
+                idx: idx
+            }).then((response) => {
+                setComment(response.data);
+                Prism();
+            })
+            Axios.post('http://localhost:8000/board/getqna_total', {
+                idx: idx
+            }).then((response) => {
+                setCommentnum(response.data[0].Total);
+            })
+        } else if (name === "talk") {
+            Axios.post('http://localhost:8000/board/gettalk_c', {
+                idx: idx
+            }).then((response) => {
+                setComment(response.data);
+                Prism();
+            })
+            Axios.post('http://localhost:8000/board/gettalk_total', {
+                idx: idx
+            }).then((response) => {
+                setCommentnum(response.data[0].Total);
+            })
+        }
     }, []);
 
     const getUser = useCallback(() => {
@@ -67,7 +67,7 @@ function Post(props) {
         });
     }, []);
 
-	const delBtn_c = (e) => {
+    const delBtn_c = (e) => {
         if (window.confirm("삭제하시겠습니까?")) {
             const didx = e.target.getAttribute('comment-idx');
             if (name === "qna") {
@@ -82,10 +82,10 @@ function Post(props) {
                    idx: idx,
                    commentN: (postcommentN-1)
                }).then((response) => { loadComment(); })
-         	alert("삭제 되었습니다!");
+            alert("삭제 되었습니다!");
             }
             setpostCommentN(postcommentN-1);
-		}
+        }
     }
 
     const modBtn_c = (e) => {
@@ -194,10 +194,10 @@ function Post(props) {
 
     useEffect(() => {
         getUser();
-    	Prism();
+        Prism();
     
         setpostCommentN(post.commentN);
-    	loadComment();
+        loadComment();
     }, [getUser, loadComment, post.commentN]);
 
     useEffect(() => {
@@ -207,24 +207,24 @@ function Post(props) {
     return (
         <div className="Post">
             <div className='form-wrapper'>
-               	{
-               		// data setup 됐을 때 자연스럽게 불러주려고 이렇게 했음 css 수정 필요할 듯
-               		(!Array.isArray(post)) && 
-               		<div>
-               			<div className="question-header">
-		                    <p className="bolder">{post.title}</p>
-	                	</div>
-		                <div className="grid">
-		                    <div>
-		                        <span>Asked</span>
-		                        <time>{post.rdate}</time>
-		                    </div>
-		                    <div>
-		                        <span>Viewed</span>
-		                        {post.hit} times
-		                    </div>
-		                    
-		                    { // tag 불러와서 저장해서 넘기세요 writing으로 수정해야하니까
+                {
+                    // data setup 됐을 때 자연스럽게 불러주려고 이렇게 했음 css 수정 필요할 듯
+                    (!Array.isArray(post)) && 
+                    <div>
+                        <div className="question-header">
+                            <p className="bolder">{post.title}</p>
+                        </div>
+                        <div className="grid">
+                            <div>
+                                <span>Asked</span>
+                                <time>{post.rdate}</time>
+                            </div>
+                            <div>
+                                <span>Viewed</span>
+                                {post.hit} times
+                            </div>
+                            
+                            { // tag 불러와서 저장해서 넘기세요 writing으로 수정해야하니까
                             (props.id === post.writer) && //로그인 한 사람이 글 작성자라면 글 삭제 및 수정 가능
                             <div className="writer">
                                 <Link
@@ -243,24 +243,24 @@ function Post(props) {
                                 <button className="modifyBtn"> 수정 </button></Link>
                                 <button className="deleteBtn" onClick={delBtn} post-idx={post.idx}> 삭제 </button>
                             </div>}
-		                </div>
-		                <br/>
-		                <hr />
-		                <div className="question-body">
-		                    <div className="selctContents" dangerouslySetInnerHTML={ {__html: post.contents} }></div>
-		                    <div className="user-info">
-		                        <span>asked {post.rdate} {post.writer}</span>
-		                    </div>               
-		                </div>
-		                <hr/>
-		                
-		                <p className="bold">{commentnum}개의 답변</p>
-		                {
-		                	comment.map(element =>(
-			                	<div className="question-answer" key={element.idx}>
-				                	<div className="selctContents" dangerouslySetInnerHTML={{__html: element.contents}}></div>                    
-				                	<div className="user-info"> 
-					                	 <span>answered {element.cdate} {element.writer}</span>
+                        </div>
+                        <br/>
+                        <hr />
+                        <div className="question-body">
+                            <div className="selctContents" dangerouslySetInnerHTML={ {__html: post.contents} }></div>
+                            <div className="user-info">
+                                <span>asked {post.rdate} {post.writer}</span>
+                            </div>               
+                        </div>
+                        <hr/>
+                        
+                        <p className="bold">{commentnum}개의 답변</p>
+                        {
+                            comment.map(element =>(
+                                <div className="question-answer" key={element.idx}>
+                                    <div className="selctContents" dangerouslySetInnerHTML={{__html: element.contents}}></div>                    
+                                    <div className="user-info"> 
+                                         <span>answered {element.cdate} {element.writer}</span>
                                         {(props.id === post.writer)&&(props.id !== element.writer) && //로그인 한 사람이 글 작성자라면 댓글 삭제만 가능
                                             <button className="deleteBtn" onClick={delBtn_c} comment-idx={element.idx}> 삭제 </button>}
                                         {(props.id === element.writer) && //로그인 한 사람이 댓글 작성자라면 댓글 삭제 및 수정 가능
@@ -269,30 +269,30 @@ function Post(props) {
                                             <button className="deleteBtn" onClick={delBtn_c} comment-idx={element.idx}> 삭제 </button>
                                         </div>}
 
-	                            	</div>   
-	                            </div>
-                        	))
-		            	}
+                                    </div>   
+                                </div>
+                            ))
+                        }
 
-		            	<p className="bold">댓글작성</p>
-		            	{ props.id ?
-		            		<CKEditor
-		            		editor={ Editor }
-		            		config={ editorConfiguration }
-		            		data= {mod}
-		            		onChange={ handleCkeditorState }
-		            		/> : 
-		            		<CKEditor
-		            		editor={ Editor }
-		            		config={ editorConfiguration }
-		            		data= {"로그인 후 이용해주세요"}
-		            		/>
-		            	}
-	            		{ mode? <button className="modify-button" onClick={updateBtn_c}>수정</button> : props.id &&<button className="submit-button" onClick={onSubmitHandler}>작성</button> }
-		            	<button className="toboard" onClick={onptbHandler}>목록으로</button>
+                        <p className="bold">댓글작성</p>
+                        { props.id ?
+                            <CKEditor
+                            editor={ Editor }
+                            config={ editorConfiguration }
+                            data= {mod}
+                            onChange={ handleCkeditorState }
+                            /> : 
+                            <CKEditor
+                            editor={ Editor }
+                            config={ editorConfiguration }
+                            data= {"로그인 후 이용해주세요"}
+                            />
+                        }
+                        { mode? <button className="modify-button" onClick={updateBtn_c}>수정</button> : props.id &&<button className="submit-button" onClick={onSubmitHandler}>작성</button> }
+                        <button className="toboard" onClick={onptbHandler}>목록으로</button>
 
-               		</div>
-               	}
+                    </div>
+                }
             </div>
         </div>
     );

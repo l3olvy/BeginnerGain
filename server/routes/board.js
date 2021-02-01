@@ -10,7 +10,7 @@ router.get("/getBoard/:currentPage/:category", (req, res)=> {
 	let listCount = 5;
 	let btnCount = 5;
 	let nowPage = 1;
-
+	let totalRow = 0;
 	let boardName;
 	let kind;
 
@@ -35,7 +35,7 @@ router.get("/getBoard/:currentPage/:category", (req, res)=> {
 			console.log(err);
 			res.end();
 		} else {
-			let totalRow = result[0].cnt; // 총 글의 개수
+			totalRow = result[0].cnt; // 총 글의 개수
 			lastPage = Math.ceil(parseInt(totalRow) / parseInt(listCount)); // 마지막 페이지
 		}
 	});
@@ -53,6 +53,7 @@ router.get("/getBoard/:currentPage/:category", (req, res)=> {
             model.boardList = rs;
             model.currentPage = nowPage;
             model.lastPage = lastPage;
+            model.total = totalRow;
             res.send({model: model});
 		}
 	});
@@ -71,28 +72,10 @@ router.post("/getPost", (req, res) => {
 	});
 });
 
-
-
-/*board contents total*/
-router.get("/getqTotal", (req, res)=>{
-    const sqlQuery = "SELECT count(*) as Total FROM qboard";
-    connection.query(sqlQuery, (err, result)=>{
-    	res.send(result);
-    })
-})
-
-router.get("/gettTotal", (req, res)=>{
-    const sqlQuery = "SELECT count(*) as Total FROM tboard";
-    connection.query(sqlQuery, (err, result)=>{
-    	res.send(result);
-    })
-})
-
-
 /*post comment total*/
 router.post("/getqna_total", (req, res)=>{
 	const bid = req.body.idx;
-    const sqlQuery = "SELECT count(*) as Total FROM q_comment where bid=?"; //내림차순 정렬
+    const sqlQuery = "SELECT count(*) as Total FROM q_comment where bid=?";
     connection.query(sqlQuery, [bid], (err, result)=>{
     	res.send(result);
     })
@@ -100,19 +83,10 @@ router.post("/getqna_total", (req, res)=>{
 
 router.post("/gettalk_total", (req, res)=>{
 	const bid = req.body.idx;
-    const sqlQuery = "SELECT count(*) as Total FROM t_comment where bid=?"; //내림차순 정렬
+    const sqlQuery = "SELECT count(*) as Total FROM t_comment where bid=?";
     connection.query(sqlQuery, [bid], (err, result)=>{
     	res.send(result);
     })
-})
-
-/*TAG 배열 가져오기*/
-router.get("/gettags", (req, res)=>{
-	//const idx = req.body.idx;
-   	const sqlQuery = "SELECT * FROM tag";
-   	connection.query(sqlQuery, (err, result)=>{
-   		res.send(result);
-   })
 })
 
 /*comment 가져오기*/
@@ -239,7 +213,7 @@ router.post("/writing_category", (req, res) => {
    })
 });
 
-/*update post*/
+/*update post + tag*/ 
 router.post("/updateqna", (req, res) => {
 	const idx = req.body.idx;
 	const title = req.body.title;
@@ -261,6 +235,28 @@ router.post("/updatetalk", (req, res) => {
 	const sqlQuery = "UPDATE tboard SET title=?, contents=?, category=? WHERE idx=?";
 	connection.query(sqlQuery, [title, contents, category, idx], (err, result)=>{
 		res.send('good');
+	})
+});
+
+router.post("/update_tag", (req, res) => {   
+	const idx = req.body.idx;
+	const tag1 = req.body.tag1;
+	const tag2 = req.body.tag2;
+	const tag3 = req.body.tag3;
+	const sqlQuery = "UPDATE tag SET tag1=?, tag2=?, tag3=? WHERE idx=?";
+		connection.query(sqlQuery, [tag1, tag2, tag3, idx], (err, result) => {
+	res.send('good!');
+	})
+});
+
+router.post("/update_category", (req, res) => {   
+	const idx = req.body.idx;
+	const category1 = req.body.category1;
+	const category2 = req.body.category2;
+	const category3 = req.body.category3;
+	const sqlQuery = "UPDATE category SET category1=?, category2=?, category3=? WHERE idx=?";
+		connection.query(sqlQuery, [category1, category2, category3, idx], (err, result) => {
+	res.send('good!');
 	})
 });
 
@@ -324,9 +320,17 @@ router.post("/searchqna", (req, res)=>{
 		connection.query(sqlQuery, ['%' + value + '%', '%' + value + '%'], (err, result)=>{
 			res.send(result);
 		})
-	}else{
+	}else if(req.body.kind === "tag"){
 		const sqlQuery = "SELECT * FROM qboard LEFT JOIN tag ON qboard.idx=tag.idx WHERE qboard.tag LIKE ? ORDER BY qboard.idx DESC"; //내림차순 정렬
 		connection.query(sqlQuery, ['%' + value + '%'], (err, result)=>{
+			res.send(result);
+		})
+	}else{
+		const tag1 = value.split(",")[0];
+		const tag2 = value.split(",")[1];
+		const tag3 = value.split(",")[2];
+		const sqlQuery = "SELECT * FROM qboard LEFT JOIN tag ON qboard.idx=tag.idx WHERE tag.tag1 IN (?,?,?) OR tag.tag2 IN (?,?,?) OR tag.tag3 IN (?,?,?) ORDER BY qboard.idx DESC"; //내림차순 정렬
+		connection.query(sqlQuery, [tag1, tag2, tag3, tag1, tag2, tag3, tag1, tag2, tag3], (err, result)=>{
 			res.send(result);
 		})
 	}
@@ -339,13 +343,22 @@ router.post("/searchtalk", (req, res)=>{
 		connection.query(sqlQuery, ['%' + value + '%', '%' + value + '%'], (err, result)=>{
 			res.send(result);
 		})
-	}else{
+	}else if(req.body.kind === "tag"){
 		const sqlQuery = "SELECT * FROM tboard LEFT JOIN category ON tboard.idx=category.idx WHERE tboard.category LIKE ? ORDER BY tboard.idx DESC"; //내림차순 정렬
 		connection.query(sqlQuery, ['%' + value + '%'], (err, result)=>{
 			res.send(result);
 		})
+	}else{
+		const category1 = value.split(",")[0];
+		const category2 = value.split(",")[1];
+		const category3 = value.split(",")[2];
+		const sqlQuery = "SELECT * FROM tboard LEFT JOIN category ON tboard.idx=category.idx WHERE category.category1 IN (?,?,?) OR category.category2 IN (?,?,?) OR category.category3 IN (?,?,?) ORDER BY tboard.idx DESC"; //내림차순 정렬
+		connection.query(sqlQuery, [category1, category2, category3, category1, category2, category3, category1, category2, category3], (err, result)=>{
+			res.send(result);
+		})
 	}
 })
+
 
 /*hitCount*/
 router.post("/getHit", (req, res)=>{
