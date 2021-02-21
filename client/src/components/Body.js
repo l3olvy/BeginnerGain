@@ -6,7 +6,7 @@ import IdPw from "../routes/IdPw";
 import Home from "../routes/Home";
 import News from "../routes/News";
 import Forum from "../routes/Forum";
-import Hire from "../routes/Hire";
+import Compile from "../routes/Compile";
 import Qna from "../routes/Qna";
 import Talk from "../routes/Talk";
 import Chat from "../routes/Chat";
@@ -17,6 +17,7 @@ import Board from "./Board";
 import PublicRoute from "../lib/PublicRoute"
 import PrivateRoute from "../lib/PrivateRoute"
 import NotFound from "./NotFound";
+
 function Body() {
     return (
         <div className="body">
@@ -26,7 +27,7 @@ function Body() {
 			<Route component={Home} path="/" exact={true} />
 			<Route component={News} path="/news" />
 			<Route component={Forum} path="/forum" />
-			<Route component={Hire} path="/hire" /> 
+			<Route component={Compile} path="/compiler" /> 
 			<Route component={Qna} path="/qna" exact={true} /> 
 			<Route component={Talk} path="/talk" exact={true} /> 
 			<PrivateRoute component={Chat} path="/chat" />
