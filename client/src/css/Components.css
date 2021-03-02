@@ -182,6 +182,149 @@ a{
     margin: 0px 2px 0px 2px;
 }
 
+/* NEWS */
+
+.menu__container>.newsSearch>.keywordSearch {
+    margin: 0 auto;
+    width: 600px;
+    background-color: #4A4E80;
+    border-radius: 30px;
+    height: 50px;
+    margin-top: 70px;
+    margin-bottom: 70px;
+}
+
+.menu__container>.newsSearch>.keywordSearch>li {
+    color:white;
+    float: left;
+    height: 100%;
+}
+
+.menu__container>.newsSearch>.keywordSearch>li>p {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.example-custom-input{
+    width: 250px;
+    border: none;
+    background: none;
+    color: white;
+    padding-left: 10px;
+    line-height: 50px;
+    font-size: 16px;
+}
+
+.example-custom-input:focus{
+    color: pink;
+    outline: none;
+}
+
+.menu__container>.newsSearch>.keywordSearch>li>button {
+    width: 48px;
+    height: 100%;
+    background: none;
+    border: none;
+    color: white;
+    line-height: 50px;
+    font-size: 23px;
+}
+
+.menu__container>.newsSearch>.keywordSearch>li>button:focus {
+    color: pink;
+    outline: none;
+}
+
+.menu__container>.board_contents>.newslist {
+    width: 100%;
+    overflow:hidden;
+    height:auto;
+    border-bottom: 1px solid #c6c6c6;
+}
+.menu__container>.board_contents>.newslist>div {
+    width: 100%;
+    overflow:hidden;
+    height:auto;
+    
+}
+
+.sumdiv{
+    background-color: #f7f7f7;
+    border-radius: 15px;
+    padding: 15px;
+}
+
+.sumdiv>button{
+    float: right;
+    border: none;
+    border-radius: 5px;
+    background-color: #4A4E80;
+    color: white;
+
+}
+.menu__container>.board_contents{
+    margin-bottom: 100px;
+}
+.menu__container>.board_contents>.newslist>div>.left {
+    width: 13%;
+    height: 100%;
+    padding: 0 20px;
+}
+
+.menu__container>.board_contents>.newslist>div>.left>p {
+    font-weight: bold;
+    color: #f49a24;
+    font-size: 18px;
+}
+
+.menu__container>.board_contents>.newslist>div>.right {
+    width: 87%;
+    height: 100%;
+    padding: 0 20px;
+}
+
+.menu__container>.board_contents>.newslist>div>.right>div {
+    width: 100%;
+    clear: both;
+    float: none;
+    height: 50px;
+  
+}
+
+.menu__container>.board_contents>.newslist>div>.right>div>.left {
+    width: 75%;
+    height: 100%;
+}
+
+.menu__container>.board_contents>.newslist>div>.right>div>.right {
+    width: 25%;
+    height: 100%;
+    text-align: right;
+}
+
+.menu__container>.board_contents>.newslist>div>.right>div>.right>button {
+    border: none;
+    color: white;
+    background-color: #4A4E80;
+    border-radius: 15px;
+    height: 30px;
+    width: 60px;
+    margin-top: 35px;
+}
+
+.menu__container>.board_contents>.newslist>div>.right>div>.right>button:focus {
+    outline: none;
+    color: pink;
+}
+
+.menu__container>.board_contents>.newslist>div>.right>div>.right>p {
+    font-size: 16px;
+}
+
+.menu__container>.line{
+    border-bottom: 1px solid #c6c6c6;
+}
+
 /* sub page - board */
 .left {
     float: left;
