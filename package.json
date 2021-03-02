@@ -2,12 +2,12 @@
   "name": "server",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "web.js",
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js",
-    "appClient": "cd ../client && npm start",
-    "bg": "concurrently \" nodemon index.js\" \" npm run appClient\""
+    "start": "node web.js",
+    "dev": "nodemon web.js",
+    "appClient": "cd ./client && npm start",
+    "bg": "concurrently \" nodemon web.js\" \" npm run appClient\""
   },
   "author": "",
   "license": "ISC",

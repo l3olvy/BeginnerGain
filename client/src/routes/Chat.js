@@ -5,26 +5,27 @@ import Axios from 'axios';
 import socketIOClient from "socket.io-client";
 
 function Chat(props) {
-	const [user, setUser] = useState();
-	const [messageList, setMessageList] = React.useState([]);
-	const [name, setName] = React.useState('');
-	const [value, setValue] = React.useState('');
-	const socket = socketIOClient('localhost:8000');
-	const submit = (e: FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
-		socket.emit('send message', { name: name, message: value });
-		setValue("");
-	};
+   const [user, setUser] = useState();
+   const [messageList, setMessageList] = React.useState([]);
+   const [name, setName] = React.useState('');
+   const [value, setValue] = React.useState('');
+   const socket = socketIOClient('/');
+   const submit = (e: FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      socket.emit('send message', { name: name, message: value });
+      setValue("");
+   };
  //    const onInputHandler = (e) => { setInput( e.currentTarget.value); }
    // const onChatHandler = (e) => {
       
    // }
-	const getUser = useCallback(() => {
-        Axios.get("http://localhost:8000/login").then((res) => {
+   const getUser = useCallback(() => {
+        Axios.get("/login").then((res) => {
             if(res.data.loggedIn === true) {
                 setUser(res.data.user[0].id);
             }
         });
+
     }, []);
 
     useEffect(() => {
@@ -32,9 +33,9 @@ function Chat(props) {
     }, [getUser]);
 
     useEffect(() => {
-		socket.on('receive message', (message: { name: string, message: string }) => {
-			setMessageList(messageList => messageList.concat(message));
-		})
+      socket.on('receive message', (message: { name: string, message: string }) => {
+         setMessageList(messageList => messageList.concat(message));
+      })
     }, []);
 
    return (
