@@ -4,7 +4,7 @@
   "description": "",
   "main": "web.js",
   "scripts": {
-    "start": "NODE_ENV=production node web.js",
+    "start": "node web.js",
     "dev": "nodemon web.js",
     "appClient": "cd ./client && npm start",
     "bg": "concurrently \" nodemon web.js\" \" npm run appClient\""
@@ -25,6 +25,7 @@
     "morgan": "^1.10.0",
     "mysql": "^2.18.1",
     "nodemon": "^2.0.6",
-    "react-datepicker": "^3.5.0"
+    "react-datepicker": "^3.5.0",
+    "socket.io": "^3.1.1"
   }
 }
