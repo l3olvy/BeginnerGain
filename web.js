@@ -95,13 +95,13 @@ app.use(
 const board = require("./routes/board");
 app.use("/board", board);
 
-app.use(express.static(path.join(__dirname, '../client/build')));
+app.use(express.static(path.join(__dirname, './client/build')));
 const server = http.createServer(app);
 
 const io = socketIO(server);
 
 app.get("/", function(req, res, next) {
-   res.send(express.static(path.join(__dirname, '../client/build/index.html')));
+   res.send(express.static(path.join(__dirname, './client/build/index.html')));
 })
 
 app.post("/join", (req, res) => {
