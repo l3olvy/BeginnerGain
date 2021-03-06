@@ -6,16 +6,18 @@ const connection = mysql.createConnection(dbconfig);
 const cors = require('cors');
 const PORT = process.env.port || 8000;
 
+const app = express();
+app.set('port', PORT);
+
+const server = require('http').Server(app);
+const io = require('socket.io')(server);
+
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const session = require("express-session");
 
-const http = require('http');
-const socketIO = require('socket.io');
-
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
-const app = express();
 
 const serveStatic = require("serve-static");
 
@@ -23,7 +25,6 @@ const multiparty = require('connect-multiparty');
 const MultipartyMiddleware = multiparty({uploadDir:"./images"});
 const morgan = require('morgan');
 
-app.set('port', PORT);
 
 const path = require('path');
 const fs = require('fs');
@@ -96,9 +97,6 @@ const board = require("./routes/board");
 app.use("/board", board);
 
 app.use(express.static(path.join(__dirname, './client/build')));
-const server = http.createServer(app);
-
-const io = socketIO(server);
 
 app.get("/", function(req, res, next) {
    res.send(express.static(path.join(__dirname, './client/build/index.html')));
@@ -221,18 +219,28 @@ app.post('/upload', MultipartyMiddleware, (req, res)=>{
 });
 
 
-io.on('connection', socket => {
-   socket.on('send message', (item) => {
-      const msg = item.name + ' : ' + item.message;
-      io.emit('receive message', {name:item.name, message:item.message});
+
+io.on('connection', (socket) => { // 기본 연결
+
+   socket.on('newUser', (data) => { // on 데이터를 받을때
+      io.emit('enter', data); // emit 데이터를 보낼때
    });
-    socket.on('disconnect', function () {
+
+   socket.on('message', (data) => {
+      // console.log('client가 보낸 데이터: ', data);
+      io.emit('upload', {name:data.name, message:data.message});
+      /*io.emit('upload', data);*/
+   });
+
+  // socket.on('leaveUser', (nick) => {
+  //   io.emit('out', nick);
+  // });
+
+   socket.on('disconnect', function () {
       console.log('user disconnected: ', socket.id);
    });
 });
 
-server.listen(PORT, ()=>{
-   console.log(`running on ports ${PORT}`);
-});
+server.listen(PORT, () => { console.log(`Listening on port ${PORT}`) });
 
 module.exports = app;
