@@ -1,5 +1,33 @@
 import "../css/Menu.css";
-import React, { Component, useState, useEffect } from "react";
+import React, { Component, useState } from "react";
+import Prism from "../lib/PrismImport";
+import AceEditor from "react-ace";
+import "ace-builds/src-noconflict/mode-assembly_x86";
+import "ace-builds/src-noconflict/mode-html";
+import "ace-builds/src-noconflict/mode-c_cpp";
+import "ace-builds/src-noconflict/mode-csharp";
+import "ace-builds/src-noconflict/mode-clojure";
+import "ace-builds/src-noconflict/mode-lisp";
+import "ace-builds/src-noconflict/mode-d";
+import "ace-builds/src-noconflict/mode-crystal";
+import "ace-builds/src-noconflict/mode-elixir";
+import "ace-builds/src-noconflict/mode-erlang";
+import "ace-builds/src-noconflict/mode-fortran";
+import "ace-builds/src-noconflict/mode-golang";
+import "ace-builds/src-noconflict/mode-haskell";
+import "ace-builds/src-noconflict/mode-java";
+import "ace-builds/src-noconflict/mode-javascript";
+import "ace-builds/src-noconflict/mode-lua";
+import "ace-builds/src-noconflict/mode-pascal";
+import "ace-builds/src-noconflict/mode-php";
+import "ace-builds/src-noconflict/mode-plain_text";
+import "ace-builds/src-noconflict/mode-prolog";
+import "ace-builds/src-noconflict/mode-python";
+import "ace-builds/src-noconflict/mode-ruby";
+import "ace-builds/src-noconflict/mode-rust";
+import "ace-builds/src-noconflict/mode-typescript";
+
+import "ace-builds/src-noconflict/theme-monokai";
 
 function Compile() {
   const[value, setValue] = useState(45);
@@ -7,13 +35,46 @@ function Compile() {
   //const[input, setInput] = useState(`/**********************************************************************\n                            Online C Compiler.\n         Write your code in this editor and press \"Run\" button.\n***********************************************************************/\n\n#include <stdio.h>\n\nint main() {\n\n    printf( \"Hello World\\n\");\n\n    return 0;\n}`); 
   const[input, setInput] = useState(``); 
   const[user_input, setUserInput] = useState(``);
-  const onInputHandler = (e) => { setInput( e.currentTarget.value); }
-  const onUserInputHandler = (e) => { setUserInput(e.currentTarget.value); }
+  //const onInputHandler = (e) => { setInput( e.currentTarget.value);}
+  //const onUserInputHandler = (e) => { setUserInput(e.currentTarget.value); }
+  const lanChange = (e) => { setValue(e.target.value); setmode(e.target.value);}
   const clear = async (e) => { setInput(""); setUserInput(""); }
-  const lanChange = (e) => {
-    setValue(e.target.value);
+  const[lang, setLang] = useState(``);
+  const[basic, setBasic] = useState(``);
+  function setmode(num){
+    if(num === "html"){
+      setLang('html');
+      setBasic('<div>Hello World!</div>');
+    }
+    else{
+      switch(parseInt(num)){
+        case 45 : setLang('assembly_x86'); setBasic('section .data\nmsg   db    \'Hello world!\', 0AH\nlen   equ   $-msg\n\nsection .text\nglobal _WinMain@16\n\n_WinMain@16:\nmov   edx, len\nmov   ecx, msg\nmov   ebx, 1\nmov   eax, 4\n\nint   80h\n\nmov   ebx, 0\nmov   eax, 1\nint   80h\n'); break;
+        case 50 : setLang('c_cpp'); setBasic('void main(){\n\tprintf("Hello World");\n}'); break;
+        case 54 : setLang('c_cpp'); setBasic('#include <iostream>\nusing namespace std;\n\nint main(){\n    cout<<"Hello world";\nreturn 0;\n}'); break;
+        case 51 : setLang('csharp'); setBasic('using System;\nclass HelloWorld {\n  static void Main() {\n    Console.WriteLine(\"Hello World\");\n  }\n}'); break;
+        case 86 : setLang('clojure'); setBasic('(ns clojure.examples.main\n    (:gen-class))\n(defn Example []    (println (str \"Hello World\")) )\n(Example)'); break;
+        case 55 : setLang('lisp'); setBasic('(defun hello ()\n    (format t "Hello, World!~%"))\n(hello)'); break;
+        case 56 : setLang('d'); setBasic('import std.stdio; \n\nvoid main() {\n    writeln(\"Hello world!\");\n}'); break;
+        case 19 : setLang('crystal'); setBasic(''); break;
+        case 57 : setLang('elixir'); setBasic(''); break;
+        case 58 : setLang('erlang'); setBasic(''); break;
+        case 59 : setLang('fortran'); setBasic('Program Hello\nPrint *, \"Hello World\"\nEnd Program Hello'); break;
+        case 60 : setLang('golang'); setBasic('package main  \n import "fmt" func main() { fmt.Println("Hello World")}'); break;
+        case 61 : setLang('haskell'); setBasic('main = putStrLn \"Hello World\"'); break;
+        case 62 : setLang('java'); setBasic('public class Main {\n  public static void main(String[] args) {\n  System.out.println(\"Hello World\");\n  }\n}'); break;
+        case 63 : setLang('javascript'); setBasic('console.log(\"Hello world\");'); break;
+        case 64 : setLang('lua'); setBasic('print\"Hello world\"'); break;
+        case 67 : setLang('pascal'); setBasic('program Hello;\nbegin\n  writeln (\'Hello, world.\');\nend.'); break;
+        case 68 : setLang('php'); setBasic('<?php\n echo \"Hello World\";'); break;
+        case 43 : setLang('plain_text'); setBasic(''); break;
+        case 69 : setLang('prolog'); setBasic(''); break;
+        case 71 : setLang('python'); setBasic('print(\"Hello World!\")'); break;
+        case 72 : setLang('ruby'); setBasic('puts \"Hello World\"'); break;
+        case 73 : setLang('rust'); setBasic('fn main() {\n    println!(\"Hello World\");\n}'); break;
+        case 74 : setLang('typescript'); setBasic('console.log(\"Hello\");'); break;
+      }
+    }
   }
-
   const run = async (e) => {
     e.preventDefault();
     if(value == "html") {
@@ -88,6 +149,8 @@ function Compile() {
     }
   };
 
+
+
     return (
       <div className="menu__container">
           <div className="compile">
@@ -135,13 +198,56 @@ function Compile() {
                     </select>
                   </div>
                 </li>
-                <li><textarea onChange={onInputHandler} id="source" value={input} defaultValue={`;assembly basiccode`}/></li>
-                <li></li>
+                <li>
+                  <AceEditor
+                    className="aceeditor"
+                    id="input"
+                    mode= {lang}
+                    theme="monokai"
+                    placeholder={basic}
+                    onChange={value=>{setInput(value)}}
+                    fontSize={20}
+                    showPrintMargin={true}
+                    showGutter={true}
+                    highlightActiveLine={true}
+                   
+                    setOptions={{
+                    enableBasicAutocompletion: true,
+                    enableLiveAutocompletion: true,
+                    enableSnippets: true,
+                    showLineNumbers: true,
+                    tabSize: 2,
+                  }}/>
+                </li>
                 <li>
                   
                 </li>
                 <li><h4>Input</h4></li>
-                <li><textarea onChange={onUserInputHandler} id="input" value={user_input} /></li>
+                <li>
+
+                <AceEditor
+                  className="aceeditor"
+                  id="input"
+                 
+                  mode="javascript"
+                  theme="monokai"
+              
+          
+                  onChange={value=>{setUserInput(value)}}
+                  fontSize={20}
+                  showPrintMargin={true}
+                  showGutter={true}
+                  highlightActiveLine={true}
+                  
+                  setOptions={{
+                  enableBasicAutocompletion: true,
+                  enableLiveAutocompletion: true,
+                  enableSnippets: true,
+                  showLineNumbers: true,
+                  tabSize: 2,
+                  }}/>
+               
+                </li>
                 <li><button onClick={run} id="run" >Run (Ctrl + Enter)</button> <button onClick={clear} id="clear" >Clear</button></li>
               </ul>
               
