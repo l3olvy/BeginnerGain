@@ -251,7 +251,7 @@ function Post(props) {
                         <div className="question-body">
                             <div className="selctContents" dangerouslySetInnerHTML={ {__html: post.contents} }></div>
                             {(post.contents.includes('code class'))&&
-                            <textarea id="output" defaultValue={""} style={{width:200, high:100}}/>
+                            <textarea id="output" defaultValue={""} style={{width:500, high:300, }}/>
                             }
                             <div className="user-info">
                                 <span>asked {post.rdate} {post.writer}</span>
