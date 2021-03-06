@@ -1,5 +1,33 @@
 import "../css/Menu.css";
 import React, { Component, useState } from "react";
+import Prism from "../lib/PrismImport";
+import AceEditor from "react-ace";
+import "ace-builds/src-noconflict/mode-assembly_x86";
+import "ace-builds/src-noconflict/mode-html";
+import "ace-builds/src-noconflict/mode-c_cpp";
+import "ace-builds/src-noconflict/mode-csharp";
+import "ace-builds/src-noconflict/mode-clojure";
+import "ace-builds/src-noconflict/mode-lisp";
+import "ace-builds/src-noconflict/mode-d";
+import "ace-builds/src-noconflict/mode-crystal";
+import "ace-builds/src-noconflict/mode-elixir";
+import "ace-builds/src-noconflict/mode-erlang";
+import "ace-builds/src-noconflict/mode-fortran";
+import "ace-builds/src-noconflict/mode-golang";
+import "ace-builds/src-noconflict/mode-haskell";
+import "ace-builds/src-noconflict/mode-java";
+import "ace-builds/src-noconflict/mode-javascript";
+import "ace-builds/src-noconflict/mode-lua";
+import "ace-builds/src-noconflict/mode-pascal";
+import "ace-builds/src-noconflict/mode-php";
+import "ace-builds/src-noconflict/mode-plain_text";
+import "ace-builds/src-noconflict/mode-prolog";
+import "ace-builds/src-noconflict/mode-python";
+import "ace-builds/src-noconflict/mode-ruby";
+import "ace-builds/src-noconflict/mode-rust";
+import "ace-builds/src-noconflict/mode-typescript";
+
+import "ace-builds/src-noconflict/theme-monokai";
 
 function Compile() {
   const[value, setValue] = useState();
@@ -7,10 +35,46 @@ function Compile() {
   //const[input, setInput] = useState(`/**********************************************************************\n                            Online C Compiler.\n         Write your code in this editor and press \"Run\" button.\n***********************************************************************/\n\n#include <stdio.h>\n\nint main() {\n\n    printf( \"Hello World\\n\");\n\n    return 0;\n}`); 
   const[input, setInput] = useState(``); 
   const[user_input, setUserInput] = useState(``);
-  const onInputHandler = (e) => { setInput( e.currentTarget.value); }
-  const onUserInputHandler = (e) => { setUserInput(e.currentTarget.value); }
-  const lanChange = (e) => { setValue(e.target.value); }
+  //const onInputHandler = (e) => { setInput( e.currentTarget.value);}
+  //const onUserInputHandler = (e) => { setUserInput(e.currentTarget.value); }
+  const lanChange = (e) => { setValue(e.target.value); setmode(e.target.value);}
   const clear = async (e) => { setInput(""); setUserInput(""); }
+  const[lang, setLang] = useState(``);
+  const[basic, setBasic] = useState(``);
+  function setmode(num){
+    if(num === "html"){
+      setLang('html');
+      setBasic('<div>Hello World!</div>');
+    }
+    else{
+      switch(parseInt(num)){
+        case 45 : setLang('assembly_x86'); break;
+        case 50 : setLang('c_cpp'); setBasic('void main(){\n\tprintf("Hello World");\n}'); break;
+        case 54 : setLang('c_cpp'); break;
+        case 51 : setLang('csharp'); break;
+        case 86 : setLang('clojure'); break;
+        case 55 : setLang('lisp'); break;
+        case 56 : setLang('d'); break;
+        case 19 : setLang('crystal'); break;
+        case 57 : setLang('elixir'); break;
+        case 58 : setLang('erlang'); break;
+        case 59 : setLang('fortran'); break;
+        case 60 : setLang('golang'); break;
+        case 61 : setLang('haskell'); break;
+        case 62 : setLang('java'); break;
+        case 63 : setLang('javascript'); break;
+        case 64 : setLang('lua'); break;
+        case 67 : setLang('pascal'); break;
+        case 68 : setLang('php'); break;
+        case 43 : setLang('plain_text'); break;
+        case 69 : setLang('prolog'); break;
+        case 71 : setLang('python'); setBasic('print(Hello World!)'); break;
+        case 72 : setLang('ruby'); break;
+        case 73 : setLang('rust'); break;
+        case 74 : setLang('typescript'); break;
+      }
+    }
+  }
   const run = async (e) => {
     e.preventDefault();
     if(value == "html") {
@@ -85,6 +149,8 @@ function Compile() {
   }
 };
 
+
+
     return (
       <div className="menu__container">
           <div className="compile">
@@ -132,13 +198,57 @@ function Compile() {
                     </select>
                   </div>
                 </li>
-                <li><textarea onChange={onInputHandler} id="source" value={input}/></li>
+                <li>
+                  <AceEditor
+                    className="aceeditor"
+                    id="input"
+                    mode= {lang}
+                    theme="monokai"
+                    Value={basic}
+                    onChange={value=>{setInput(value)}}
+                    fontSize={20}
+                    showPrintMargin={true}
+                    showGutter={true}
+                    highlightActiveLine={true}
+                   
+                    setOptions={{
+                    enableBasicAutocompletion: true,
+                    enableLiveAutocompletion: true,
+                    enableSnippets: true,
+                    showLineNumbers: true,
+                    tabSize: 2,
+                  }}/>
+                </li>
                 <li></li>
                 <li>
                   
                 </li>
                 <li><h4>Input</h4></li>
-                <li><textarea onChange={onUserInputHandler} id="input" value={user_input} /></li>
+                <li>
+
+                <AceEditor
+                  className="aceeditor"
+                  id="input"
+                 
+                  mode="javascript"
+                  theme="monokai"
+              
+          
+                  onChange={value=>{setUserInput(value)}}
+                  fontSize={20}
+                  showPrintMargin={true}
+                  showGutter={true}
+                  highlightActiveLine={true}
+                  
+                  setOptions={{
+                  enableBasicAutocompletion: true,
+                  enableLiveAutocompletion: true,
+                  enableSnippets: true,
+                  showLineNumbers: true,
+                  tabSize: 2,
+                  }}/>
+               
+                </li>
                 <li><button onClick={run} id="run" >Run (Ctrl + Enter)</button> <button onClick={clear} id="clear" >Clear</button></li>
               </ul>
               

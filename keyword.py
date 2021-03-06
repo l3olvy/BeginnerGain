@@ -71,25 +71,28 @@ sorted_word_rank_idx = sorted(word_rank_idx, key=lambda k: word_rank_idx[k], rev
 keywords = []
 index_w=[]
 
-for idx in sorted_word_rank_idx[:3]:
+for idx in sorted_word_rank_idx[:5]:
     index_w.append(idx)
 
 for idx in index_w:
     keywords.append(idx2word[idx])
 
-news = []
-news.append(keywords[0])
+key=[]
 for title in rangenews:
-    if keywords[0].isalpha():
-        if keywords[0].upper() in title['title']:
-            news.append(title)
-        elif keywords[0] in title['title']:
-            news.append(title)
-    else:
-        if keywords[0] in title['title']:
-            news.append(title)
+    for keyword in keywords:
+        if keyword.upper() in title['title'] or keyword in title['title']:
+            key.append(keyword)
+    title['keyword']= key
+    key = []
 
-print(json.dumps(news, ensure_ascii=False))
+for i in rangenews:
+    if len(i['keyword']) == 0:
+        rangenews.remove(i)
+
+rangenews.insert(0,keywords)
+
+
+print(json.dumps(rangenews, ensure_ascii=False))
 
 
 #print(json.dumps(json_data[0]))
