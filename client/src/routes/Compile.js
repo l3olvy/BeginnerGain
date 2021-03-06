@@ -1,16 +1,19 @@
 import "../css/Menu.css";
-import React, { Component, useState } from "react";
+import React, { Component, useState, useEffect } from "react";
 
 function Compile() {
-  const[value, setValue] = useState();
-  const[output, setOutput] = useState(``);
+  const[value, setValue] = useState(45);
+  const[output, setOutput] = useState();
   //const[input, setInput] = useState(`/**********************************************************************\n                            Online C Compiler.\n         Write your code in this editor and press \"Run\" button.\n***********************************************************************/\n\n#include <stdio.h>\n\nint main() {\n\n    printf( \"Hello World\\n\");\n\n    return 0;\n}`); 
   const[input, setInput] = useState(``); 
   const[user_input, setUserInput] = useState(``);
   const onInputHandler = (e) => { setInput( e.currentTarget.value); }
   const onUserInputHandler = (e) => { setUserInput(e.currentTarget.value); }
-  const lanChange = (e) => { setValue(e.target.value); }
   const clear = async (e) => { setInput(""); setUserInput(""); }
+  const lanChange = (e) => {
+    setValue(e.target.value);
+  }
+
   const run = async (e) => {
     e.preventDefault();
     if(value == "html") {
@@ -54,36 +57,36 @@ function Compile() {
         jsonGetSolution.compile_output == null
         ){
         outputText.innerHTML = `Creating Submission ... \nSubmission Created ...\nChecking Submission Status\nstatus : ${jsonGetSolution.status.description}`;
-      if (jsonResponse.token) {
-        let url = `https://judge0-extra.p.rapidapi.com/submissions/${jsonResponse.token}?base64_encoded=true`;
+        if (jsonResponse.token) {
+          let url = `https://judge0-extra.p.rapidapi.com/submissions/${jsonResponse.token}?base64_encoded=true`;
 
-        const getSolution = await fetch(url, {
-          method: "GET",
-          headers: {
-            "x-rapidapi-host": "judge0-ce.p.rapidapi.com",
-                       "x-rapidapi-key": "010d0e431bmsh5ec04bcfb3323c6p179977jsn34a62e011152", // Get yours for free at https://rapidapi.com/hermanzdosilovic/api/judge0
-                        //"useQueryString": true
-                        "content-type": "application/json",
-                    },
-                });
-        jsonGetSolution = await getSolution.json();
+          const getSolution = await fetch(url, {
+            method: "GET",
+            headers: {
+              "x-rapidapi-host": "judge0-ce.p.rapidapi.com",
+                         "x-rapidapi-key": "010d0e431bmsh5ec04bcfb3323c6p179977jsn34a62e011152", // Get yours for free at https://rapidapi.com/hermanzdosilovic/api/judge0
+                          //"useQueryString": true
+                          "content-type": "application/json",
+                      },
+                  });
+          jsonGetSolution = await getSolution.json();
+        }
+      }
+      if (jsonGetSolution.stdout) {
+        const output = atob(jsonGetSolution.stdout);
+        outputText.innerHTML = "";
+        outputText.innerHTML += `Results :\n${output}\nExecution Time : ${jsonGetSolution.time} Secs\nMemory used : ${jsonGetSolution.memory} bytes`;
+      } else if (jsonGetSolution.stderr) {
+        const error = atob(jsonGetSolution.stderr);
+        outputText.innerHTML = "";
+        outputText.innerHTML += `\n Error :${error}`;
+      } else {
+        const compilation_error = atob(jsonGetSolution.compile_output);
+        outputText.innerHTML = "";
+        outputText.innerHTML += `\n Error :${compilation_error}`;
       }
     }
-    if (jsonGetSolution.stdout) {
-      const output = atob(jsonGetSolution.stdout);
-      outputText.innerHTML = "";
-      outputText.innerHTML += `Results :\n${output}\nExecution Time : ${jsonGetSolution.time} Secs\nMemory used : ${jsonGetSolution.memory} bytes`;
-    } else if (jsonGetSolution.stderr) {
-      const error = atob(jsonGetSolution.stderr);
-      outputText.innerHTML = "";
-      outputText.innerHTML += `\n Error :${error}`;
-    } else {
-      const compilation_error = atob(jsonGetSolution.compile_output);
-      outputText.innerHTML = "";
-      outputText.innerHTML += `\n Error :${compilation_error}`;
-    }
-  }
-};
+  };
 
     return (
       <div className="menu__container">
@@ -132,7 +135,7 @@ function Compile() {
                     </select>
                   </div>
                 </li>
-                <li><textarea onChange={onInputHandler} id="source" value={input}/></li>
+                <li><textarea onChange={onInputHandler} id="source" value={input} defaultValue={`;assembly basiccode`}/></li>
                 <li></li>
                 <li>
                   
@@ -144,7 +147,7 @@ function Compile() {
               
               <ul className="compile_output">
                 <li><h4>Result</h4></li>
-                <li><div id="output" defaultValue={""}> </div></li>
+                <li><textarea id="output" defaultValue={""}/> </li>
               </ul>
           </div>
       </div>

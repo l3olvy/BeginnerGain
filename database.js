@@ -1,7 +1,7 @@
 module.exports = {
 	host     : 'localhost',
 	user     : 'root',
-	password: 'Qlxnql-?1021',
+	password: 'qusgPwlsa',
 	database: 'bg',
 	multipleStatements: true,
 	dateStrings: 'date'

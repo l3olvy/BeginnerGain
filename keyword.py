@@ -1,7 +1,7 @@
 # node.js에서 한글 깨짐 방지
 import sys    
 sys.stdout.reconfigure(encoding='utf-8')
-
+  
 import json
 from konlpy.tag import Komoran
 from collections import Counter
@@ -10,7 +10,7 @@ import numpy as np
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.preprocessing import normalize
 
-with open('C:\\Users\\qhsl0\\NIRW_IT_link4.json', 'r', encoding='UTF-8') as json_file:
+with open('C:\\Users\\ptcho\\Desktop\\NIRW_IT_link4.json', 'r', encoding='UTF-8') as json_file:
     json_data = json.load(json_file)
     
 start = int(sys.argv[1])

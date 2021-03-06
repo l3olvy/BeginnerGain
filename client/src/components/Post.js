@@ -195,7 +195,9 @@ function Post(props) {
     useEffect(() => {
         getUser();
         Prism();
-    
+        //{post.contents.includes('code class')&&}
+
+
         setpostCommentN(post.commentN);
         loadComment();
     }, [getUser, loadComment, post.commentN]);
@@ -248,6 +250,9 @@ function Post(props) {
                         <hr />
                         <div className="question-body">
                             <div className="selctContents" dangerouslySetInnerHTML={ {__html: post.contents} }></div>
+                            {(post.contents.includes('code class'))&&
+                            <textarea id="output" defaultValue={""} style={{width:200, high:100}}/>
+                            }
                             <div className="user-info">
                                 <span>asked {post.rdate} {post.writer}</span>
                             </div>               
@@ -260,7 +265,7 @@ function Post(props) {
                                 <div className="question-answer" key={element.idx}>
                                     <div className="selctContents" dangerouslySetInnerHTML={{__html: element.contents}}></div>                    
                                     <div className="user-info"> 
-                                         <span>answered {element.cdate} {element.writer}</span>
+                                        <span>answered {element.cdate} {element.writer}</span>
                                         {(props.id === post.writer)&&(props.id !== element.writer) && //로그인 한 사람이 글 작성자라면 댓글 삭제만 가능
                                             <button className="deleteBtn" onClick={delBtn_c} comment-idx={element.idx}> 삭제 </button>}
                                         {(props.id === element.writer) && //로그인 한 사람이 댓글 작성자라면 댓글 삭제 및 수정 가능

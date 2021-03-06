@@ -792,4 +792,4 @@ blockquote:before {
 .menu__container > .compile > .left > li > button { background: #282923; color: white; border: none; padding: 10px 15px; border-radius: 3px; margin-top: 10px; transition: all 0.3s; }
 .menu__container > .compile > .left > li > button:hover { background: #a5e22a; color: #282923; }
 .menu__container > .compile > .compile_output { float: right; width: 46%; }
-.menu__container > .compile > .compile_output > li > div { width: 100%; min-height: 730px; background: #282923; color: white; font-size: 16px; font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace; }
+.menu__container > .compile > .compile_output > li > textarea { width: 100%; min-height: 730px; background: #282923; color: white; font-size: 16px; font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace; }
