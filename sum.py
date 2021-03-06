@@ -10,7 +10,7 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.preprocessing import normalize
 
 komoran = Komoran()
-
+  
 def komoran_tokenizer(sent):
     words = komoran.pos(sent) # 품사표 부착
     words = ' '.join(w for w, p in words if ('NN' in p or 'XR' in p or 'VA' in p or 'VV' in p or 'VV' in p)) #NN:명사 XR:어근 VA:형용사 VV:동사
