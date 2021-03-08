@@ -85,7 +85,7 @@ for title in rangenews:
     title['keyword']= key
     key = []
 
-for i in rangenews:
+for i in rangenews[::]:
     if len(i['keyword']) == 0:
         rangenews.remove(i)
 
