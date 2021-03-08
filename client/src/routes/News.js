@@ -56,6 +56,7 @@ function News(props) {
 			start : convertDate(startDate),
 			end : convertDate(endDate)
 		}).then((res) => {
+			console.log(res.data);
 			setNews(res.data);
 			setKeyword(res.data[0]);
 

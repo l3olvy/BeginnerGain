@@ -10,7 +10,7 @@ import numpy as np
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.preprocessing import normalize
 
-with open('C:\\Users\\qhsl0\\NIRW_IT_link4.json', 'r', encoding='UTF-8') as json_file:
+with open('C:\\Users\\goeun\\Desktop\\data\\NIRW_IT_link4.json', 'r', encoding='UTF-8') as json_file:
     json_data = json.load(json_file)
     
 start = int(sys.argv[1])
@@ -90,7 +90,6 @@ for title in rangenews:
             news.append(title)
 
 print(json.dumps(news, ensure_ascii=False))
-
 
 #print(json.dumps(json_data[0]))
 #print(json.dumps(json_data[1]))

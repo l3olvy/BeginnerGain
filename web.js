@@ -58,7 +58,8 @@ app.post('/getNews', (req, res) => {
 	})
 
 	python.on('close', (code) => {
-		res.send(JSON.parse(news));
+      res.send(news);
+		// res.send(JSON.parse(news));
 	})
 })
 
