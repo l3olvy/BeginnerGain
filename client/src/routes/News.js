@@ -6,7 +6,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../css/Components.css";
 import DatePicker, { registerLocale, setDefaultLocale } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import ko from 'date-fns/locale/ko'; 
+import ko from 'date-fns/locale/ko';
+import striptags from 'striptags';
+
 registerLocale('ko', ko);
 
 function News(props) {
@@ -14,8 +16,11 @@ function News(props) {
 	//const [sum, setSum] = useState([]);
 	const [startDate, setStartDate] = useState(new Date('1-01-2009'));
 	const [endDate, setEndDate] = useState(new Date('1-01-2009'));
+	const [today, setToday] = useState(new Date());
 	const [keyword, setKeyword] = useState('');
 	const [key, setKey] = useState('');
+	const [mode, setMode] = useState(false); //과거뉴스 / 최신뉴스
+	const [des, setDes] = useState([{id:''}]);
 	const [sum, setSum] = useState([{
 		id: '',
 		sum0: '',
@@ -43,6 +48,27 @@ function News(props) {
 		return parts[3] + months[parts[1]] + parts[2];
 	};
 
+	const convertnewDate = str => {
+		str = str.toString();
+		let parts = str.split(" ");
+
+		let months = {
+			Jan: "01",
+			Feb: "02",
+			Mar: "03",
+			Apr: "04",
+			May: "05",
+			Jun: "06",
+			Jul: "07",
+			Aug: "08",
+			Sep: "09",
+			Oct: "10",
+			Nov: "11",
+			Dec: "12"
+		};
+		return parts[3] + months[parts[2]] + parts[1];
+	};
+
 	const ExampleCustomInput = ({ value, onClick }) => (
 		<button className="example-custom-input" onClick={onClick}>
 			{value}
@@ -59,14 +85,15 @@ function News(props) {
 		}).then((res) => {
 			setNews(res.data);
 			setKeyword(res.data[0]);
-
 		})
 	}
+
+	//console.log(mode);
 	console.log("news : ", news);
 	console.log("keyword : ", keyword[1]);
 
-	const getSumBtn = (e) => {
-		
+
+	const getSumBtn = (e) => {		
 		Axios.post('http://localhost:8000/getSum', {
 			paragraph: e.target.getAttribute('paragraph')
 		}).then((res) => {
@@ -84,31 +111,89 @@ function News(props) {
 	const getKeywordNews = (e) => {
 		setKey(e.target.getAttribute('keyword'));
 	}
+
 	console.log("키버튼:", key);
-
-
 	console.log("자료:", news[1]);
 
 	const delSum = (e) => {
 		setSum(sum.filter(sum => parseInt(sum.id) !== parseInt(e.target.getAttribute('del_idx'))));
 	}
+	const delDes = (e) => {
+		setDes(des.filter(des => parseInt(des.id) !== parseInt(e.target.getAttribute('del_idx'))));
+	}
 	console.log("sum : ", sum);
+
+
+	const brandNews = (e) => {
+		setMode(true);
+		setDes([]);
+		Axios.post('http://localhost:8000/getbrandNews', {		
+		}).then((res) => {
+			setNews(res.data);
+		})
+	}
+		console.log(des);
 
 	return (   	
         <div className="menu__container">
 			<h2>NEWS</h2>		
 			<div className="board_top">
 				{news.length !== 0 ?
-					<p>총 게시물 {news.length - 1}개 </p>
+					mode ? <p>총 게시물 {news.length}개 </p> : <p>총 게시물 {news.length - 1}개 </p>
 					:<p>총 게시물 {news.length}개 </p>
 				}
 			</div>
 
 			<div className="tagSearch">
-				<div className="tagTitle left">과거 뉴스</div>
-				<div className="tagTitle left">최신 뉴스</div>
+				<div className="tagTitle left"
+					 onClick={ (e) => setMode(false)}
+				>과거 뉴스</div>
+				<div className="tagTitle left"
+					 onClick={brandNews}
+				>최신 뉴스</div>
 			</div>
 	
+		{ mode ? 
+			<div>
+				<div className="board_contents">
+					{news.length !== 0 &&
+						news.map((element, i) =>(
+							element.length === undefined &&(
+								<div className="newslist" key={i}>
+									<div>
+										<div className="left">
+											<p>{i+1}</p>
+											<h5>{convertnewDate(element.pubDate)}</h5>
+										</div>
+										<div className="right">
+											<div>
+												<div className="title left">
+													<h3>{striptags(element.title)}</h3>
+												</div>
+												
+												<div className="summary right">
+													<button type="submit" onClick={ (e) => setDes([...des,{id:i}]) } description_idx={i}>본문</button>
+												</div>
+											</div>
+										</div>
+									</div>
+									{des.length !== 0 &&(
+										des.map((el)=> (
+											parseInt(el.id) === i &&(
+											<div className="sumdiv">   
+												<button onClick={delDes}  del_idx={el.id} >X</button>
+												<p>{striptags(element.description)}</p>
+												<button onClick={() => window.open(`${element.link}`, '_blank')}>뉴스 더 보기</button>
+											</div>
+										)))
+									)}
+								</div>				
+							)
+						))
+					}
+				</div>
+			</div>
+		: 	<div>
 			<div className="newsSearch">
 				<ul className="keywordSearch">
 					<li>
@@ -149,6 +234,7 @@ function News(props) {
 					</li>
 				</ul>
 			</div>
+
 			{keyword.length !== 0 &&
 				<div>
 					<button onClick={getKeywordNews} keyword={keyword[0]}>{keyword[0]}</button>
@@ -162,6 +248,8 @@ function News(props) {
 			{news.length !== 0 &&
 				<div className="line"></div>
 			}
+
+
 			<div className="board_contents">
 				{news.length !== 0 &&
 					news.map((element, i) =>(
@@ -205,6 +293,9 @@ function News(props) {
 					))
 				}
 			</div>
+		</div>	
+		}{/*mode*/}
+
 		</div>
 	);
 }

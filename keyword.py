@@ -70,7 +70,7 @@ sorted_word_rank_idx = sorted(word_rank_idx, key=lambda k: word_rank_idx[k], rev
 
 keywords = []
 index_w=[]
-
+ 
 for idx in sorted_word_rank_idx[:5]:
     index_w.append(idx)
 

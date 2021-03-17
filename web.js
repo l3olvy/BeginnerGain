@@ -42,8 +42,10 @@ app.use(
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended: true}));
 
-/*과거 뉴스*/
 
+
+
+/*과거 뉴스*/
 const spawn = require("child_process").spawn;
 
 app.post('/getNews', (req, res) => {
@@ -53,7 +55,7 @@ app.post('/getNews', (req, res) => {
 	console.log("시작", start)
 	const python = spawn('python', ['keyword.py', start, end]);
 	let news = '';
-	python.stdout.on('data', (data) => {
+	python.stdout.on('data', (data) => { 
 		//myjson.push(JSON.parse(data));
 		news += data;
 	})
@@ -61,6 +63,22 @@ app.post('/getNews', (req, res) => {
 	python.on('close', (code) => {
 		res.send(JSON.parse(news));
 	})
+   python.stderr.pipe(process.stderr);
+})
+
+/* 최신뉴스//////////////// */
+app.post('/getbrandNews', (req, res) => {
+   console.log("최신뉴스");
+   const python = spawn('python', ['brandnew.py']);
+   let news = '';
+
+   python.stdout.on('data', (data) => {
+      news += data;
+   })
+
+   python.on('close', (code) => {
+      res.send(JSON.parse(news));
+   })
 })
 
 /*뉴스 요약2*/
@@ -91,6 +109,7 @@ app.use(
 		}
 	})
 );
+
 
 /* 라우팅 */
 const board = require("./routes/board");
