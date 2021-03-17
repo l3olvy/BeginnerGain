@@ -187,7 +187,7 @@ input,button,select:focus { outline: none; }
 
 /* NEWS */
 
-.menu__container>.newsSearch>.keywordSearch {
+.menu__container>div>.newsSearch>.keywordSearch {
     margin: 0 auto;
     width: 600px;
     background-color: #4A4E80;
@@ -197,13 +197,13 @@ input,button,select:focus { outline: none; }
     margin-bottom: 70px;
 }
 
-.menu__container>.newsSearch>.keywordSearch>li {
+.menu__container>div>.newsSearch>.keywordSearch>li {
     color:white;
     float: left;
     height: 100%;
 }
 
-.menu__container>.newsSearch>.keywordSearch>li>p {
+.menu__container>div>.newsSearch>.keywordSearch>li>p {
     font-size: 16px;
     font-weight: bold;
 }
@@ -223,7 +223,7 @@ input,button,select:focus { outline: none; }
     outline: none;
 }
 
-.menu__container>.newsSearch>.keywordSearch>li>button {
+.menu__container>div>.newsSearch>.keywordSearch>li>button {
     width: 48px;
     height: 100%;
     background: none;
@@ -233,18 +233,18 @@ input,button,select:focus { outline: none; }
     font-size: 23px;
 }
 
-.menu__container>.newsSearch>.keywordSearch>li>button:focus {
+.menu__container>div>.newsSearch>.keywordSearch>li>button:focus {
     color: pink;
     outline: none;
 }
 
-.menu__container>.board_contents>.newslist {
+.menu__container>div>.board_contents>.newslist {
     width: 100%;
     overflow:hidden;
     height:auto;
     border-bottom: 1px solid #c6c6c6;
 }
-.menu__container>.board_contents>.newslist>div {
+.menu__container>div>.board_contents>.newslist>div {
     width: 100%;
     overflow:hidden;
     height:auto;
@@ -265,28 +265,28 @@ input,button,select:focus { outline: none; }
     color: white;
 
 }
-.menu__container>.board_contents{
+.menu__container>div>.board_contents{
     margin-bottom: 100px;
 }
-.menu__container>.board_contents>.newslist>div>.left {
+.menu__container>div>.board_contents>.newslist>div>.left {
     width: 13%;
     height: 100%;
     padding: 0 20px;
 }
 
-.menu__container>.board_contents>.newslist>div>.left>p {
+.menu__container>div>.board_contents>.newslist>div>.left>p {
     font-weight: bold;
     color: #f49a24;
     font-size: 18px;
 }
 
-.menu__container>.board_contents>.newslist>div>.right {
+.menu__container>div>.board_contents>.newslist>div>.right {
     width: 87%;
     height: 100%;
     padding: 0 20px;
 }
 
-.menu__container>.board_contents>.newslist>div>.right>div {
+.menu__container>div>.board_contents>.newslist>div>.right>div {
     width: 100%;
     clear: both;
     float: none;
@@ -294,18 +294,18 @@ input,button,select:focus { outline: none; }
   
 }
 
-.menu__container>.board_contents>.newslist>div>.right>div>.left {
+.menu__container>div>.board_contents>.newslist>div>.right>div>.left {
     width: 75%;
     height: 100%;
 }
 
-.menu__container>.board_contents>.newslist>div>.right>div>.right {
+.menu__container>div>.board_contents>.newslist>div>.right>div>.right {
     width: 25%;
     height: 100%;
     text-align: right;
 }
 
-.menu__container>.board_contents>.newslist>div>.right>div>.right>button {
+.menu__container>div>.board_contents>.newslist>div>.right>div>.right>button {
     border: none;
     color: white;
     background-color: #4A4E80;
@@ -315,16 +315,16 @@ input,button,select:focus { outline: none; }
     margin-top: 35px;
 }
 
-.menu__container>.board_contents>.newslist>div>.right>div>.right>button:focus {
+.menu__container>div>.board_contents>.newslist>div>.right>div>.right>button:focus {
     outline: none;
     color: pink;
 }
 
-.menu__container>.board_contents>.newslist>div>.right>div>.right>p {
+.menu__container>div>.board_contents>.newslist>div>.right>div>.right>p {
     font-size: 16px;
 }
 
-.menu__container>.line{
+.menu__container>div>.line{
     border-bottom: 1px solid #c6c6c6;
 }
 
