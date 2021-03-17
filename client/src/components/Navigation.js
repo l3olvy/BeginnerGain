@@ -8,7 +8,6 @@ function Navigation() {
 			<div className="nav">
 				<Link to="/">Home</Link>
 				<Link to="/news">News</Link>
-				<Link to="/forum">Forum</Link>
 				<Link to="/compiler">Compiler</Link>
 				<Link to="/qna">Qna</Link>
 				<Link to="/talk">Talk</Link>

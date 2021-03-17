@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap');
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
     background-color: #fefefe;
     font-family: "Nanum Gothic";
