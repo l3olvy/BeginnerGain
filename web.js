@@ -43,8 +43,6 @@ app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended: true}));
 
 
-
-
 /*과거 뉴스*/
 const spawn = require("child_process").spawn;
 
@@ -69,7 +67,7 @@ app.post('/getNews', (req, res) => {
 /* 최신뉴스//////////////// */
 app.post('/getbrandNews', (req, res) => {
    console.log("최신뉴스");
-   const python = spawn('python', ['brandnew.py']);
+   const python = spawn('python', ['qhszld.py']);
    let news = '';
 
    python.stdout.on('data', (data) => {
@@ -79,6 +77,7 @@ app.post('/getbrandNews', (req, res) => {
    python.on('close', (code) => {
       res.send(JSON.parse(news));
    })
+   python.stderr.pipe(process.stderr);
 })
 
 /*뉴스 요약2*/

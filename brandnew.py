@@ -7,7 +7,7 @@ import json
 import threading
 import time
 
-with open('C:\\Users\\ptcho\\Desktop\\news_dict.json','r', encoding='utf-8') as json_file:
+with open('C:\\Users\\goeun\\Desktop\\news_dict.json','r', encoding='utf-8') as json_file:
 	json_data = json.load(json_file)
 
 print(json.dumps(json_data, ensure_ascii=False))
