@@ -23,7 +23,7 @@ function Post(props) {
     const [commentnum, setCommentnum] = useState(0);
     const [postcommentN, setpostCommentN] = useState(0);
 
-    // 그냥 새로 부르는거임 들어가면
+    // 그냥 새로 부르는거임 들어가면 
     Axios.post('http://localhost:8000/board/getPost', {
         idx: idx,
         name : name

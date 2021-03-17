@@ -139,7 +139,7 @@ function News(props) {
          <h2>NEWS</h2>      
          <div className="board_top">
             {news.length !== 0 ?
-               <p>총 게시물 {news.length - 1}개 </p>
+               mode ? <p>총 게시물 {news.length}개 </p> : <p>총 게시물 {news.length - 1}개 </p>
                :<p>총 게시물 {news.length}개 </p>
             }
          </div>

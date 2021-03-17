@@ -42,6 +42,27 @@ app.use(
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({extended: true}));
 
+/*과거 뉴스*/
+const spawn = require("child_process").spawn;
+
+app.post('/getNews', (req, res) => {
+	//var dataToSend = [];
+	const start = req.body.start;
+	const end = req.body.end;
+	console.log("시작", start)
+	const python = spawn('python', ['keyword.py', start, end]);
+	let news = '';
+	python.stdout.on('data', (data) => { 
+		//myjson.push(JSON.parse(data));
+		news += data;
+	})
+
+	python.on('close', (code) => {
+		res.send(JSON.parse(news));
+	})
+   python.stderr.pipe(process.stderr);
+})
+
 /* 최신뉴스//////////////// */
 app.post('/getbrandNews', (req, res) => {
    console.log("최신뉴스");
@@ -55,58 +76,38 @@ app.post('/getbrandNews', (req, res) => {
    python.on('close', (code) => {
       res.send(JSON.parse(news));
    })
-})
-
-/*과거 뉴스*/
-
-const spawn = require("child_process").spawn;
-
-app.post('/getNews', (req, res) => {
-	//var dataToSend = [];
-	const start = req.body.start;
-	const end = req.body.end;
-	console.log("시작", start)
-	const python = spawn('python', ['keyword.py', start, end]);
-	let news = '';
-	python.stdout.on('data', (data) => {
-		//myjson.push(JSON.parse(data));
-		news += data;
-	})
-
-	python.on('close', (code) => {
-		res.send(JSON.parse(news));
-	})
    python.stderr.pipe(process.stderr);
 })
 
 /*뉴스 요약2*/
 app.post('/getSum', (req, res) => {
-	const paragraph = req.body.paragraph;
-	console.log("문장",paragraph);
-	let sum;
-	const python = spawn('python', ['sum.py', paragraph]);
+   const paragraph = req.body.paragraph;
+   console.log("문장",paragraph);
+   let sum;
+   const python = spawn('python', ['sum.py', paragraph]);
 
-	python.stdout.on('data', (data) => {
-		sum = JSON.parse(data.toString());
-		console.log("sum", sum);
-		//console.log(dataToSend)
-	})
-	python.on('close', (code) => {
-		res.send(sum);
-	})
+   python.stdout.on('data', (data) => {
+      sum = JSON.parse(data.toString());
+      console.log("sum", sum);
+      //console.log(dataToSend)
+   })
+   python.on('close', (code) => {
+      res.send(sum);
+   })
 })
 
 app.use(
-	session({
-		key: "userId",
-		secret: "subscribe",
-		resave: false,
-		saveUninitialized: false,
-		cookie: {
-			expires: 60 * 60 * 24
-		}
-	})
+   session({
+      key: "userId",
+      secret: "subscribe",
+      resave: false,
+      saveUninitialized: false,
+      cookie: {
+         expires: 60 * 60 * 24
+      }
+   })
 );
+
 
 /* 라우팅 */
 const board = require("./routes/board");
@@ -248,9 +249,11 @@ io.on('connection', (socket) => { // 기본 연결
       /*io.emit('upload', data);*/
    });
 
-  // socket.on('leaveUser', (nick) => {
-  //   io.emit('out', nick);
-  // });
+   socket.on('code_send', (data) => {
+      // console.log('client가 보낸 데이터: ', data);
+      io.emit('uploads', {name:data.name, code: data.code, lang : data.lang, message:data.message});
+      /*io.emit('upload', data);*/
+   });
 
    socket.on('disconnect', function () {
       console.log('user disconnected: ', socket.id);

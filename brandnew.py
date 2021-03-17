@@ -1,3 +1,20 @@
+# import sys    
+# sys.stdout.reconfigure(encoding='utf-8')
+  
+# import requests
+# import json
+# import threading
+# import time
+
+# <<<<<<< HEAD
+# =======
+# with open('C:\\Users\\goeun\\Desktop\\news_dict.json','r', encoding='utf-8') as json_file:
+# 	json_data = json.load(json_file)
+
+# print(json.dumps(json_data, ensure_ascii=False))
+
+# sys.stdout.flush()
+
 
 import sys    
 sys.stdout.reconfigure(encoding='utf-8')

@@ -5,7 +5,6 @@ import SignUp from "../routes/SignUp";
 import IdPw from "../routes/IdPw";
 import Home from "../routes/Home";
 import News from "../routes/News";
-import Forum from "../routes/Forum";
 import Compile from "../routes/Compile";
 import Qna from "../routes/Qna";
 import Talk from "../routes/Talk";
@@ -26,7 +25,6 @@ function Body() {
         	<PublicRoute restricted component={IdPw} path="/idpw" />
 			<Route component={Home} path="/" exact={true} />
 			<Route component={News} path="/news" />
-			<Route component={Forum} path="/forum" />
 			<Route component={Compile} path="/compiler" /> 
 			<Route component={Qna} path="/qna" exact={true} /> 
 			<Route component={Talk} path="/talk" exact={true} /> 

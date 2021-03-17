@@ -5,7 +5,6 @@ sys.stdout.reconfigure(encoding='utf-8')
 import json
 from konlpy.tag import Komoran
 from collections import Counter
-#from sklearn.feature_extraction.text import TfidfVectorizer
 import numpy as np
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.preprocessing import normalize
@@ -66,7 +65,4 @@ rangenews.insert(0,keywords)
 
 print(json.dumps(rangenews, ensure_ascii=False))
 
-
-#print(json.dumps(json_data[0]))
-#print(json.dumps(json_data[1]))
 sys.stdout.flush()

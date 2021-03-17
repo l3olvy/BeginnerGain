@@ -15,7 +15,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
     // Otherwise, redirect the user to /login page
         <Route
             {...rest}
-            render={(props) => (isLogin ? <Component {...props} /> : (alert("로그인부터 해라"),<Redirect to="/login" />))}
+            render={(props) => (isLogin ? <Component {...props} /> : (alert("로그인 후 이용 가능 합니다!"),<Redirect to="/login" />))}
         />
     );
 }
