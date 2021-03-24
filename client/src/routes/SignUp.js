@@ -85,10 +85,10 @@ function SignUp(props) {
 					<input className="PW-input" type='password' placeholder='비밀번호' value={Pw} onChange={onPWHandler} name='pw' required />
 
 					<label>
+						<button className="joinBtn" type="submit">등록</button>
 						<Link to="/login">
 							<button className="joinBtn"> 로그인</button>
 						</Link>
-						<button className="joinBtn" type="submit">등록</button>
 					</label>
 				</form>
 			</div>

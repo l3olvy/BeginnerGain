@@ -159,12 +159,11 @@ router.post("/writing_qna", (req, res) => {
 	const writer = req.body.writer;
 	const title = req.body.title;
 	const contents = req.body.contents;
-	const img = req.body.img;
 	const tag = req.body.tag;
 	const hit = req.body.hit;
 
-	const sqlQuery = "INSERT INTO qboard (writer, title, contents, img, tag, hit, rdate ) VALUES (?,?,?,?,?,?,NOW())";
-	connection.query(sqlQuery, [writer, title, contents, img, tag, hit], (err, result)=>{
+	const sqlQuery = "INSERT INTO qboard (writer, title, contents, tag, hit, rdate ) VALUES (?,?,?,?,?,NOW())";
+	connection.query(sqlQuery, [writer, title, contents, tag, hit], (err, result)=>{
 		res.send('good');
 	})
 });
@@ -184,12 +183,11 @@ router.post("/writing_talk", (req, res) => {
 	const writer = req.body.writer;
 	const title = req.body.title;
 	const contents = req.body.contents;
-	const img = req.body.img;
 	const category = req.body.category;
 	const hit = req.body.hit;
 
-	const sqlQuery = "INSERT INTO tboard (writer, title, contents, img, category, hit, rdate ) VALUES (?,?,?,?,?,?,NOW())";
-	connection.query(sqlQuery, [writer, title, contents, img, category, hit], (err, result)=>{
+	const sqlQuery = "INSERT INTO tboard (writer, title, contents, category, hit, rdate ) VALUES (?,?,?,?,?,NOW())";
+	connection.query(sqlQuery, [writer, title, contents, category, hit], (err, result)=>{
 		res.send('good');
 	})
 });
@@ -273,8 +271,6 @@ router.post("/postqna", (req, res) => {
 	const bid = req.body.bid;
 	const writer = req.body.writer;
 	const contents = req.body.contents;
-	const img = req.body.img;
-	const good = req.body.good;
 	const idx = req.body.bid;
 	const commentN = req.body.commentN;	
 	let boardName;
@@ -283,8 +279,8 @@ router.post("/postqna", (req, res) => {
 	if(name === "qna") {boardName = "qboard"; boardName2 = "q_comment";}
 	else {boardName = "tboard"; boardName2 = "t_comment";}
 
-	const sqlQuery = "UPDATE "+boardName+" SET commentN=? WHERE idx=?;"+"INSERT INTO "+boardName2+" (bid, writer, contents, img, good, cdate) VALUES (?,?,?,?,?,NOW());";
-	connection.query(sqlQuery, [commentN, idx, bid, writer, contents, img, good], (err, result)=>{
+	const sqlQuery = "UPDATE "+boardName+" SET commentN=? WHERE idx=?;"+"INSERT INTO "+boardName2+" (bid, writer, contents, cdate) VALUES (?,?,?,NOW());";
+	connection.query(sqlQuery, [commentN, idx, bid, writer, contents], (err, result)=>{
 		res.send('good');
 	})
 });

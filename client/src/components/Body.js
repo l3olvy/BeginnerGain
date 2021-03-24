@@ -17,18 +17,20 @@ import PublicRoute from "../lib/PublicRoute"
 import PrivateRoute from "../lib/PrivateRoute"
 import NotFound from "./NotFound";
 import Axios from 'axios';
-function Body() {
+function Body(props) {
+	const [isLogin, setIsLogin] = useState('');
+	const [id, setId] = useState('');
 
- 	const [isLogin, setIsLogin] = useState('');
-    const [id, setId] = useState('');
-
-    useEffect(() => {
-       Axios.get("http://localhost:8000/login").then((res) => {
-            setIsLogin(res.data.loggedIn);
-            if(res.data.loggedIn === true)
-                setId(res.data.user[0].id);
-        });
-    }, [isLogin, id]);
+	useEffect(() => {
+		Axios.get("/member/session").then((res) => {
+			if(res.data !== "fail") {
+				setIsLogin(res.data.loggedIn);
+				if(res.data.loggedIn === true) {
+					setId(res.data.id);
+				}
+			}
+		});
+	}, [isLogin, id]);
 
     return (
         <div className="body">
