@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import '../css/Components.css';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import Editor from 'ckeditor5-custom-build/build/ckeditor';
@@ -16,18 +16,26 @@ function Writing(props) {
 	const [contents,setContent] = useState('');
 	const [tag, setTag] = useState([]);
 	const onTitleHandler = (event) => {setTitle (event.currentTarget.value);}
-	//const onTagHandler = (event) => {setTag (event.currentTarget.value); }
 	const [user, setUser] = useState();
+	const mounted = useRef(false);
 
-	Axios.defaults.withCredentials = true;
-
-	const getUser = useCallback(() => {
-		Axios.get("http://localhost:8000/login").then((res) => {
-			if(res.data.loggedIn === true) {
-				setUser(res.data.user[0].id);
-			}
+	const getUser = async (e) => {
+		await Axios.get("/member/session").then((res) => {
+			if(res.data !== "fail") setUser(res.data.id);
 		});
-	}, []);
+	}
+
+	useEffect(() => {
+		getUser();
+	}, [])
+
+	useEffect(() => {
+		if(!mounted.currnet) {
+			mounted.currnet = true;
+		} else {
+			getUser();
+		}
+	}, [user]);
 
 	const loadPrevData = useCallback((e) => {
 		setTitle(post.title);
@@ -35,7 +43,6 @@ function Writing(props) {
 	}, []);
 
 	useEffect(() => {
-		getUser();
 		if (props.location.state !== undefined) {
 			localStorage.setItem("prev", JSON.stringify(props.location.state));
 		}
@@ -44,7 +51,7 @@ function Writing(props) {
 		} else {
 			reset();
 		}
-	}, [getUser, loadPrevData, props.location.state, props.match.params.idx])
+	}, [loadPrevData, props.location.state, props.match.params.idx])
 
 	const reset = (e) => {
 		setPost('');
@@ -57,14 +64,14 @@ function Writing(props) {
 			const idx = e.target.getAttribute('comment-idx');
 
 			if (post.name === "qna") {
-				Axios.post('http://localhost:8000/board/updateqna', {
+				Axios.post('/board/updateqna', {
 					idx: idx,
 					title: title,
 					contents: contents,
 					tag: tag[0]+" "+tag[1]+" "+tag[2]
 				}).then(() => {
 					alert("수정 되었습니다!");
-					Axios.post('http://localhost:8000/board/update_tag', {
+					Axios.post('/board/update_tag', {
 						idx: idx,
 			            tag1:tag[0],
 			            tag2:tag[1],
@@ -74,14 +81,14 @@ function Writing(props) {
 				}).catch((error) => { console.log(error) });
 
 			} else if (post.name === "talk") {
-				Axios.post('http://localhost:8000/board/updatetalk', {
+				Axios.post('/board/updatetalk', {
 					idx: idx,
 					title: title,
 					contents: contents,
 					tag: tag[0]+" "+tag[1]+" "+tag[2]
 				}).then(() => {
 					alert("수정 되었습니다!");
-					Axios.post('http://localhost:8000/board/update_category', {
+					Axios.post('/board/update_category', {
 						idx: idx,
 			            category1:tag[0],
 			            category2:tag[1],
@@ -105,7 +112,7 @@ function Writing(props) {
 			alert("내용을 입력해주세요.");
 		else{
 			if (props.match.params.name === "qna") {
-				Axios.post('http://localhost:8000/board/writing_qna', {
+				Axios.post('/board/writing_qna', {
 					writer: user,
 					title: title,
 					contents: contents,
@@ -114,7 +121,7 @@ function Writing(props) {
 					hit: 0
 				}).then((res) => { alert("작성 되었습니다.");
 				///////////qboard-tag 서로 idx 맞춰야함  - 그래야 삭제 가능 //나중에 두명 동시 작성 확인해보기
-			        Axios.post('http://localhost:8000/board/writing_tag', {
+			        Axios.post('/board/writing_tag', {
 			            tag1:tag[0],
 			            tag2:tag[1],
 			            tag3:tag[2]
@@ -123,7 +130,7 @@ function Writing(props) {
 				}).catch((error) => { console.log(error) });
 
 			} else if (props.match.params.name === "talk") {
-				Axios.post('http://localhost:8000/board/writing_talk', {
+				Axios.post('/board/writing_talk', {
 					writer: user,
 					title: title,
 					contents: contents,
@@ -132,7 +139,7 @@ function Writing(props) {
 					hit: 0
 				}).then((res) => { alert("작성 되었습니다.");
 				///////////qboard-tag 서로 idx 맞춰야함  - 그래야 삭제 가능 //나중에 두명 동시 작성 확인해보기
-			        Axios.post('http://localhost:8000/board/writing_category', {
+			        Axios.post('/board/writing_category', {
 			            category1:tag[0],
 			            category2:tag[1],
 			            category3:tag[2]

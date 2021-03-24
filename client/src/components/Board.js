@@ -38,8 +38,8 @@ function Board(props) {
     if (name === "talk") search = "카테고리";
 
     const loadList = async () => {
-    	let url = "http://localhost:8000/board/getBoard/1/qna";
-    	if(name === "talk") url = 'http://localhost:8000/board/getBoard/1/talk';
+    	let url = "/board/getBoard/1/qna";
+    	if(name === "talk") url = '/board/getBoard/1/talk';
     	await Axios.get(url).then((res)=>{
 			setViewContent(res.data.model.boardList);
 			setcurPage(res.data.model.currentPage);
@@ -55,7 +55,7 @@ function Board(props) {
 	        let value = props.match.params.q;
 	        let kind = props.match.params.kind;
 			if (name === "qna") {
-				Axios.post('http://localhost:8000/board/searchqna', {
+				Axios.post('/board/searchqna', {
 					value : value,
 					kind : kind
 				}).then((response) => {
@@ -68,7 +68,7 @@ function Board(props) {
 					}})
 
 			} else {
-				Axios.post('http://localhost:8000/board/searchtalk', {
+				Axios.post('/board/searchtalk', {
 					value : value,
 					kind : kind
 				}).then((response) => {
@@ -85,8 +85,8 @@ function Board(props) {
 
     const onClick = async (e) => {
     	const idxs = e.target.dataset.idx;
-    	let url = "http://localhost:8000/board/getBoard/"+idxs+"/qna";
-    	if(name === "talk") url = "http://localhost:8000/board/getBoard/"+idxs+"/talk";
+    	let url = "/board/getBoard/"+idxs+"/qna";
+    	if(name === "talk") url = "/board/getBoard/"+idxs+"/talk";
     	
         await Axios.get(url).then((res) => {
             setcurPage(res.data.model.currentPage);
@@ -113,7 +113,6 @@ function Board(props) {
 			props.history.replace(`/${name}/search/general/${generalSearch}`);
 		else
 			props.history.push(`/${name}/search/general/${generalSearch}`);
-		//props.history.push(`/${name}/search/${generalSearch}`);
 	}
 
     const searchTagsBtn = (e) => {
@@ -125,7 +124,6 @@ function Board(props) {
 			props.history.replace(`/${name}/search/tags/${tag}`);
 		else
 			props.history.push(`/${name}/search/tags/${tag}`);
-		//props.history.push(`/${name}/search/${generalSearch}`);
 	}
 
 	const setOnTag = (tagset) =>{

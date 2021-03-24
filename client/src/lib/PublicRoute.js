@@ -7,10 +7,11 @@ const PublicRoute = ({ component: Component, restricted, ...rest }) => {
     const [id, setId] = useState('');
 
     useEffect(() => {
-       Axios.get("http://localhost:8000/login").then((res) => {
+       Axios.get("/member/session").then((res) => {
             setIsLogin(res.data.loggedIn);
-            if(res.data.loggedIn === true)
-                setId(res.data.user[0].id);
+            if(res.data.loggedIn === true) {
+                setId(res.data.id);
+            }
         });
     }, [isLogin, id]);
     return (

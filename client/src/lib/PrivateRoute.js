@@ -6,7 +6,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
     const [isLogin, setIsLogin] = useState('');
 
     useEffect(() => {
-       Axios.get("http://localhost:8000/login").then((res) => {
+       Axios.get("/member/session").then((res) => {
             setIsLogin(res.data.loggedIn);
         });
     }, [isLogin]);
