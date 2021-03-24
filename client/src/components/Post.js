@@ -5,6 +5,7 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 import Editor from 'ckeditor5-custom-build/build/ckeditor';
 import { Link } from "react-router-dom";
 import Prism from "../lib/PrismImport";
+import NotFound from "./NotFound";
 
 const editorConfiguration = {
     simpleUpload: { uploadUrl: '/upload'},
@@ -23,13 +24,38 @@ function Post(props) {
     const [commentnum, setCommentnum] = useState(0);
     const [postcommentN, setpostCommentN] = useState(0);
 
-    // 그냥 새로 부르는거임 들어가면 
-    Axios.post('http://localhost:8000/board/getPost', {
-        idx: idx,
-        name : name
-    }).then((res) => {
-        setPost(res.data[0]);
-    });
+    // 그냥 새로 부르는거임 들어가면
+   /* if(isNaN(idx) === false && (name === 'qna' || name === 'talk')){
+        Axios.post('http://localhost:8000/board/getPost', {
+            idx: idx,
+            name : name
+        }).then((res) => {
+            if(res.data.length !== 0)
+                setPost(res.data[0]);   
+            else
+                props.history.push("/notfound"); 
+        });
+    }
+    else
+        props.history.push("/notfound");    
+    */
+
+
+    useEffect(() => {
+        if(isNaN(idx) === false && (name === 'qna' || name === 'talk')){
+            Axios.post('http://localhost:8000/board/getPost', {
+                idx: idx,
+                name : name
+            }).then((res) => {
+                if(res.data.length !== 0)
+                    setPost(res.data[0]);   
+                else
+                    props.history.push("/notfound"); 
+            });
+        }
+        else
+            props.history.push("/notfound"); 
+    }, [idx, name, post])
 
     const loadComment = useCallback( async () => {
         if (name === "qna") {

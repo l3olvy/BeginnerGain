@@ -20,7 +20,6 @@ function Writing(props) {
 	const [user, setUser] = useState();
 
 	Axios.defaults.withCredentials = true;
-
 	const getUser = useCallback(() => {
 		Axios.get("http://localhost:8000/login").then((res) => {
 			if(res.data.loggedIn === true) {
@@ -166,8 +165,11 @@ function Writing(props) {
 	                name = 'contents'          
 		        /> 
 		        <p className="bold">태그</p>
-
-		        <TagBox change={setOnTag}/>
+		        {props.location.state ?
+		        <TagBox change={setOnTag} ex_tags={post.tag.split(' ')} name={props.match.params.name}/>
+		        :
+		        <TagBox change={setOnTag} name={props.match.params.name}/>
+		    	}
 	            {/*<input className="tag-input" type='text' onChange={onTagHandler} name = 'tag' value={tag} placeholder="태그는 3개 제한 입니다."/>*/}
 	        </div>
 	            {(post) ? <button className="modify-button" onClick={updateBtn} comment-idx={post.idx}>수정</button> : <button className="submit-button" onClick={onSubmitHandler} >작성</button>}
@@ -176,4 +178,4 @@ function Writing(props) {
    );
 }
 
-export default Writing;
+export default React.memo(Writing);
