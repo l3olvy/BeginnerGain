@@ -2,14 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Route, Redirect } from "react-router-dom";
 import Axios from 'axios';
 
-const PrivateRoute = ({ component: Component, ...rest }) => {
-    const [isLogin, setIsLogin] = useState('');
+const PrivateRoute = ({ component: Component, isLogin: isLogin, ...rest }) => {
 
-    useEffect(() => {
-       Axios.get("/member/session").then((res) => {
-            setIsLogin(res.data.loggedIn);
-        });
-    }, [isLogin]);
     return (
     // Show the component only when the user is logged in
     // Otherwise, redirect the user to /login page

@@ -504,7 +504,8 @@ Z-TRANS	NNG
 사이버포트	NNG
 사이언스파크	NNG
 산업체질	NNG
-산업혁명	NNG
+4차산업혁명	NNG
+4차산업	NNG
 삼성D	NNG
 삼성리서치파크	NNG
 삼성사옥	NNG
@@ -959,7 +960,7 @@ Z-TRANS	NNG
 카카오픽	NNG
 카톡	NNG
 칼라닉	NNG
-칼퇴근	NNG
+칼퇴	NNG
 캐논코리아	NNG
 캐져	NNG
 커넥티드	NNG
@@ -1145,3 +1146,16 @@ Z-TRANS	NNG
 휴먼케어콘텐츠	NNG
 희생양	NNG
 히어	NNG
+아이폰	NNG
+휴대폰	NNG
+불통폰	NNG
+안드로이드폰	NNG
+블랙베리폰	NNG
+LTE폰	NNG
+헤드폰	NNG
+삼성폰	NNG
+한손폰	NNG
+LG폰	NNG
+오디오	NNG
+웹OS	NNG
+챌린지	NNG

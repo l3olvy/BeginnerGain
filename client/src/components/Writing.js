@@ -116,7 +116,6 @@ function Writing(props) {
 					writer: user,
 					title: title,
 					contents: contents,
-					img: null,
 					tag: tag[0]+" "+tag[1]+" "+tag[2],
 					hit: 0
 				}).then((res) => { alert("작성 되었습니다.");
@@ -134,7 +133,6 @@ function Writing(props) {
 					writer: user,
 					title: title,
 					contents: contents,
-					img: null,
 					category: tag[0]+" "+tag[1]+" "+tag[2],
 					hit: 0
 				}).then((res) => { alert("작성 되었습니다.");
@@ -173,8 +171,11 @@ function Writing(props) {
 	                name = 'contents'          
 		        /> 
 		        <p className="bold">태그</p>
-
-		        <TagBox change={setOnTag}/>
+		        {props.location.state ?
+		        <TagBox change={setOnTag} ex_tags={post.tag.split(' ')} name={props.match.params.name}/>
+		        :
+		        <TagBox change={setOnTag} name={props.match.params.name}/>
+		    	}
 	            {/*<input className="tag-input" type='text' onChange={onTagHandler} name = 'tag' value={tag} placeholder="태그는 3개 제한 입니다."/>*/}
 	        </div>
 	            {(post) ? <button className="modify-button" onClick={updateBtn} comment-idx={post.idx}>수정</button> : <button className="submit-button" onClick={onSubmitHandler} >작성</button>}
@@ -183,4 +184,4 @@ function Writing(props) {
    );
 }
 
-export default Writing;
+export default React.memo(Writing);

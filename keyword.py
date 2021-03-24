@@ -2,12 +2,10 @@
 import sys    
 sys.stdout.reconfigure(encoding='utf-8')
   
-import json
+import json, re
 from konlpy.tag import Komoran
 from collections import Counter
 import numpy as np
-from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.preprocessing import normalize
 
 with open('C:\\Users\\qhsl0\\NIRW_IT_link4.json', 'r', encoding='UTF-8') as json_file:
     json_data = json.load(json_file)
@@ -22,10 +20,22 @@ with open('./fire.txt', 'r', encoding='UTF-8') as file:
     for line in file:
         stopwords.append(line.rstrip('\n')) 
 
+# def komoran_tokenizer(sent):
+#     words = komoran.pos(sent)
+#     words = [w for w, p in words if ('NN' in p or 'SL' in p) and w not in stopwords and len(w) > 1]
+#     return words
+
 def komoran_tokenizer(sent):
     words = komoran.pos(sent)
-    words = [w for w, p in words if ('NN' in p or 'SL' in p) and w not in stopwords and len(w) > 1]
-    return words
+    word=[]
+    for w, p in words:
+        if('NN' in p or 'SL' in p) and w not in stopwords:
+            if w !='웹' and w!= '앱':
+                if(len(w)>1):
+                    word.append(w)
+            else:
+                word.append(w)
+    return word
 
 rangenews = []
 for news in json_data:
@@ -37,7 +47,8 @@ for news in json_data:
 sents=[]
 
 for title in rangenews:
-    sents.append(title['title'].replace(' ', '').upper())
+    title2 = re.sub(r'[^ ㄱ-ㅣ가-힣A-Za-z0-9]', '', title['title']) #특수기호 제거, 정규 표현식  
+    sents.append(title2.replace(' ', '').upper())
 
 # 문장 리스트들에서 토큰화 시켜서 단어 빈도 수 계산
 counter = Counter(w for sent in sents for w in komoran_tokenizer(sent))

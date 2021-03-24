@@ -62,10 +62,10 @@ router.get("/getBoard/:currentPage/:category", (req, res)=> {
 router.post("/getPost", (req, res) => {
 	const idx = req.body.idx;
 	const name = req.body.name;
-
+	
 	let sqlQuery;
 	if(name === "talk") sqlQuery = "SELECT * FROM tboard WHERE idx=?";
-	else sqlQuery = "SELECT * FROM qboard WHERE idx=?";
+	else if(name === "qna") sqlQuery = "SELECT * FROM qboard WHERE idx=?";
 	
 	connection.query(sqlQuery, [idx], (err, result) => {
 		res.send(result);
@@ -349,6 +349,40 @@ router.post("/getHit", (req, res)=>{
 		res.send('good');
 	});
 })
+
+/*Tag List*/
+
+router.post("/getTag", (req, res) => {
+	const name = req.body.name;
+	const tags=[];
+	let sqlQuery;
+	if(name === "talk") sqlQuery = "SELECT category1, category2, category3 FROM category";
+	else if(name === "qna") sqlQuery = "SELECT tag1, tag2, tag3 FROM tag";
+	
+	connection.query(sqlQuery, (err, result) => {
+		if(name === "qna"){
+			for(let i=0; i<result.length; i++){
+				if(result[i].tag1 !== null)
+					tags.push(result[i].tag1);
+				if(result[i].tag2 !== null)
+					tags.push(result[i].tag2);
+				if(result[i].tag3 !== null)
+					tags.push(result[i].tag3);
+			}
+		}
+		else if(name === "talk"){
+			for(let i=0; i<result.length; i++){
+				if(result[i].category1 !== null)
+					tags.push(result[i].category1);
+				if(result[i].category2 !== null)
+					tags.push(result[i].category2);
+				if(result[i].category3 !== null)
+					tags.push(result[i].category3);
+			}
+		}
+		res.send(tags);
+	});
+});
 
 
 module.exports = router;
