@@ -193,7 +193,7 @@ function Post(props) {
         //{post.contents.includes('code class')&&}
 
 
-        
+
         setpostCommentN(post.commentN);
         loadComment();
     }, [getUser, loadComment, post.commentN]);
@@ -348,7 +348,6 @@ function Post(props) {
     }
     else
         props.history.push("/notfound");    
-    */
 
     useEffect(() => {
         if(isNaN(idx) === false && (name === 'qna' || name === 'talk')){
