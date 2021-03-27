@@ -29,6 +29,9 @@ function News(props) {
       sum1: '',
       sum2: ''
    }]);
+   //new Array(news.length).fill(false)
+   const [disabledNewBtn, setDisabledNewBtn] = useState([false, false, false, false, false, false, false, false, false, false]);
+   const [disabledBtn, setDisabledBtn] = useState(new Array(news.length).fill(false));
 
    const convertDate = str => {
       str = str.toString();
@@ -110,19 +113,16 @@ function News(props) {
       })
    }
 
-   //console.log(mode);
-   console.log("news : ", news);
-   console.log("keyword : ", keyword[1]);
-
-
    const getSumBtn = (e) => {      
+      const index = e.target.getAttribute('sum_idx');
+      disabledBtn[index] = true;
       Axios.post('http://localhost:8000/getSum', {
          paragraph: e.target.getAttribute('paragraph')
       }).then((res) => {
          setSum([
             ...sum,
             {
-            id: e.target.getAttribute('sum_idx'),
+            id: index,
             sum0: res.data[0].sum,
             sum1: res.data[1].sum,
             sum2: res.data[2].sum
@@ -134,19 +134,19 @@ function News(props) {
       setKey(e.target.getAttribute('keyword'));
    }
 
-   console.log("키버튼:", key);
-   console.log("자료:", news[1]);
-
    const delSum = (e) => {
-      setSum(sum.filter(sum => parseInt(sum.id) !== parseInt(e.target.getAttribute('del_idx'))));
+      const index = e.target.getAttribute('del_idx');
+      setSum(sum.filter(sum => parseInt(sum.id) !== parseInt(index)));
+      disabledBtn[index] = false;
    }
    const delDes = (e) => {
-      setDes(des.filter(des => parseInt(des.id) !== parseInt(e.target.getAttribute('del_idx'))));
+      const index = e.target.getAttribute('del_idx');
+      setDes(des.filter(des => parseInt(des.id) !== parseInt(index)));
+      disabledNewBtn[index] = false;
    }
-   console.log("sum : ", sum);
-
 
    const brandNews = (e) => {
+      setNews([]);
       setMode(true);
       setDes([]);
       Axios.post('http://localhost:8000/getbrandNews', {      

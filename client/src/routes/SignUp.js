@@ -19,37 +19,48 @@ function SignUp(props) {
 	const onSubmitHandler = (event) => {
 		event.preventDefault();
 
-		if(check === false) {
-			alert("아이디 중복 체크를 해주세요!");
-		} else {
-			Axios.post('http://localhost:8000/join',
-			{
-				id: Id,
-				pw: Pw,
-				email : Email,
-				name : Name
-			}).then((res) => {
-				alert("가입 되었습니다.");
-				props.history.push("/login");
-			})
-		}
+		Axios.post('/member/join',
+		{
+			id: Id,
+			pw: Pw,
+			email : Email,
+			name : Name
+		}).then((res) => {
+			alert("가입 되었습니다.");
+			props.history.push("/login");
+		})
+
+		// if(check === false) {
+		// 	alert("아이디 중복 체크를 해주세요!");
+		// } else {
+		// 	Axios.post('/join',
+		// 	{
+		// 		id: Id,
+		// 		pw: Pw,
+		// 		email : Email,
+		// 		name : Name
+		// 	}).then((res) => {
+		// 		alert("가입 되었습니다.");
+		// 		props.history.push("/login");
+		// 	})
+		// }
 	}
 
 	const checkId = (event) => {
-		if(Id == "") alert("아이디를 입력하세요");
-		else {
-			Axios.post('http://localhost:8000/idCheck',
-			{
-				id : Id
-			}).then((res) => {
-				if(res.data === "exist") {
-					setCheckMsg("이미 존재하는 아이디 입니다. 다른 아이디를 입력해주세요.");
-				} else {
-					setCheckMsg("사용 가능한 아이디 입니다.");
-					setCheck(true);
-				}
-			})
-		}
+		// if(Id == "") alert("아이디를 입력하세요");
+		// else {
+		// 	Axios.post('/idCheck',
+		// 	{
+		// 		id : Id
+		// 	}).then((res) => {
+		// 		if(res.data === "exist") {
+		// 			setCheckMsg("이미 존재하는 아이디 입니다. 다른 아이디를 입력해주세요.");
+		// 		} else {
+		// 			setCheckMsg("사용 가능한 아이디 입니다.");
+		// 			setCheck(true);
+		// 		}
+		// 	})
+		// }
 	}
 
 	return (
@@ -74,10 +85,10 @@ function SignUp(props) {
 					<input className="PW-input" type='password' placeholder='비밀번호' value={Pw} onChange={onPWHandler} name='pw' required />
 
 					<label>
+						<button className="joinBtn" type="submit">등록</button>
 						<Link to="/login">
 							<button className="joinBtn"> 로그인</button>
 						</Link>
-						<button className="joinBtn" type="submit">등록</button>
 					</label>
 				</form>
 			</div>

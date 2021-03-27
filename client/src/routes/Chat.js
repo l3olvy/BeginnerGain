@@ -10,7 +10,7 @@ import AceEditors from "../lib/AceImport";
 const socket = socketIOClient.connect("/");
 
 function Chat(props) {
-
+	const mounted = useRef(false);
 	const aceinput = useRef(null);
 	const [sendMode, setSend] = useState(true);
 	const [language, setLanguage] = useState(45);
@@ -24,15 +24,27 @@ function Chat(props) {
 	const [user, setUser] = useState();
 	const [recentChat, setRecentChat] = useState('');
 
-	const getUser = useCallback(() => {
-		Axios.get("/login").then((res) => {
-			if(res.data.loggedIn === true) {
-				setName(res.data.user[0].name);
-				setUser(res.data.user[0].id);
+	const getUser = async (e) => {
+		await Axios.get("/member/session").then((res) => {
+			if(res.data !== "fail") {
+				setUser(res.data.id);
+				setName(res.data.name);
 			}
 		});
+	}
 
-	}, []);
+	useEffect(() => {
+		getUser();
+	}, [])
+
+	useEffect(() => {
+		if(!mounted.currnet) {
+			mounted.currnet = true;
+		} else {
+			getUser();
+		}
+	}, [user]);
+
 
 	const scrollToBottom = () => {
 		window.scrollTo(0,document.getElementById("chatMonitor").scrollHeight);
@@ -167,10 +179,6 @@ function Chat(props) {
 	};
 
 	const inputChange = (e) => {setInputMessage (e.target.value);}
-
-	useEffect(() => {
-		getUser();        
-	}, [getUser]);
 
 	useEffect(() => {
 		socket.on('upload', (data) => {

@@ -62,10 +62,10 @@ router.get("/getBoard/:currentPage/:category", (req, res)=> {
 router.post("/getPost", (req, res) => {
 	const idx = req.body.idx;
 	const name = req.body.name;
-
+	
 	let sqlQuery;
 	if(name === "talk") sqlQuery = "SELECT * FROM tboard WHERE idx=?";
-	else sqlQuery = "SELECT * FROM qboard WHERE idx=?";
+	else if(name === "qna") sqlQuery = "SELECT * FROM qboard WHERE idx=?";
 	
 	connection.query(sqlQuery, [idx], (err, result) => {
 		res.send(result);
@@ -73,106 +73,97 @@ router.post("/getPost", (req, res) => {
 });
 
 /*post comment total*/
-router.post("/getqna_total", (req, res)=>{
+router.post("/get_total", (req, res)=>{
 	const bid = req.body.idx;
-    const sqlQuery = "SELECT count(*) as Total FROM q_comment where bid=?";
+	const name = req.body.name;
+	let boardName;
+
+	if(name) {
+		if(name === "qna") boardName = "q_comment";
+		else boardName = "t_comment";
+	}
+
+    const sqlQuery = "SELECT count(*) as Total FROM "+boardName+" where bid=?";
     connection.query(sqlQuery, [bid], (err, result)=>{
     	res.send(result);
     })
-})
-
-router.post("/gettalk_total", (req, res)=>{
-	const bid = req.body.idx;
-    const sqlQuery = "SELECT count(*) as Total FROM t_comment where bid=?";
-    connection.query(sqlQuery, [bid], (err, result)=>{
-    	res.send(result);
-    })
-})
-
-/*comment 가져오기*/
-router.post("/getqna_c", (req, res)=>{
-	const bid = req.body.idx;
-
-    const sqlQuery = "SELECT * FROM q_comment where bid=? ORDER BY idx DESC"; //내림차순 정렬
-    connection.query(sqlQuery, [bid], (err, result)=>{
-    	res.send(result);
-    })
-})
-
-router.post("/gettalk_c", (req, res)=>{
-	const bid = req.body.idx;
-    const sqlQuery = "SELECT * FROM t_comment where bid=? ORDER BY idx DESC"; //내림차순 정렬
-    connection.query(sqlQuery, [bid], (err, result)=>{
-    	res.send(result);
-    })
-})
-
-/*post 삭제 - comment도 같이 삭제됨  +qboard tag도 같이 삭제*/
-router.post("/deleteqna", (req, res) => {
-	const idx = req.body.idx;
-	const bid = req.body.idx;
-	const sqlQuery = "delete from qboard where idx=?;" + "delete from q_comment where bid=?;" + "delete from tag where idx=?;";
-	connection.query(sqlQuery, [idx, bid, idx], (err, result) => {
-		res.send('good!');
-	})
 });
 
-router.post("/deletetalk", (req, res) => {
+/*comment 가져오기*/
+router.post("/get_c", (req, res)=>{
+	const bid = req.body.idx;
+	const name = req.body.name;
+	let boardName;
+
+	if(name === "qna") boardName = "q_comment";
+	else boardName = "t_comment";
+	
+    const sqlQuery = "SELECT * FROM "+boardName+" where bid=? ORDER BY idx DESC"; //내림차순 정렬
+    connection.query(sqlQuery, [bid], (err, result)=>{
+    	res.send(result);
+    })
+});
+
+/*post 삭제 - comment도 같이 삭제됨 +qboard tag도 같이 삭제*/
+router.post("/deletepost", (req, res) => {
 	const idx = req.body.idx;
 	const bid = req.body.idx;
-	const sqlQuery = "delete from tboard where idx=?;" + "delete from t_comment where bid=?;" + "delete from category where idx=?;";
+	const name = req.body.name;
+	let boardName;
+	let boardName2;
+	let boardName3;
+
+	if(name === "qna") {boardName = "qboard"; boardName2 = "q_comment"; boardName3 = "tag"; }
+	else {boardName = "tboard"; boardName2 = "t_comment"; boardName3 = "category"; }
+
+	const sqlQuery = "delete from "+boardName+" where idx=?;" + "delete from "+boardName2+" where bid=?;" + "delete from "+boardName3+" where idx=?;";
 	connection.query(sqlQuery, [idx, bid, idx], (err, result) => {
 		res.send('good!');
 	})
 });
 
 /*comment 삭제*/
-router.post("/deleteqna_c", (req, res) => {	
+router.post("/delete_c", (req, res) => {
 	const idx = req.body.idx;
-	const sqlQuery = "delete from q_comment where idx=?";"delete from q_comment where idx=?;"
-	connection.query(sqlQuery, [idx], (err, result) => {
-		res.send('good!');
-	})
-});
+	const name = req.body.name;
+	let boardName;
 
-router.post("/deletetalk_c", (req, res) => {
-	const idx = req.body.idx;
-	const sqlQuery = "delete from t_comment where idx=?";
+	if(name === "qna") boardName = "q_comment";
+	else boardName = "t_comment";
+
+	const sqlQuery = "delete from "+boardName+" where idx=?";
 	connection.query(sqlQuery, [idx], (err, result) => {
 		res.send('good!');
 	})
 });
 
 /*comment 삭제 commentN-1*/
-router.post("/deleteqna_cN", (req, res) => {	
+router.post("/delete_cN", (req, res) => {
 	const commentN = req.body.commentN;
 	const idx = req.body.idx;
-	const sqlQuery = "UPDATE qboard SET commentN=? WHERE idx=?";
+	const name = req.body.name;
+	let boardName;
+
+	if(name === "qna") boardName = "qboard";
+	else boardName = "tboard";
+
+	const sqlQuery = "UPDATE "+boardName+" SET commentN=? WHERE idx=?";
 	connection.query(sqlQuery, [commentN, idx], (err, result) => {
 		res.send('good!');
 	})
 });
 
-router.post("/deletetalk_cN", (req, res) => {	
-	const commentN = req.body.commentN;
-	const idx = req.body.idx;
-	const sqlQuery = "UPDATE tboard SET commentN=? WHERE idx=?";
-	connection.query(sqlQuery, [commentN, idx], (err, result) => {
-		res.send('good!');
-	})
-});
 
 /*board-writing tag추가*/
 router.post("/writing_qna", (req, res) => {
 	const writer = req.body.writer;
 	const title = req.body.title;
 	const contents = req.body.contents;
-	const img = req.body.img;
 	const tag = req.body.tag;
 	const hit = req.body.hit;
 
-	const sqlQuery = "INSERT INTO qboard (writer, title, contents, img, tag, hit, rdate ) VALUES (?,?,?,?,?,?,NOW())";
-	connection.query(sqlQuery, [writer, title, contents, img, tag, hit], (err, result)=>{
+	const sqlQuery = "INSERT INTO qboard (writer, title, contents, tag, hit, rdate ) VALUES (?,?,?,?,?,NOW())";
+	connection.query(sqlQuery, [writer, title, contents, tag, hit], (err, result)=>{
 		res.send('good');
 	})
 });
@@ -192,12 +183,11 @@ router.post("/writing_talk", (req, res) => {
 	const writer = req.body.writer;
 	const title = req.body.title;
 	const contents = req.body.contents;
-	const img = req.body.img;
 	const category = req.body.category;
 	const hit = req.body.hit;
 
-	const sqlQuery = "INSERT INTO tboard (writer, title, contents, img, category, hit, rdate ) VALUES (?,?,?,?,?,?,NOW())";
-	connection.query(sqlQuery, [writer, title, contents, img, category, hit], (err, result)=>{
+	const sqlQuery = "INSERT INTO tboard (writer, title, contents, category, hit, rdate ) VALUES (?,?,?,?,?,NOW())";
+	connection.query(sqlQuery, [writer, title, contents, category, hit], (err, result)=>{
 		res.send('good');
 	})
 });
@@ -212,7 +202,7 @@ router.post("/writing_category", (req, res) => {
    })
 });
 
-/*update post + tag*/ 
+/*update post + tag - writing.js에 있음 */ 
 router.post("/updateqna", (req, res) => {
 	const idx = req.body.idx;
 	const title = req.body.title;
@@ -260,21 +250,16 @@ router.post("/update_category", (req, res) => {
 });
 
 /*update comment*/
-router.post("/updateqna_c", (req, res) => {
+router.post("/update_c", (req, res) => {
 	const idx = req.body.idx;
 	const contents = req.body.contents;
+	const name = req.body.name;
+	let boardName;
 
-	const sqlQuery = "UPDATE q_comment SET contents=? WHERE idx=?";
-	connection.query(sqlQuery, [contents, idx], (err, result)=>{
-		res.send('good');
-	})
-});
+	if(name === "qna") boardName = "q_comment";
+	else boardName = "t_comment";
 
-router.post("/updatetalk_c", (req, res) => {
-	const idx = req.body.idx;
-	const contents = req.body.contents;
-
-	const sqlQuery = "UPDATE t_comment SET contents=? WHERE idx=?";
+	const sqlQuery = "UPDATE "+boardName+" SET contents=? WHERE idx=?";
 	connection.query(sqlQuery, [contents, idx], (err, result)=>{
 		res.send('good');
 	})
@@ -282,31 +267,20 @@ router.post("/updatetalk_c", (req, res) => {
 
 /*comment insert / commentN+1*/
 router.post("/postqna", (req, res) => {
+	const name = req.body.name;
 	const bid = req.body.bid;
 	const writer = req.body.writer;
 	const contents = req.body.contents;
-	const img = req.body.img;
-	const good = req.body.good;
 	const idx = req.body.bid;
-	const commentN = req.body.commentN;
+	const commentN = req.body.commentN;	
+	let boardName;
+	let boardName2;
 
-	const sqlQuery = "UPDATE qboard SET commentN=? WHERE idx=?;"+"INSERT INTO q_comment (bid, writer, contents, img, good, cdate) VALUES (?,?,?,?,?,NOW());";
-	connection.query(sqlQuery, [commentN, idx, bid, writer, contents, img, good], (err, result)=>{
-		res.send('good');
-	})
-});
+	if(name === "qna") {boardName = "qboard"; boardName2 = "q_comment";}
+	else {boardName = "tboard"; boardName2 = "t_comment";}
 
-router.post("/posttalk", (req, res) => {
-	const bid = req.body.bid;
-	const writer = req.body.writer;
-	const contents = req.body.contents;
-	const img = req.body.img;
-	const good = req.body.good;
-	const idx = req.body.bid;
-	const commentN = req.body.commentN;
-
-	const sqlQuery = "UPDATE tboard SET commentN=? WHERE idx=?;"+"INSERT INTO t_comment (bid, writer, contents, img, good, cdate) VALUES (?,?,?,?,?,NOW());";
-	connection.query(sqlQuery, [commentN, idx, bid, writer, contents, img, good], (err, result)=>{
+	const sqlQuery = "UPDATE "+boardName+" SET commentN=? WHERE idx=?;"+"INSERT INTO "+boardName2+" (bid, writer, contents, cdate) VALUES (?,?,?,NOW());";
+	connection.query(sqlQuery, [commentN, idx, bid, writer, contents], (err, result)=>{
 		res.send('good');
 	})
 });
@@ -372,5 +346,38 @@ router.post("/getHit", (req, res)=>{
 	});
 })
 
+/*Tag List*/
+
+router.post("/getTag", (req, res) => {
+	const name = req.body.name;
+	const tags=[];
+	let sqlQuery;
+	if(name === "talk") sqlQuery = "SELECT category1, category2, category3 FROM category";
+	else if(name === "qna") sqlQuery = "SELECT tag1, tag2, tag3 FROM tag";
+	
+	connection.query(sqlQuery, (err, result) => {
+		if(name === "qna"){
+			for(let i=0; i<result.length; i++){
+				if(result[i].tag1 !== null)
+					tags.push(result[i].tag1);
+				if(result[i].tag2 !== null)
+					tags.push(result[i].tag2);
+				if(result[i].tag3 !== null)
+					tags.push(result[i].tag3);
+			}
+		}
+		else if(name === "talk"){
+			for(let i=0; i<result.length; i++){
+				if(result[i].category1 !== null)
+					tags.push(result[i].category1);
+				if(result[i].category2 !== null)
+					tags.push(result[i].category2);
+				if(result[i].category3 !== null)
+					tags.push(result[i].category3);
+			}
+		}
+		res.send(tags);
+	});
+});
 
 module.exports = router;

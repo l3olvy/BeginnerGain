@@ -1,5 +1,5 @@
-import React from "react";
-import { Route } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { Route, Switch, Redirect } from "react-router-dom";
 import Login from "../routes/Login";
 import SignUp from "../routes/SignUp";
 import IdPw from "../routes/IdPw";
@@ -16,25 +16,45 @@ import Board from "./Board";
 import PublicRoute from "../lib/PublicRoute"
 import PrivateRoute from "../lib/PrivateRoute"
 import NotFound from "./NotFound";
+import Axios from 'axios';
+function Body(props) {
+	const [isLogin, setIsLogin] = useState('');
+	const [id, setId] = useState('');
 
-function Body() {
+	useEffect(() => {
+		Axios.get("/member/session").then((res) => {
+			if(res.data !== "fail") {
+				setIsLogin(res.data.loggedIn);
+				if(res.data.loggedIn === true) {
+					setId(res.data.id);
+				}
+			}
+		});
+	}, [isLogin, id]);
+
     return (
         <div className="body">
-        	<PublicRoute restricted component={Login} path="/login" />
-        	<PublicRoute restricted component={SignUp} path="/signup" />
-        	<PublicRoute restricted component={IdPw} path="/idpw" />
-			<Route component={Home} path="/" exact={true} />
-			<Route component={News} path="/news" />
-			<Route component={Compile} path="/compiler" /> 
+        
+        <Switch>
+       		<Route component={Home} path="/" exact={true} />
+        	<PublicRoute restricted component={Login} isLogin= {isLogin} id = {id} path="/login" exact={true}/>
+        	<PublicRoute restricted component={SignUp} isLogin= {isLogin} id = {id} path="/signup" exact={true}/>
+        	<PublicRoute restricted component={IdPw} isLogin= {isLogin} id = {id} path="/idpw" exact={true}/>
+			<Route component={News} path="/news" exact={true}/>
+			<Route component={Compile} path="/compiler" exact={true}/> 
 			<Route component={Qna} path="/qna" exact={true} /> 
-			<Route component={Talk} path="/talk" exact={true} /> 
-			<PrivateRoute component={Chat} path="/chat" />
-			<PublicRoute component={Post} path="/:name/post/:idx" />
-			<PrivateRoute component={Writing} path="/:name/writing" />
-			<PrivateRoute component={Writing} path="/:name/modify/:idx" />
-			<Route component={Board} path="/qna/search/:kind/:q" /> 
-			<Route component={Board} path="/talk/search/:kind/:q" />
-			{/*<Route component={NotFound} path="/*" />*/}
+			<Route component={Talk} path="/talk" exact={true} />
+			<PrivateRoute component={Writing} path="/:name/writing" isLogin= {isLogin} exact={true}/>
+			<PrivateRoute component={Writing} path="/:name/modify/:idx" isLogin= {isLogin} exact={true}/>
+			<PrivateRoute component={Chat} path="/chat" isLogin= {isLogin} exact={true}/> 
+			<PublicRoute component={Post} path="/:name/post/:idx" isLogin= {isLogin} id = {id} exact={true}/>
+			<Route component={Board} path="/qna/search/:kind/:q" exact={true}/> 
+			<Route component={Board} path="/talk/search/:kind/:q" exact={true}/>
+			<Route component={NotFound} path="/notfound" />
+			<Route component={NotFound}>
+				<Redirect to="/notfound" />
+			</Route>
+			</Switch>
 		</div>
     );
 }

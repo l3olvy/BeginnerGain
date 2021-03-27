@@ -122,6 +122,38 @@ input,button,select:focus { outline: none; }
    border: 1px solid #0e7fe1;
 }
 
+.tag-set{
+  height: auto;
+  display: grid;
+  grid-template-columns: 25% 25% 25% 25%;
+
+  box-shadow: 0px 3px 6px -2px rgb(0 0 0 / 25%), -1px -1px 5px -4px rgb(0 0 0 / 30%), 0 -1px 4px -1px rgb(0 0 0 / 3%);
+  border-radius: 5px;
+  background-color: #fafafa;
+}
+.tag-set > div {
+  margin: 2px 2px 2px 2px;
+  padding-top: 20px;
+  text-align: center;
+  border-radius: 5px;
+  padding-bottom: 20px;
+}
+
+.tag-set > div:hover {
+  background: #eff0f1;
+}
+
+.tag-set > div > button{
+  background: #E1ECF4;
+  padding: 5px 5px;
+  margin-right: 5px;
+  border-radius: 4px;
+  font-size: 13px;
+  line-height: 15px;
+  color: #39739D;
+  border: none;
+}
+
 /*Post.js*/
 
 .Post>.form-wrapper>div>.grid {
@@ -589,13 +621,30 @@ div>.menu__container>.news_contents>.list>.right>div {
    height: 100%;
 }
 
-.menu__container>.news_contents>.list>.right>div>.left>span>a {
+/*.menu__container>.news_contents>.list>.right>div>.left>span>a {
+ board 태그 원래 css
+.menu__container>.board_contents>.list>.right>div>.left>span>a {
    background: #f1f4f8;
    border: 1px solid #8792af;
    padding: 7px 15px;
    margin-right: 15px;
    border-radius: 4px;
    font-size: 17px;
+}
+
+.menu__container>.board_contents>.list>.right>div>.left>span>a {
+   background: #E1ECF4;
+   border: 1px solid #8792af;
+   padding: 7px 15px;
+   margin-right: 15px;
+   border-radius: 4px;
+   font-size: 17px;
+   color: #39739D;
+}*/
+
+.menu__container>.board_contents>.list>.right>div>.left>span>a:hover {
+   background: #39739D;
+   color: #E1ECF4;
 }
 
 .menu__container>.news_contents>.list>.right>div>.right {
@@ -964,3 +1013,11 @@ blockquote:before {
 #code-ace > * { width: 1000px !important; height: 200px !important; }
 .message-result { background: #21242B; color: white; padding: 20px; }
 /*.aceeditors { width: 100% !important; font-family:monospace !important; } */
+
+
+/*NotFound page*/
+.notfound {position: absolute; text-align: center; top: 30%; left: 38%;}
+.notfound > img{width: 130px; height: 130px;}
+
+
+
