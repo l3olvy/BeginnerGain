@@ -16,96 +16,69 @@ function Post(props) {
     const [post, setPost] = useState([]);
     const name = props.match.params.name;
     const [user, setUser] = useState();
-    const idx = props.match.params.idx;
+    const [idx, setIdx] = useState(props.match.params.idx);
     const [mod, setMod] = useState('');
     const [modIdx, setModIdx] = useState('');
     const [mode, setMode] = useState(false);
     const [comment, setComment] = useState([]);
     const [commentnum, setCommentnum] = useState(0);
     const [postcommentN, setpostCommentN] = useState(0);
-    const mounted = useRef(false);
 
-
-    // 그냥 새로 부르는거임 들어가면
-   /* if(isNaN(idx) === false && (name === 'qna' || name === 'talk')){
-        Axios.post('http://localhost:8000/board/getPost', {
-            idx: idx,
-            name : name
-        }).then((res) => {
-            if(res.data.length !== 0)
-                setPost(res.data[0]);   
-            else
-                props.history.push("/notfound"); 
-        });
-    }
-    else
-        props.history.push("/notfound");    
-    */
-
-    useEffect(() => {
-        if(isNaN(idx) === false && (name === 'qna' || name === 'talk')){
-            Axios.post('/board/getPost', {
-                idx: idx,
-                name : name
-            }).then((res) => {
-                if(res.data.length !== 0)
-                    setPost(res.data[0]);   
-                else
-                    props.history.push("/notfound"); 
-            });
-        }
-        else
-            props.history.push("/notfound"); 
-    }, [])
+    // 그냥 새로 부르는거임 들어가면  -> useEffect로 옮김
 
     const loadComment = useCallback( async () => {
-        Axios.post('/board/get_total', {
-            idx: idx,
-            name : name
-        }).then((response) => {
-            setCommentnum(response.data[0].Total);
-        })
-
-        Axios.post('/board/get_c', {
-            idx: idx,
-            name : name
-        }).then((response) => {
-            setComment(response.data);
-            Prism();
-        })
+        if (name === "qna") {
+            Axios.post('http://localhost:8000/board/getqna_c', {
+                idx: idx
+            }).then((response) => {
+                setComment(response.data);
+                Prism();
+            })
+            Axios.post('http://localhost:8000/board/getqna_total', {
+                idx: idx
+            }).then((response) => {
+                setCommentnum(response.data[0].Total);
+            })
+        } else if (name === "talk") {
+            Axios.post('http://localhost:8000/board/gettalk_c', {
+                idx: idx
+            }).then((response) => {
+                setComment(response.data);
+                Prism();
+            })
+            Axios.post('http://localhost:8000/board/gettalk_total', {
+                idx: idx
+            }).then((response) => {
+                setCommentnum(response.data[0].Total);
+            })
+        }
     }, []);
 
-    const getUser = async (e) => {
-        await Axios.get("/member/session").then((res) => {
-            if(res.data !== "fail") setUser(res.data.id);
+    const getUser = useCallback(() => {
+        Axios.get("http://localhost:8000/login").then((res) => {
+            if(res.data.loggedIn === true) {
+                setUser(res.data.user[0].id);
+            }
         });
-    }
-
-    useEffect(() => {
-        getUser();
-    }, [])
-
-    useEffect(() => {
-        if(!mounted.currnet) {
-            mounted.currnet = true;
-        } else {
-            getUser();
-        }
-    }, [user]);
+    }, []);
 
     const delBtn_c = (e) => {
         if (window.confirm("삭제하시겠습니까?")) {
             const didx = e.target.getAttribute('comment-idx');
-
-            Axios.post('/board/delete_c', { idx: didx, name : name });
-
-            Axios.post('/board/delete_cN', {
-                idx: idx,
-                name : name,
-                commentN: (postcommentN-1)
-            }).then((response) => { loadComment(); })
-
-            alert("삭제 되었습니다!");            
+            if (name === "qna") {
+                Axios.post('http://localhost:8000/board/deleteqna_c', { idx: didx })
+                Axios.post('http://localhost:8000/board/deleteqna_cN', {
+                   idx: idx,
+                   commentN: (postcommentN-1)
+               }).then((response) => { loadComment(); })
+            } else if (name === "talk") {
+                Axios.post('http://localhost:8000/board/deletetalk_c', { idx: didx })
+                Axios.post('http://localhost:8000/board/deletetalk_cN', {
+                   idx: idx,
+                   commentN: (postcommentN-1)
+               }).then((response) => { loadComment(); })
+            alert("삭제 되었습니다!");
+            }
             setpostCommentN(postcommentN-1);
         }
     }
@@ -119,13 +92,18 @@ function Post(props) {
     const updateBtn_c = (e) => {
         if (window.confirm("수정하시겠습니까?")) {
             const midx = modIdx;
-            
-            Axios.post('/board/update_c', {
-                idx: midx,
-                contents: mod,
-                name : name
-            }).then(() => { loadComment(); })
-
+            console.log(midx);
+            if (name === "qna") {
+                Axios.post('http://localhost:8000/board/updateqna_c', {
+                    idx: midx,
+                    contents: mod
+                }).then(() => { loadComment(); })
+            } else if (name === "talk") {
+                Axios.post('http://localhost:8000/board/updatetalk_c', {
+                    idx: midx,
+                    contents: mod
+                }).then(() => { loadComment(); })
+            }
             alert("수정 되었습니다!");
         }
         setMod('');
@@ -133,20 +111,33 @@ function Post(props) {
     }
 
     const onSubmitHandler = (event) => {
-        if(mod.length !== 0) {
+        if(mod.length !== 0){
             setCommentnum(post.commentN+1);
-            
-            Axios.post('/board/postqna', {
-                bid: idx,
-                writer: user,
-                name : name,
-                contents:mod,
-                commentN: (postcommentN+1)
-            }).then(() => {
-                loadComment();
-            })
-            .catch((error) => { console.log(error) });
-
+            if (name === "qna") {
+                Axios.post('http://localhost:8000/board/postqna', {
+                    bid: idx,
+                    writer: user,
+                    contents:mod,
+                    img: null,
+                    good: 8,
+                    commentN: (postcommentN+1)
+                }).then(() => {
+                    loadComment();
+                })
+                .catch((error) => { console.log(error) });
+            } else {
+                Axios.post('http://localhost:8000/board/posttalk', {
+                    bid: idx,
+                    writer: user,
+                    contents:mod,
+                    img: null,
+                    good: 8,
+                    commentN: (postcommentN+1)
+                }).then(() => {
+                    loadComment();
+                })
+                .catch((error) => { console.log(error) });
+            }
             alert("작성 되었습니다.");
             setpostCommentN(postcommentN+1);
             setMod('');
@@ -169,7 +160,7 @@ function Post(props) {
     }
 
     const hitUpdate = () => {
-        Axios.post('/board/getHit',{
+        Axios.post('http://localhost:8000/board/getHit',{
            idx: idx,
            name: name
        }).then((response) => {})
@@ -178,27 +169,45 @@ function Post(props) {
     const delBtn = (e) => {
         if (window.confirm("삭제하시겠습니까?")) {
             const didx = e.target.getAttribute('post-idx');
-
-            Axios.post('/board/deletepost', {
-                idx: didx,
-                name : name
-            }).then(() => {
-                if(name === "qna") props.history.push("/qna");
-                else props.history.push("/talk");
-                alert("삭제 되었습니다!");
-            })
+            if (name === "qna") {
+                Axios.post('http://localhost:8000/board/deleteqna', {
+                    idx: didx
+                }).then(() => {
+                    props.history.push("/qna")
+                    alert("삭제 되었습니다!");
+                })
+            } else if (name === "talk") {
+                Axios.post('http://localhost:8000/board/deletetalk', {
+                    idx: didx
+                }).then(() => {
+                    props.history.push("/talk")
+                    alert("삭제 되었습니다!");
+                })
+            }
         }
     }
 
     useEffect(() => {
+        getUser();
         Prism();
+        //{post.contents.includes('code class')&&}
+
+
 
         setpostCommentN(post.commentN);
         loadComment();
-    }, [loadComment, post.commentN]);
+    }, [getUser, loadComment, post.commentN]);
 
     useEffect(() => {
         hitUpdate();
+        setIdx(props.match.params.idx);    
+        Axios.post('http://localhost:8000/board/getPost', {
+            idx: idx,
+            name : name
+        }).then((res) => {
+            setPost(res.data[0]);
+        });
+
     }, []);
 
     return (
@@ -245,9 +254,6 @@ function Post(props) {
                         <hr />
                         <div className="question-body">
                             <div className="selctContents" dangerouslySetInnerHTML={ {__html: post.contents} }></div>
-                            {(post.contents.includes('code class'))&&
-                            <textarea id="output" defaultValue={""} style={{width:500, high:300, }}/>
-                            }
                             <div className="user-info">
                                 <span>asked {post.rdate} {post.writer}</span>
                             </div>               
@@ -260,7 +266,7 @@ function Post(props) {
                                 <div className="question-answer" key={element.idx}>
                                     <div className="selctContents" dangerouslySetInnerHTML={{__html: element.contents}}></div>                    
                                     <div className="user-info"> 
-                                        <span>answered {element.cdate} {element.writer}</span>
+                                         <span>answered {element.cdate} {element.writer}</span>
                                         {(props.id === post.writer)&&(props.id !== element.writer) && //로그인 한 사람이 글 작성자라면 댓글 삭제만 가능
                                             <button className="deleteBtn" onClick={delBtn_c} comment-idx={element.idx}> 삭제 </button>}
                                         {(props.id === element.writer) && //로그인 한 사람이 댓글 작성자라면 댓글 삭제 및 수정 가능

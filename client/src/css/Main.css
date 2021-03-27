@@ -9,7 +9,7 @@
     background: white;
     -webkit-box-shadow: 0px 1px 7px 1px rgba(0, 0, 0, 0.2);
 }
-
+ 
 /* header */
 .box>.head {
     width: 1300px;
@@ -33,23 +33,36 @@
     width: 1400px;
     height: 50px;
     margin: 0 auto;
+
 }
 
 .box2>.nav>a {
     display: block;
-    float: left;
+    float: right;
     text-align: center;
     vertical-align: middle;
     line-height: 50px;
-    width: 200px;
+    width: 180px;
     height: 50px;
     text-decoration: none;
-    color: #0008fc;
+    color: #000000;
     text-transform: uppercase;
     font-size: 15px;
     text-align: center;
     font-weight: bold;
+}
 
+.box2>.nav>a:hover {
+  color: #a6c31d;
+}
+
+.box2>.nav>div{
+    float: left;
+    line-height: 50px;
+    width: 180px;
+    height: 50px;
+    font-size: 25px; 
+    text-align: center;
 }
 
 /* footer */
