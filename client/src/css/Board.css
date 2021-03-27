@@ -1,0 +1,257 @@
+/* sub page - board */
+.left {
+   float: left;
+}
+
+.right {
+   float: right;
+}
+
+/*board background - 배경 이미지, 소개글, 검색*/
+.menu__container > .board_background{
+   /*부모랑 상관 없이 width 주기*/
+   width: 100vw; 
+   margin-left: calc(-50vw + 50%);
+   height: 400px;
+   position: relative;
+
+}
+.menu__container > .board_background > img{
+   width: 100%;
+   height: 100%;
+}
+
+.menu__container > .board_background > .board_intro{
+   position: absolute;
+   width: 650px;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%); 
+   color: white;            
+   z-index: 2;
+
+}
+
+.menu__container > .board_background > .board_intro > .board_list {
+   border: #404144 solid 1px;
+   border-radius: 4px;
+   height: 44px;
+   margin-top: 8px;
+
+}
+
+.menu__container > .board_background > .board_intro > .board_list>li {
+   float: left;
+   height: 100%;
+}
+
+.menu__container > .board_background > .board_intro >.board_list>li>input,
+.menu__container > .board_background > .board_intro >.board_list>li>div {
+   background: none;
+   background-color: white;
+   border: none;
+   height: 100%;
+   width: 450px;
+   box-shadow: inset 7px 6px 4px -5px rgba(0, 0, 0, 0.15);
+}
+
+.menu__container > .board_background > .board_intro >.board_list>li>input{
+   padding-left: 10px;
+}
+
+.menu__container > .board_background > .board_intro >.board_list>li>select {
+   width: 120px;
+   height: 100%;
+   background: none;
+   border: none;
+   background-color: white;
+   padding-left: 10px;
+}
+
+.menu__container > .board_background > .board_intro >.board_list>li>button {
+   width: 78px;
+   height: 100%;
+   background: none;
+   border: none;
+   background-color: #404144;
+}
+
+.menu__container > .board_background > .board_intro >.board_list>li>button>svg {
+   color: #acacac;
+   line-height: 38px;
+   background: none;
+   font-size: 23px;
+}
+
+/*board top - 메뉴 이름, 총 게시글 수*/
+.menu__container>.board_top {
+   margin-top: 20px;
+   width: 100%;
+   overflow: auto;
+   border-bottom: 1px solid #d1d1d1;
+   color: #2E2E2E;
+}
+
+.menu__container>.board_top> .left{
+   height: 100%;
+   width: 90%;
+}
+
+.menu__container>.board_top> .left >h2,
+.menu__container>.board_top> .right >p{
+   margin: 0;
+   padding: 0;
+   line-height: 60px;
+}
+
+.menu__container>.board_top> .right{
+   width: 10%;
+   height: 100%;
+}
+
+
+
+/*board contents - 게시글 리스트*/
+.menu__container>.board_contents {
+   clear: both;
+   float: none;
+   width: 100%;
+   height: auto;
+   overflow: hidden;
+}
+
+.menu__container>.board_contents>.list {
+   width: 100%;
+   height: 160px;
+   color: #2e2e2e;
+}
+
+.menu__container>.board_contents>.list>.left {
+   width: 13%;
+   height: 100%;
+   padding: 0 20px;
+
+}
+
+.menu__container>.board_contents>.list>.left>p {
+   font-weight: bold;
+   color: #f49a24;
+   font-size: 18px;
+}
+
+.menu__container>.board_contents>.list>.right {
+   width: 87%;
+   height: 100%;
+   padding: 0 20px;
+}
+
+.menu__container>.board_contents>.list>.right >a > h3 {
+   color: #2e2e2e;
+}
+
+.menu__container>.board_contents>.list>.right>p {
+   font-size: 17px;
+   line-height: 26px;
+   margin: 0;
+}
+
+.menu__container>.board_contents>.list>.right>div {
+   width: 100%;
+   clear: both;
+   float: none;
+   height: 50px;
+   padding-top: 21px;
+}
+
+.menu__container>.board_contents>.list>.right>div>.left {
+   width: 60%;
+   height: 100%;
+}
+
+.menu__container>.board_contents>.list>.right>div>.left>span>a {
+   color: #428bca;
+   border: 1px solid #68b3e3;
+   padding: 7px 15px;
+   margin-right: 15px;
+   border-radius: 4px;
+   font-size: 17px;
+}
+.menu__container>.board_contents>.list>.right>div>.left>span>a:hover {
+   color: white;
+   background-color: #68b3e3;
+}
+
+.menu__container>.board_contents>.list>.right>div>.right {
+   width: 40%;
+   height: 100%;
+   text-align: right;
+}
+
+.menu__container>.board_contents>.list>.right>div>.right>span {
+   font-size: 16px;
+   color: #2e2e2e;
+   vertical-align: -11px;
+}
+
+
+.menu__container>.board_contents>.list {
+   border-bottom: 1px solid #d1d1d1;
+}
+
+.menu__container>.board_contents>.list>p {
+   text-align: center;
+   margin-top: 160px;
+   color: #717171;
+}
+
+
+/*board bottom - 글쓰기 버튼, 페이징 버튼*/
+.menu__container > a > .writeBtn {
+   padding: 10px 10px;
+   margin-top: 20px;
+   background: #428bca;
+   color: #ffffff !important;
+   border: none;
+   border-radius: 4px;
+   text-align: center;
+   font-size: 16px;
+   float: right;
+}
+
+.disabled {
+   color: #999999 !important;
+}
+
+.selected {
+   background: #428bca !important;
+   color: white !important;
+}
+
+.menu__container>.paging {
+   text-align: center;
+   padding: 20px 0;
+   margin-top: 60px;
+}
+
+.checkBtn { 
+   padding: 10px 15px;
+   background: #428bca !important;
+   border: 1px solid #b7b7b7;
+   color: white !important; 
+}
+
+.menu__container > .paging > button {
+   padding: 10px 15px;
+   background: white;
+   border: 1px solid #c5c5c5;
+   color: #2879d0;    
+   margin-left: 8px;
+   border-radius: 4px;
+}
+
+.menu__container > .paging > .pre {
+  background-color: #f4f4f4;
+  color: #b7b7b7;
+}
+
+.menu__container > .paging > button:focus { outline: 0; }

@@ -2,10 +2,12 @@ import React, {useState, useEffect} from "react";
 import { Link } from "react-router-dom";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import "../css/Components.css";
+import "../css/Board.css";
 import striptags from 'striptags';
 import Axios from 'axios';
 import TagBox from "./TagBox";
+import qnaImg from '../css/qna.png';
+import talkImg from '../css/talk.png';
 
 function Board(props) {
 	// 페이징
@@ -26,6 +28,7 @@ function Board(props) {
 	let tagarray = [];
 
 	const [tag, setTag] = useState([]);
+	const [selSearch, setSelSearch] = useState('basic');
 
 	let name = '';
 	if(props.location !== undefined){
@@ -130,37 +133,65 @@ function Board(props) {
 		setTag(tagset);
 	}
 
+	const handledSearchType = async (e) => { setSelSearch(e.target.value);}
+
     return (   	
         <div className="menu__container">
-			<h2>{name.toUpperCase()}</h2>		
+        	<div className="board_background">
+        		{name === "qna" ?
+        			<img className="board_img" src={qnaImg}/>
+        			:<img className="board_img" src={talkImg}/>
+        		}
+        		<div className="board_intro">
+        			{name === "qna" ?
+        			<div className="intro_sent">
+		        		<h2>개발 중 발생하는 궁금한 점을 물어보세요.</h2>
+		        		<p>다양한 오류에 관한 질문과 해당 카테고리만 분류해서 볼 수 있는 태그 검색까지!</p>
+		        		</div>
+		        		:<div className="intro_sent"><h2>개발에 대한 이야기를 자유롭게 나눠보세요.</h2>
+		        		<p>관심 있는 직군부터 타직군에 관한 이야기를 들려주세요!</p></div>
+		        	}
+	        		<ul className="board_list">
+		        		<li>
+			        		<select name="searchType" onChange={handledSearchType}>
+			        			<option value='basic'>제목+내용</option>
+			        			<option value='tag'>태그</option>
+			        		</select>
+		        		</li>
+	        			
+						<li>
+							{selSearch === 'basic' ? 
+								<input type="text" placeholder="검색어를 입력하세요" onChange={onGeneralSearchHandler}/>
+								:<div><TagBox change={setOnTag}></TagBox></div>
+							}
+						</li>
+		        		<li>
+		        			{selSearch === 'basic' ? 
+								<button type="submit" onClick={searchBtn}>
+									<FontAwesomeIcon icon={faSearch} size="2x" />
+								</button>:
+								<button type="submit" onClick={searchTagsBtn}>
+									<FontAwesomeIcon icon={faSearch} size="2x" />
+								</button>
+							}
+
+						</li>
+	        		</ul>
+	        	</div>
+        	</div>
 			<div className="board_top">
+				<div className="left">
+					<h2>{name.toUpperCase()}</h2>		
+				</div>
+				<div className="right">
 				{((viewContent.length !== 0)&&(searchValue.length === 0)) ? 
 					((props.location !== undefined) ? <p>총 게시물 0개 </p> : <p>총 게시물 {total}개</p>)
 				: <p>총 게시물 {searchtotal}개</p>}
-				<ul className="board_list">
-					<li>
-						<input type="text" placeholder="검색" onChange={onGeneralSearchHandler}/>
-					</li>
-					<li>
-					<button type="submit" onClick={searchBtn}>
-						<FontAwesomeIcon icon={faSearch} size="2x" />
-					</button>
-					</li>
-				</ul>
-			</div>
-
-			<div className="tagSearch">
-				<div className="tagTitle left">{search}검색</div>
-				<div className="right">
-					<div className="tagInput left">
-						<TagBox change={setOnTag}/>
-					</div>
-					<button type="submit" onClick={searchTagsBtn}>
-						<FontAwesomeIcon icon={faSearch} size="2x" />
-					</button>
-					<div className="tagBox"></div>
 				</div>
-			</div>
+			</div>        	
+			
+
+			
 			<div className="board_contents">
 			{(props.location !== undefined) ?
 				((searchValue.length === 0) ? <div className="list"><p><strong>"{props.match.params.q}"</strong>와(과) 일치하는 검색 결과가 없습니다</p></div> 
@@ -178,7 +209,7 @@ function Board(props) {
 
 			{/* 페이징 */}
 			<div className="paging">
-				{ (curPage !== 1) && (<button type="button" onClick={onClick} data-idx={curPage-1}>이전</button>) }
+				{ (curPage !== 1) && (<button className="pre" type="button" onClick={onClick} data-idx={curPage-1}>이전</button>) }
 				{
 					(() => {
 						for(let i = minbtn; i < maxbtn; i++) {
@@ -212,7 +243,10 @@ function List(mapper, total, searchtotal, name, curPage, viewContent, searchValu
 					>
 						<h3>{element.title}</h3>
 					</Link>
-					<p>{striptags(element.contents)}</p>
+					{element.contents.length > 69 ?
+					<p>{striptags(element.contents).substring(0,69)+'...'}</p>
+					:<p>{striptags(element.contents)}</p>
+					}
 
 					<div>
 						<div className="tags left">
@@ -238,7 +272,8 @@ function List(mapper, total, searchtotal, name, curPage, viewContent, searchValu
 							)}
 						</div>
 						<div className="info right">
-							<p>작성자 : <span className="writer">{element.writer}</span> &nbsp;&nbsp;조회수 : <span className="hit">{element.hit}</span></p>
+							<span>작성자 : {element.writer} · 날짜 : {element.rdate.substring(0,10).replace(/-/g, '.')} · 조회수 : {element.hit}</span>
+						
 						</div>
 					</div>
 				</div>

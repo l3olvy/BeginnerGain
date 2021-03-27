@@ -1,0 +1,119 @@
+.left {
+   float: left;
+}
+
+.right {
+   float: right;
+}
+
+.Post {
+   margin: 0 auto;
+   width: 1000px;
+   font-size: 15px;
+   font-weight: 300;
+}
+
+.bolder {
+   font-size: 25px !important;
+   font-weight: 500 !important;
+}
+
+.bold {
+   font-size: 18px !important;
+   font-weight: 400 !important;
+}
+
+.ck.ck-editor__editable:not(.ck-editor__nested-editable) {
+   min-height: 400px;
+}
+
+.Post > .post_container { width: 100%;  }
+
+.Post > .post_container > .post_header {
+   width: 100%;
+   border-bottom: 1px solid #d1d1d1;
+   margin-top: 50px;
+}
+
+.Post > .post_container >.post_header > .grid {
+   width: 100%;
+   overflow: hidden;
+   color: #8E8D8D;
+   font-size: 12px;
+   margin-top: 12px;
+   margin-bottom: 15px;
+}
+
+.modifyBtn, .deleteBtn { 
+   margin: 0px 2px 0px 2px;
+   background: none;
+   border: none;
+   color: #8E8D8D;
+}
+
+.modifyBtn:hover, .deleteBtn:hover { 
+   color: #f49a24;
+   text-decoration: underline;
+}
+
+.selctContents>figure>img {
+   max-width: 770px;
+   width: auto;
+   height: auto;
+   display: block;
+   margin: 0px auto;
+}
+
+.Post > .post_container > .post_body > .post_tags {
+   padding-bottom: 20px;
+   border-bottom: 1px solid #d1d1d1;
+   margin-top: 40px;
+}
+
+.Post > .post_container > .post_body >.post_tags >span{
+   margin-right: 10px;
+}
+.Post > .post_container > .post_body >.post_tags >span>a {
+   color: #428bca;
+   border: 1px solid #68b3e3;
+   padding: 4px 8px;
+   border-radius: 4px;
+   margin-right: 10px;
+   font-size: 15px;
+}
+.Post > .post_container > .post_body >.post_tags >span>a:hover {
+   color: white;
+   background-color: #68b3e3;
+}
+
+.Post > .post_container > .post_body >.post_comments > .answer{
+   margin-top: 10px;
+   border-bottom: 1px solid #d1d1d1;
+}
+
+.Post > .post_container > .post_body >.post_comments > .answer > .comments_info >.right{
+   color: #8E8D8D;
+}
+
+.Post > .post_container > .post_body >.post_comments > .answer > .comments_info > .comment_writer{
+   color: #2e2e2e;
+   font-size: 15px;
+   font-weight: 600;
+}
+
+.Post > .post_container > .post_body >.post_comments > .answer > .comments_info > .comment_date{
+   color: #8E8D8D;
+   font-size: 12px;
+}
+.toboard, .modify-button, .submit-button{
+   width: 100px;
+   height: 40px;
+   font-size: 20px;
+   font-weight: 300;
+   border: none;
+   background-color: #428bca;
+   color: white;
+   border-radius: 5px;
+   margin: 30px 0px 50px 10px;
+   float: right;
+}

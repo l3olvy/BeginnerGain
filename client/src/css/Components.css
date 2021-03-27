@@ -31,16 +31,16 @@ input,button,select:focus { outline: none; }
 }
 
 /*Writing.js & Post.js*/
-.Writing,
-.Post {
+
+.Writing{
    margin: 0 auto;
    margin-top: 40px;
    width: 100%;
-   max-width: 850px;
+   max-width: 1000px;
    font-size: 15px;
    font-weight: 300;
 }
-
+/*
 .bolder {
    font-size: 25px !important;
    font-weight: 500 !important;
@@ -68,7 +68,7 @@ input,button,select:focus { outline: none; }
    margin-top: 30px;
    margin-bottom: 50px;
    margin-right: 10px;
-}
+}*/
 
 /*Writing.js*/
 .Writing>.form-wrapper {
@@ -83,14 +83,14 @@ input,button,select:focus { outline: none; }
 
 .title-input{
    width: 100%;
-   max-width: 850px;
+   max-width: 1000px;
    height: 40px;
    border: 1px solid hsl(0, 0%, 70%);
 }
 
 .tag-box {
    width: 100%;
-   max-width: 850px;
+   max-width: 1000px;
    min-height: 40px;
    border: 1px solid hsl(0, 0%, 70%);
    background-color: white;
@@ -98,7 +98,7 @@ input,button,select:focus { outline: none; }
 
 .tag-box:focus {
    width: 100%;
-   max-width: 850px;
+   max-width: 1000px;
    height: 40px;
    border: 1px solid hsl(0, 0%, 70%);
 }
@@ -107,6 +107,7 @@ input,button,select:focus { outline: none; }
    border: none;
    width: auto;
    height: 40px;
+   padding-left: 10px;
 }
 .tag-input:focus {
    outline: none;
@@ -154,8 +155,9 @@ input,button,select:focus { outline: none; }
   border: none;
 }
 
-/*Post.js*/
 
+/*Post.js*/
+/*
 .Post>.form-wrapper>div>.grid {
    margin-bottom: 20px;
 
@@ -215,127 +217,67 @@ input,button,select:focus { outline: none; }
 .Post>.form-wrapper> div > .question-answer>.user-info>.deleteBtn {
    margin: 0px 2px 0px 2px;
 }
-
+*/
 /* NEWS */
-
-.newstop{
-  background-image: url(../routes/newspic.png); 
-  width: 100%;
-  height: 400px;
-  position: relative;
-  text-align: center;
+/*
+.menu__container>div>.newsSearch>.keywordSearch {
+    margin: 0 auto;
+    width: 600px;
+    background-color: #4A4E80;
+    border-radius: 30px;
+    height: 50px;
+    margin-top: 70px;
+    margin-bottom: 70px;
 }
 
-.newstop>div{
-  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-  color:#ffffff;
-  font-size:15px;
+.menu__container>div>.newsSearch>.keywordSearch>li {
+    color:white;
+    float: left;
+    height: 100%;
 }
 
-.newstop>div>.buttontable{
-  border:0px;
-  border-spacing:0px;
-}
-.newstop>div>.buttontable>tr>td{ border:0px; height:35px;}
-.newstop>div>.buttontable>tr>td>p{ margin:0px; }
-.newstop>div>.buttontable>tr>td>img{height:45px; margin:0px 15px 0px 15px;}
-.newsbtn{
-  width: 330px;
-  height: 50px;
-  font-size:15px;
-  font-weight: 600;
-  border-radius: 25px;
-  font-size: 17px;
-  box-shadow : 2px 2px 5px rgba(0,0,0,0.4);
-  text-shadow : 1px 1px 2px rgba(0,0,0,0.3);
-  border: 1px solid #d1f03c;
-  background-color: transparent;
-  color:#ffffff;
-}
-
-.newsbtn:focus{
-  background-color:#d1f03c;
-  color:#000000;
-}
-
-
-
-/*datepicker*/
-.menu__container>div>.keywordSearch {
-    display:flex; align-items:center;
-    height: 42px;
-    float:right;
-    color:#000000;
+.menu__container>div>.newsSearch>.keywordSearch>li>p {
     font-size: 16px;
-    margin-top:-48px;
-    margin-bottom: 20px;
-}
-.menu__container>div>.keywordSearch>p{margin: 15px; color:#d8d8d8;}
-.menu__container>div>.keywordSearch>div {
-    display:flex; align-items:center;
-    border: 1px solid #d8d8d8;
-    border-radius: 5px;
-    height: 44px;
-}
-
-.menu__container > div > .keywordSearch > div > p { 
-  width: 100%; 
-  height: 44px; 
-  margin: 0;  
-  padding: 0 10px;
-  line-height: 42px;
-  border-right: 1px solid #d8d8d8; 
-}
-
-.menu__container>div>.keywordSearch>div>.calendericon{
-  color:#fd951e;
-  margin-left: 15px;
-  margin-right: 0px;
+    font-weight: bold;
 }
 
 .example-custom-input{
     width: 250px;
     border: none;
     background: none;
-    color:#000000;
+    color: white; 
+    padding-left: 10px;
     line-height: 50px;
-    font-size: 15px;
-    margin-left: -40px;
-    margin-right: -30px;
-
+    font-size: 16px;
 }
+
 .example-custom-input:focus{
     color: pink;
     outline: none;
 }
 
-.menu__container>div>.keywordSearch>div>button {
-    width: 58px;
-    background: #c4c4c4;
-    border:none;
-    border-radius: 0px 5px 5px 0px;
+.menu__container>div>.newsSearch>.keywordSearch>li>button {
+    width: 48px;
+    height: 100%;
+    background: none;
+    border: none;
     color: white;
-    line-height: 40px;
-    font-size: 25px;
+    line-height: 50px;
+    font-size: 23px;
 }
-.menu__container>div>.keywordSearch>div>button:focus {
+
+.menu__container>div>.newsSearch>.keywordSearch>li>button:focus {
     color: pink;
     outline: none;
 }
 
-
-
-
-/*newslist*/
-.menu__container>div>.news_contents>.newslist {
+.menu__container>div>.board_contents>.newslist {
     width: 100%;
     overflow:hidden;
     height:auto;
     border-bottom: 1px solid #c6c6c6;
-    line-height: 60px;
-
 }
-.menu__container>div>.news_contents>.newslist>div {
+.menu__container>div>.board_contents>.newslist>div {
     width: 100%;
     overflow:hidden;
     height:auto;
@@ -348,97 +290,79 @@ input,button,select:focus { outline: none; }
     padding: 15px;
 }
 
-.sumdiv>p{
-    font-weight: 600;
-    margin-left: 30px;
-
-}
-
 .sumdiv>button{
     float: right;
     border: none;
-    background-color: #4d98db;
+    border-radius: 5px;
+    background-color: #4A4E80;
     color: white;
-    border-radius: 3px;
-    padding: 10px 10px;
-    font-size: 18px;
-    /*width: auto;*/
-    margin: 7px;
-}
 
-.menu__container>div>.news_contents{
+}
+.menu__container>div>.board_contents{
     margin-bottom: 100px;
 }
-.menu__container>div>.news_contents>.newslist>div>.left {
-    width: 10%;
+.menu__container>div>.board_contents>.newslist>div>.left {
+    width: 13%;
     height: 100%;
     padding: 0 20px;
 }
-.menu__container>div>.news_contents>.newslist>div>.left>p {
+
+.menu__container>div>.board_contents>.newslist>div>.left>p {
     font-weight: bold;
     color: #f49a24;
     font-size: 18px;
-    margin-left:20px;
 }
-/*title left*/
-.menu__container>div>.news_contents>.newslist>div>.right {
+
+.menu__container>div>.board_contents>.newslist>div>.right {
     width: 87%;
     height: 100%;
     padding: 0 20px;
 }
-.menu__container>div>.news_contents>.newslist>div>.right>div {
+
+.menu__container>div>.board_contents>.newslist>div>.right>div {
     width: 100%;
     clear: both;
     float: none;
-    height: 50px;  
+    height: 50px;
+  
 }
 
-/*summary right*/
-.menu__container>div>.news_contents>.newslist>div>.right>div>.left {
-    width: 70%;
+.menu__container>div>.board_contents>.newslist>div>.right>div>.left {
+    width: 75%;
     height: 100%;
 }
-.menu__container>div>.news_contents>.newslist>div>.right>div>.right {
-    width: 17%;
+
+.menu__container>div>.board_contents>.newslist>div>.right>div>.right {
+    width: 25%;
     height: 100%;
     text-align: right;
-    align-items: center;
 }
 
-.menu__container>div>.news_contents>.newslist>div>.right>div>.summary {
-  width:10%;
-  height: 97px;
-  line-height: 100px;
-}
-
-.menu__container>div>.news_contents>.newslist>div>.right>div>.right>h4{
-    width: 35%;
-}
-
-.menu__container>div>.news_contents>.newslist>div>.right>div>.right>button {
+.menu__container>div>.board_contents>.newslist>div>.right>div>.right>button {
     border: none;
     color: white;
-    background-color: #fd9622;
-    border-radius: 3px;
-    font-size: 18px;
-    padding: 8px 10px;
-    margin-top: -150px;
+    background-color: #4A4E80;
+    border-radius: 15px;
+    height: 30px;
+    width: 60px;
+    margin-top: 35px;
 }
-{/*.menu__container>div>.board_contents>.newslist>div>.right>div>.right>button:focus {
-    background-color: #4d98db;
-    outline: none;
-}*/}
 
-.menu__container>div>.news_contents>.newslist>div>.right>div>.right>p {
+.menu__container>div>.board_contents>.newslist>div>.right>div>.right>button:focus {
+    outline: none;
+    color: pink;
+}
+
+.menu__container>div>.board_contents>.newslist>div>.right>div>.right>p {
     font-size: 16px;
 }
 
 .menu__container>div>.line{
     border-bottom: 1px solid #c6c6c6;
-}
+}*/
 
 /* sub page - board */
-.left {
+/*.left {
    float: left;
 }
 
@@ -450,7 +374,6 @@ input,button,select:focus { outline: none; }
    width: 100%;
    height: auto;
    overflow: auto;
-   float: left;
    vertical-align: middle;
 }
 
@@ -469,6 +392,7 @@ input,button,select:focus { outline: none; }
    border: 1px solid #d2d2d2;
    border-radius: 4px;
    height: 40px;
+   margin-top: 8px;
 }
 
 .menu__container>.board_top>.board_list>li {
@@ -500,7 +424,7 @@ input,button,select:focus { outline: none; }
    font-size: 23px;
 }
 
-.menu__container>div>.tagSearch {
+.menu__container>.tagSearch {
    clear: both;
    width: 100%;
    overflow: hidden;
@@ -511,67 +435,42 @@ input,button,select:focus { outline: none; }
    margin-top: 3px;
 }
 
-div>.menu__container>div>.tagSearch>.tagTitle {
+.menu__container>.tagSearch>.tagTitle {
    font-weight: bold;
    font-size: 17px;
    line-height: 48px;
    text-align: center;
-   width: 8%;
+   width: 14%;
    color: #535353;
-}
-div>.menu__container>div>.tagSearch>.tagTitle2{
-   font-weight: bold;
-   font-size: 17px;
-   line-height: 48px;
-   text-align: center;
-   width: 19%;
-   color: #535353;
-}
-div>.menu__container>div>.tagSearch>.tagTitle3{
-   font-weight: bold;
-   font-size: 17px;
-   line-height: 48px;
-   text-align: center;
-   width: 10%;
-   color: #535353;
-}
-div>.menu__container>div>.tagSearch>.tagTitle4{
-   font-weight: bold;
-   font-size: 17px;
-   line-height: 48px;
-   text-align: center;
-   width: 11%;
-   color: #535353;
-   margin-left:67px;
 }
 
-/*.menu__container>div>.tagSearch>.right {
+.menu__container>.tagSearch>.right {
    width: 86%;
    height: 100%;
-}*/
+}
 
-div>.menu__container>div>.tagSearch>.right>.tagInput {
+.menu__container>.tagSearch>.right>.tagInput {
    width: 500px;
    height: 35px;
    padding-left: 10px;
    margin-top: 2px;
 }
 
-div>.menu__container>div>.tagSearch>.right > button {
+.menu__container>.tagSearch>.right > button {
    width: 45px;
    height: 100%;
    background: none;
    border: none;
 }
 
-div>.menu__container>div>.tagSearch>.right > button > svg {
+.menu__container>.tagSearch>.right > button > svg {
    color: #acacac;
    line-height: 38px;
    background: none;
    font-size: 23px;
 }
 
-div>.menu__container>.news_contents {
+.menu__container>.board_contents {
    clear: both;
    float: none;
    width: 100%;
@@ -579,36 +478,36 @@ div>.menu__container>.news_contents {
    overflow: hidden;
 }
 
-div>.menu__container>.news_contents>.list {
+.menu__container>.board_contents>.list {
    width: 100%;
    height: 180px;
 }
 
-div>.menu__container>.news_contents>.list>.left {
+.menu__container>.board_contents>.list>.left {
    width: 13%;
    height: 100%;
    padding: 0 20px;
 }
 
-div>.menu__container>.news_contents>.list>.left>p {
+.menu__container>.board_contents>.list>.left>p {
    font-weight: bold;
    color: #f49a24;
    font-size: 18px;
 }
 
-div>.menu__container>.news_contents>.list>.right {
+.menu__container>.board_contents>.list>.right {
    width: 87%;
    height: 100%;
    padding: 0 20px;
 }
 
-div>.menu__container>.news_contents>.list>.right>p {
+.menu__container>.board_contents>.list>.right>p {
    font-size: 17px;
    line-height: 26px;
    margin: 0;
 }
 
-div>.menu__container>.news_contents>.list>.right>div {
+.menu__container>.board_contents>.list>.right>div {
    width: 100%;
    clear: both;
    float: none;
@@ -616,13 +515,11 @@ div>.menu__container>.news_contents>.list>.right>div {
    padding-top: 21px;
 }
 
-.menu__container>.news_contents>.list>.right>div>.left {
+.menu__container>.board_contents>.list>.right>div>.left {
    width: 75%;
    height: 100%;
 }
 
-/*.menu__container>.news_contents>.list>.right>div>.left>span>a {
- board 태그 원래 css
 .menu__container>.board_contents>.list>.right>div>.left>span>a {
    background: #f1f4f8;
    border: 1px solid #8792af;
@@ -632,41 +529,26 @@ div>.menu__container>.news_contents>.list>.right>div {
    font-size: 17px;
 }
 
-.menu__container>.board_contents>.list>.right>div>.left>span>a {
-   background: #E1ECF4;
-   border: 1px solid #8792af;
-   padding: 7px 15px;
-   margin-right: 15px;
-   border-radius: 4px;
-   font-size: 17px;
-   color: #39739D;
-}*/
-
-.menu__container>.board_contents>.list>.right>div>.left>span>a:hover {
-   background: #39739D;
-   color: #E1ECF4;
-}
-
-.menu__container>.news_contents>.list>.right>div>.right {
+.menu__container>.board_contents>.list>.right>div>.right {
    width: 25%;
    height: 100%;
    text-align: right;
 }
 
-.menu__container>.news_contents>.list>.right>div>.right>p {
+.menu__container>.board_contents>.list>.right>div>.right>p {
    font-size: 16px;
    margin: 0;
 }
 
-.menu__container>.news_contents>.list>.right>div>.right>p>span {
+.menu__container>.board_contents>.list>.right>div>.right>p>span {
    font-size: 16px;
 }
 
-.menu__container>.news_contents>.list {
+.menu__container>.board_contents>.list {
    border-bottom: 1px solid #c6c6c6;
 }
 
-.menu__container>.news_contents>.list>p {
+.menu__container>.board_contents>.list>p {
    text-align: center;
    margin-top: 160px;
    color: #717171;
@@ -688,7 +570,7 @@ div>.menu__container>.news_contents>.list>.right>div {
 }
 
 /* 페이징 버튼 */
-.checkBtn { 
+/*.checkBtn { 
    padding: 10px 15px;
    background: #2879d0 !important;
    border: 1px solid #b7b7b7;
@@ -715,7 +597,7 @@ div>.menu__container>.news_contents>.list>.right>div {
    text-align: center;
    font-size: 16px;
    float: right;
-}
+}*/
 
 /* Login, Signup */
 
@@ -1013,11 +895,3 @@ blockquote:before {
 #code-ace > * { width: 1000px !important; height: 200px !important; }
 .message-result { background: #21242B; color: white; padding: 20px; }
 /*.aceeditors { width: 100% !important; font-family:monospace !important; } */
-
-
-/*NotFound page*/
-.notfound {position: absolute; text-align: center; top: 30%; left: 38%;}
-.notfound > img{width: 130px; height: 130px;}
-
-
-

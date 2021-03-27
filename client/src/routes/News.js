@@ -3,14 +3,13 @@ import { Link } from "react-router-dom";
 import Axios from 'axios';
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { faCalendar } from "@fortawesome/free-solid-svg-icons";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import "../css/Components.css";
+import "../css/News.css";
 import DatePicker, { registerLocale, setDefaultLocale } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import ko from 'date-fns/locale/ko'; 
 import striptags from 'striptags';
-import slash from'./slash.png';
+import slash from'../css/slash.png';
 
 registerLocale('ko', ko);
 
@@ -181,7 +180,7 @@ function News(props) {
 
          <div className="menu__container">
             { mode ? <h2>NEWS - 최신 뉴스</h2>  : <h2>NEWS - 과거 뉴스</h2>}    
-            <div className="board_top">
+            <div className="news_total">
                {news.length !== 0 ?  mode ? <p>총 게시물 {news.length}개 </p> : <p>총 게시물 {news.length - 1}개 </p>  :<p>총 게시물 {news.length}개 </p>  }
             </div>
 
@@ -221,8 +220,8 @@ function News(props) {
                                  des.map((el)=> (
                                     parseInt(el.id) === i &&(
                                     <div className="sumdiv">   
-                                       <p>첫번째 문장: {convertDes1(striptags(element.description))}...</p>
-                                       <p>두번째 문장: {convertDes2(striptags(element.description))}...</p>
+                                       <p><strong>첫번째 문장 : </strong>{convertDes1(striptags(element.description))}...</p>
+                                       <p><strong>두번째 문장 : </strong>{convertDes2(striptags(element.description))}...</p>
                                        <button onClick={() => window.open(`${element.link}`, '_blank')}>원문 보기</button>
                                        <button onClick={delDes}  del_idx={el.id} >닫기</button>
                                     </div>
@@ -275,23 +274,13 @@ function News(props) {
                   </div>                  
                </div>
 
-
-
-
                <div className="tagSearch">
-                  <div className="tagTitle left">키워드</div>
-               </div>
-
-               <div>
+                  <div className="tagTitle left">키워드 :</div>
                   {keyword.length !== 0 &&
                      keyword.map((element) =>(
                         <button onClick={getKeywordNews} keyword={element}>{element}</button>
                      ))}
                </div>
-               
-               {news.length !== 0 &&
-                  <div className="line"></div>
-               }
 
                <div className="news_contents">
                   {news.length !== 0 &&
@@ -321,11 +310,11 @@ function News(props) {
                                        sum.map((el) =>(
                                           parseInt(el.id) === i &&(
                                           <div className="sumdiv">
-                                             <button onClick={delSum} del_idx={el.id}>X</button>
-                                             <p>1 : {el.sum0}</p>
-                                             <p>2 : {el.sum1}</p>
-                                             <p>3 : {el.sum2}</p>
-                                             <button onClick={() => window.open(`${element.link}`, '_blank')}>뉴스 더 보기</button>
+                                             <p><strong>첫번째 문장 : </strong>{el.sum0}</p>
+                                             <p><strong>두번째 문장 : </strong>{el.sum1}</p>
+                                             <p><strong>세번째 문장 : </strong>{el.sum2}</p>
+                                             <button onClick={() => window.open(`${element.link}`, '_blank')}>원문 보기</button>
+                                             <button onClick={delSum} del_idx={el.id}>닫기</button>
                                           </div>
                                        )))
                                     )}
@@ -337,7 +326,7 @@ function News(props) {
                   }
                </div>
             </div>   
-            }{/*mode*/}
+            }
          </div>
       </div>
    );

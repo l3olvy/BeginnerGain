@@ -22,6 +22,8 @@ const path = require('path');
 const fs = require('fs');
 const { error } = require('console');
 
+const nodemailer = require('nodemailer');
+
 app.use(express.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
