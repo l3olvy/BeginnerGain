@@ -50,10 +50,22 @@ function Post(props) {
         });
     }
 
+    useEffect(() => {
+        getUser();
+    }, [])
+
+    useEffect(() => {
+        if(!mounted.currnet) {
+            mounted.currnet = true;
+        } else {
+            getUser();
+        }
+    }, [user]);
+
+
 
     useEffect(() => {
         Prism();
-        getUser();
         if(post.tag)
             setTags(post.tag.split(' '));
         else if(post.category)
@@ -61,12 +73,14 @@ function Post(props) {
 
         setpostCommentN(post.commentN);
         loadComment();
-    }, [getUser, loadComment, post.commentN, post]);
+    }, [loadComment, post.commentN, post]);
 
     useEffect(() => {
         hitUpdate();
-        setIdx(props.match.params.idx);  
+        setIdx(props.match.params.idx);   
+    }, []);
 
+    useEffect(() => {
         if(isNaN(idx) === false && (name === 'qna' || name === 'talk')){
             Axios.post('/board/getPost', {
                 idx: idx,
@@ -81,15 +95,6 @@ function Post(props) {
         else
             props.history.push("/notfound");   
     }, []);
-
-
-    useEffect(() => {
-        if(!mounted.currnet) {
-            mounted.currnet = true;
-        } else {
-            getUser();
-        }
-    }, [user]);
 
     const delBtn_c = (e) => {
         if (window.confirm("삭제하시겠습니까?")) {

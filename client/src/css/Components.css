@@ -895,3 +895,7 @@ blockquote:before {
 #code-ace > * { width: 1000px !important; height: 200px !important; }
 .message-result { background: #21242B; color: white; padding: 20px; }
 /*.aceeditors { width: 100% !important; font-family:monospace !important; } */
+
+/*NotFound page*/
+.notfound {position: absolute; text-align: center; top: 30%; left: 38%;}
+.notfound > img{width: 130px; height: 130px;}
