@@ -186,64 +186,124 @@ input,button,select:focus { outline: none; }
 
 /* NEWS */
 
-.menu__container>div>.newsSearch>.keywordSearch {
-    margin: 0 auto;
-    width: 600px;
-    background-color: #4A4E80;
-    border-radius: 30px;
-    height: 50px;
-    margin-top: 70px;
-    margin-bottom: 70px;
+.newstop{
+  background-image: url(../routes/newspic.png); 
+  width: 100%;
+  height: 400px;
+  position: relative;
+  text-align: center;
 }
 
-.menu__container>div>.newsSearch>.keywordSearch>li {
-    color:white;
-    float: left;
-    height: 100%;
+.newstop>div{
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  color:#ffffff;
+  font-size:15px;
 }
 
-.menu__container>div>.newsSearch>.keywordSearch>li>p {
+.newstop>div>.buttontable{
+  border:0px;
+  border-spacing:0px;
+}
+.newstop>div>.buttontable>tr>td{ border:0px; height:35px;}
+.newstop>div>.buttontable>tr>td>p{ margin:0px; }
+.newstop>div>.buttontable>tr>td>img{height:45px; margin:0px 15px 0px 15px;}
+.newsbtn{
+  width: 330px;
+  height: 50px;
+  font-size:15px;
+  font-weight: 600;
+  border-radius: 25px;
+  font-size: 17px;
+  box-shadow : 2px 2px 5px rgba(0,0,0,0.4);
+  text-shadow : 1px 1px 2px rgba(0,0,0,0.3);
+  border: 1px solid #d1f03c;
+  background-color: transparent;
+  color:#ffffff;
+}
+
+.newsbtn:focus{
+  background-color:#d1f03c;
+  color:#000000;
+}
+
+
+
+/*datepicker*/
+.menu__container>div>.keywordSearch {
+    display:flex; align-items:center;
+    height: 42px;
+    float:right;
+    color:#000000;
     font-size: 16px;
-    font-weight: bold;
+    margin-top:-48px;
+    margin-bottom: 20px;
+}
+.menu__container>div>.keywordSearch>p{margin: 15px; color:#d8d8d8;}
+.menu__container>div>.keywordSearch>div {
+    display:flex; align-items:center;
+    border: 1px solid #d8d8d8;
+    border-radius: 5px;
+    height: 44px;
+}
+
+.menu__container > div > .keywordSearch > div > p { 
+  width: 100%; 
+  height: 44px; 
+  margin: 0;  
+  padding: 0 10px;
+  line-height: 42px;
+  border-right: 1px solid #d8d8d8; 
+}
+
+.menu__container>div>.keywordSearch>div>.calendericon{
+  color:#fd951e;
+  margin-left: 15px;
+  margin-right: 0px;
 }
 
 .example-custom-input{
     width: 250px;
     border: none;
     background: none;
-    color: white; 
-    padding-left: 10px;
+    color:#000000;
     line-height: 50px;
-    font-size: 16px;
-}
+    font-size: 15px;
+    margin-left: -40px;
+    margin-right: -30px;
 
+}
 .example-custom-input:focus{
     color: pink;
     outline: none;
 }
 
-.menu__container>div>.newsSearch>.keywordSearch>li>button {
-    width: 48px;
-    height: 100%;
-    background: none;
-    border: none;
+.menu__container>div>.keywordSearch>div>button {
+    width: 58px;
+    background: #c4c4c4;
+    border:none;
+    border-radius: 0px 5px 5px 0px;
     color: white;
-    line-height: 50px;
-    font-size: 23px;
+    line-height: 40px;
+    font-size: 25px;
 }
-
-.menu__container>div>.newsSearch>.keywordSearch>li>button:focus {
+.menu__container>div>.keywordSearch>div>button:focus {
     color: pink;
     outline: none;
 }
 
-.menu__container>div>.board_contents>.newslist {
+
+
+
+/*newslist*/
+.menu__container>div>.news_contents>.newslist {
     width: 100%;
     overflow:hidden;
     height:auto;
     border-bottom: 1px solid #c6c6c6;
+    line-height: 60px;
+
 }
-.menu__container>div>.board_contents>.newslist>div {
+.menu__container>div>.news_contents>.newslist>div {
     width: 100%;
     overflow:hidden;
     height:auto;
@@ -256,70 +316,88 @@ input,button,select:focus { outline: none; }
     padding: 15px;
 }
 
+.sumdiv>p{
+    font-weight: 600;
+    margin-left: 30px;
+
+}
+
 .sumdiv>button{
     float: right;
     border: none;
-    border-radius: 5px;
-    background-color: #4A4E80;
+    background-color: #4d98db;
     color: white;
-
+    border-radius: 3px;
+    padding: 10px 10px;
+    font-size: 18px;
+    /*width: auto;*/
+    margin: 7px;
 }
-.menu__container>div>.board_contents{
+
+.menu__container>div>.news_contents{
     margin-bottom: 100px;
 }
-.menu__container>div>.board_contents>.newslist>div>.left {
-    width: 13%;
+.menu__container>div>.news_contents>.newslist>div>.left {
+    width: 10%;
     height: 100%;
     padding: 0 20px;
 }
-
-.menu__container>div>.board_contents>.newslist>div>.left>p {
+.menu__container>div>.news_contents>.newslist>div>.left>p {
     font-weight: bold;
     color: #f49a24;
     font-size: 18px;
+    margin-left:20px;
 }
-
-.menu__container>div>.board_contents>.newslist>div>.right {
+/*title left*/
+.menu__container>div>.news_contents>.newslist>div>.right {
     width: 87%;
     height: 100%;
     padding: 0 20px;
 }
-
-.menu__container>div>.board_contents>.newslist>div>.right>div {
+.menu__container>div>.news_contents>.newslist>div>.right>div {
     width: 100%;
     clear: both;
     float: none;
-    height: 50px;
-  
+    height: 50px;  
 }
 
-.menu__container>div>.board_contents>.newslist>div>.right>div>.left {
-    width: 75%;
+/*summary right*/
+.menu__container>div>.news_contents>.newslist>div>.right>div>.left {
+    width: 70%;
     height: 100%;
 }
-
-.menu__container>div>.board_contents>.newslist>div>.right>div>.right {
-    width: 25%;
+.menu__container>div>.news_contents>.newslist>div>.right>div>.right {
+    width: 17%;
     height: 100%;
     text-align: right;
+    align-items: center;
 }
 
-.menu__container>div>.board_contents>.newslist>div>.right>div>.right>button {
+.menu__container>div>.news_contents>.newslist>div>.right>div>.summary {
+  width:10%;
+  height: 97px;
+  line-height: 100px;
+}
+
+.menu__container>div>.news_contents>.newslist>div>.right>div>.right>h4{
+    width: 35%;
+}
+
+.menu__container>div>.news_contents>.newslist>div>.right>div>.right>button {
     border: none;
     color: white;
-    background-color: #4A4E80;
-    border-radius: 15px;
-    height: 30px;
-    width: 60px;
-    margin-top: 35px;
+    background-color: #fd9622;
+    border-radius: 3px;
+    font-size: 18px;
+    padding: 8px 10px;
+    margin-top: -150px;
 }
-
-.menu__container>div>.board_contents>.newslist>div>.right>div>.right>button:focus {
+{/*.menu__container>div>.board_contents>.newslist>div>.right>div>.right>button:focus {
+    background-color: #4d98db;
     outline: none;
-    color: pink;
-}
+}*/}
 
-.menu__container>div>.board_contents>.newslist>div>.right>div>.right>p {
+.menu__container>div>.news_contents>.newslist>div>.right>div>.right>p {
     font-size: 16px;
 }
 
@@ -340,6 +418,7 @@ input,button,select:focus { outline: none; }
    width: 100%;
    height: auto;
    overflow: auto;
+   float: left;
    vertical-align: middle;
 }
 
@@ -358,7 +437,6 @@ input,button,select:focus { outline: none; }
    border: 1px solid #d2d2d2;
    border-radius: 4px;
    height: 40px;
-   margin-top: 8px;
 }
 
 .menu__container>.board_top>.board_list>li {
@@ -390,7 +468,7 @@ input,button,select:focus { outline: none; }
    font-size: 23px;
 }
 
-.menu__container>.tagSearch {
+.menu__container>div>.tagSearch {
    clear: both;
    width: 100%;
    overflow: hidden;
@@ -401,42 +479,67 @@ input,button,select:focus { outline: none; }
    margin-top: 3px;
 }
 
-.menu__container>.tagSearch>.tagTitle {
+div>.menu__container>div>.tagSearch>.tagTitle {
    font-weight: bold;
    font-size: 17px;
    line-height: 48px;
    text-align: center;
-   width: 14%;
+   width: 8%;
    color: #535353;
 }
-
-.menu__container>.tagSearch>.right {
-   width: 86%;
-   height: 100%;
+div>.menu__container>div>.tagSearch>.tagTitle2{
+   font-weight: bold;
+   font-size: 17px;
+   line-height: 48px;
+   text-align: center;
+   width: 19%;
+   color: #535353;
+}
+div>.menu__container>div>.tagSearch>.tagTitle3{
+   font-weight: bold;
+   font-size: 17px;
+   line-height: 48px;
+   text-align: center;
+   width: 10%;
+   color: #535353;
+}
+div>.menu__container>div>.tagSearch>.tagTitle4{
+   font-weight: bold;
+   font-size: 17px;
+   line-height: 48px;
+   text-align: center;
+   width: 11%;
+   color: #535353;
+   margin-left:67px;
 }
 
-.menu__container>.tagSearch>.right>.tagInput {
+/*.menu__container>div>.tagSearch>.right {
+   width: 86%;
+   height: 100%;
+}*/
+
+div>.menu__container>div>.tagSearch>.right>.tagInput {
    width: 500px;
    height: 35px;
    padding-left: 10px;
    margin-top: 2px;
 }
 
-.menu__container>.tagSearch>.right > button {
+div>.menu__container>div>.tagSearch>.right > button {
    width: 45px;
    height: 100%;
    background: none;
    border: none;
 }
 
-.menu__container>.tagSearch>.right > button > svg {
+div>.menu__container>div>.tagSearch>.right > button > svg {
    color: #acacac;
    line-height: 38px;
    background: none;
    font-size: 23px;
 }
 
-.menu__container>.board_contents {
+div>.menu__container>.news_contents {
    clear: both;
    float: none;
    width: 100%;
@@ -444,36 +547,36 @@ input,button,select:focus { outline: none; }
    overflow: hidden;
 }
 
-.menu__container>.board_contents>.list {
+div>.menu__container>.news_contents>.list {
    width: 100%;
    height: 180px;
 }
 
-.menu__container>.board_contents>.list>.left {
+div>.menu__container>.news_contents>.list>.left {
    width: 13%;
    height: 100%;
    padding: 0 20px;
 }
 
-.menu__container>.board_contents>.list>.left>p {
+div>.menu__container>.news_contents>.list>.left>p {
    font-weight: bold;
    color: #f49a24;
    font-size: 18px;
 }
 
-.menu__container>.board_contents>.list>.right {
+div>.menu__container>.news_contents>.list>.right {
    width: 87%;
    height: 100%;
    padding: 0 20px;
 }
 
-.menu__container>.board_contents>.list>.right>p {
+div>.menu__container>.news_contents>.list>.right>p {
    font-size: 17px;
    line-height: 26px;
    margin: 0;
 }
 
-.menu__container>.board_contents>.list>.right>div {
+div>.menu__container>.news_contents>.list>.right>div {
    width: 100%;
    clear: both;
    float: none;
@@ -481,12 +584,12 @@ input,button,select:focus { outline: none; }
    padding-top: 21px;
 }
 
-.menu__container>.board_contents>.list>.right>div>.left {
+.menu__container>.news_contents>.list>.right>div>.left {
    width: 75%;
    height: 100%;
 }
 
-.menu__container>.board_contents>.list>.right>div>.left>span>a {
+.menu__container>.news_contents>.list>.right>div>.left>span>a {
    background: #f1f4f8;
    border: 1px solid #8792af;
    padding: 7px 15px;
@@ -495,26 +598,26 @@ input,button,select:focus { outline: none; }
    font-size: 17px;
 }
 
-.menu__container>.board_contents>.list>.right>div>.right {
+.menu__container>.news_contents>.list>.right>div>.right {
    width: 25%;
    height: 100%;
    text-align: right;
 }
 
-.menu__container>.board_contents>.list>.right>div>.right>p {
+.menu__container>.news_contents>.list>.right>div>.right>p {
    font-size: 16px;
    margin: 0;
 }
 
-.menu__container>.board_contents>.list>.right>div>.right>p>span {
+.menu__container>.news_contents>.list>.right>div>.right>p>span {
    font-size: 16px;
 }
 
-.menu__container>.board_contents>.list {
+.menu__container>.news_contents>.list {
    border-bottom: 1px solid #c6c6c6;
 }
 
-.menu__container>.board_contents>.list>p {
+.menu__container>.news_contents>.list>p {
    text-align: center;
    margin-top: 160px;
    color: #717171;

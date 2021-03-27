@@ -95,7 +95,6 @@ router.post("/getqna_c", (req, res)=>{
 
     const sqlQuery = "SELECT * FROM q_comment where bid=? ORDER BY idx DESC"; //내림차순 정렬
     connection.query(sqlQuery, [bid], (err, result)=>{
-    	
     	res.send(result);
     })
 })

@@ -30,6 +30,8 @@ const path = require('path');
 const fs = require('fs');
 const { error } = require('console');
 
+const nodemailer = require('nodemailer');
+
 app.use(express.json());
 app.use(
    cors({
@@ -210,6 +212,126 @@ app.post("/idCheck", (req, res) => {
    );
 });
 
+
+///이메일 연동
+app.post('/checkidemail',(req, res) =>{
+   const name = req.body.name;
+   const email = req.body.email;
+
+   connection.query("SELECT * FROM member WHERE name=?;"+"SELECT name FROM member WHERE email=?;",[name, email], (err, result) => {
+      if (err) {
+         res.send({ err: err });
+      }
+      if(result[0].length > 0) { //이름있음
+         //console.log(result[1][0].name);
+         if(result[1][0].name == name)   //이메일 - 이름 확인
+            res.send("exist");      
+         else
+            res.send("noemail");      
+      } else {                
+         res.send("noname"); //이름없음
+      }
+   });
+});
+
+
+app.post('/checkpwemail',(req, res) =>{
+   const name = req.body.name;
+   const id = req.body.id;   
+   const email = req.body.email;
+
+   connection.query("SELECT * FROM member WHERE name=? and id=?;"+"SELECT name FROM member WHERE email=? and id=?;",[name, id, email, id], (err, result) => {
+      if (err) {
+         res.send({ err: err });
+      }
+      if(result[0].length > 0) { //이름-id있음
+         //console.log(result[1][0].name);
+         if(result[1][0].name == name)   //이메일-id - 이름 확인
+            res.send("exist");      
+         else
+            res.send("noemail");      
+      } else {                
+         res.send("noname"); //이름id없음
+      }
+   });
+});
+
+app.post('/sendID', async(req, res) => {
+   const name = req.body.name;
+   const email = req.body.email;
+
+   connection.query( "SELECT id FROM member WHERE name=? and email=?",[name,email], async(err, result) => {
+      if (err) {
+         res.send({ err: err });
+      }
+      else {
+         let id = result[0].id;
+         const smtpTransport = nodemailer.createTransport({
+            service: "Gmail",
+            auth: {
+               user: "beginnergainofficial@gmail.com",
+               pass: "qhstnrh!"
+            },
+            tls: {
+               rejectUnauthorized: false
+            }
+         });
+
+         const mailOptions = {
+         from: "beginnergainofficial@gmail.com",
+         to: email,
+         subject: "Beginnergain-아이디 찾기",
+         text: name+"님의 아이디는 "+id+" 입니다."
+         };
+
+         await smtpTransport.sendMail(mailOptions, (error, responses) =>{
+            if(error){
+                res.send({ err: err });
+            }else{
+                res.send("good");
+            }
+            smtpTransport.close();
+         });
+      }
+   });
+});
+
+app.post('/changePW', async(req, res) => {
+   const name = req.body.name;
+   const email = req.body.email;
+   const checknum = req.body.checknum;
+
+   const smtpTransport = nodemailer.createTransport({
+      service: "Gmail",
+      auth: {
+         user: "beginnergainofficial@gmail.com",
+         pass: "qhstnrh!"
+      },
+      tls: {
+         rejectUnauthorized: false
+      }
+   });
+
+   const mailOptions = {
+      from: "beginnergainofficial@gmail.com",
+      to: email,
+      subject: "Beginnergain-비밀번호 변경 인증 찾기",
+      text: "인증번호는 "+checknum+" 입니다."
+   };
+
+   await smtpTransport.sendMail(mailOptions, (error, responses) =>{
+      if(error){
+          res.send({ err: err });
+      }else{
+          res.send("good");
+      }
+      smtpTransport.close();
+   });
+});
+
+
+
+
 app.get("/logout", (req,res) => {
    delete req.session.user;
    req.session.save();
@@ -223,7 +345,6 @@ app.post('/upload', MultipartyMiddleware, (req, res)=>{
 
    const targetPathUrl = path.join(__dirname,"./uploads/"+TempFile.name);
    
-
    if(path.extname(TempFile.originalFilename).toLowerCase() === ".png" || ".jpg"){
       fs.rename(TempPathFile, targetPathUrl, err =>{
          res.status(200).json({
