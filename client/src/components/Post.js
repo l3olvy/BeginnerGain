@@ -56,7 +56,7 @@ function Post(props) {
         }
         else
             props.history.push("/notfound"); 
-    }, [idx, name, post])
+    }, [])
 
     const loadComment = useCallback( async () => {
         Axios.post('/board/get_total', {

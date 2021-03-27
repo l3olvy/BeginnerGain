@@ -55,6 +55,7 @@ app.post('/getNews', (req, res) => {
 
 	python.on('close', (code) => {
 		res.send(JSON.parse(news));
+      console.log(JSON.parse(news));
 	})
    python.stderr.pipe(process.stderr);
 })

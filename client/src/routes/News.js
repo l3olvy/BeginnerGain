@@ -82,7 +82,7 @@ function News(props) {
       setNews([]);
       setSum([]);
       setKeyword('');
-      Axios.post('http://localhost:8000/getNews', {
+      Axios.post('/getNews', {
          start : convertDate(startDate),
          end : convertDate(endDate)
       }).then((res) => {
@@ -91,10 +91,13 @@ function News(props) {
       })
    }
 
+   console.log(news);
+
+
    const getSumBtn = (e) => {      
       const index = e.target.getAttribute('sum_idx');
       disabledBtn[index] = true;
-      Axios.post('http://localhost:8000/getSum', {
+      Axios.post('/getSum', {
          paragraph: e.target.getAttribute('paragraph')
       }).then((res) => {
          setSum([
@@ -127,7 +130,7 @@ function News(props) {
       setNews([]);
       setMode(true);
       setDes([]);
-      Axios.post('http://localhost:8000/getbrandNews', {      
+      Axios.post('/getbrandNews', {      
       }).then((res) => {
          setNews(res.data);
       })

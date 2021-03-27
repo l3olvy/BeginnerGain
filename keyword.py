@@ -62,7 +62,7 @@ keywords = idx_to_vocab[:10]
 key=[]
 for title in rangenews:
     for keyword in keywords:
-        if keyword in title['title'].replace(' ', '').upper():
+        if keyword in re.sub(r'[^ ㄱ-ㅣ가-힣A-Za-z0-9]', '', title['title']).replace(' ', '').upper():
             key.append(keyword)
     title['keyword']= key
     key = []

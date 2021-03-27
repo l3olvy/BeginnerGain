@@ -36,7 +36,7 @@ const TagBox = ({change, ex_tags, name}) => {
 
 	useEffect(() => {
 		if(name){
-			Axios.post('http://localhost:8000/board/getTag', {
+			Axios.post('/board/getTag', {
 		        name : name
 		    }).then((res) => {
 		    	setTags(res.data);
@@ -52,9 +52,6 @@ const TagBox = ({change, ex_tags, name}) => {
 		}
 		setInput('');
 	})
-
-	if(tags)
-		console.log("tags:", tags);
 
 	const insertTag = useCallback(
 		tag => {
