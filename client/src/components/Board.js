@@ -6,8 +6,6 @@ import "../css/Board.css";
 import striptags from 'striptags';
 import Axios from 'axios';
 import TagBox from "./TagBox";
-import qnaImg from '../css/qna.png';
-import talkImg from '../css/talk.png';
 
 function Board(props) {
 	// 페이징
@@ -137,11 +135,11 @@ function Board(props) {
 
     return (   	
         <div className="menu__container">
-        	<div className="board_background">
-        		{name === "qna" ?
-        			<img className="board_img" src={qnaImg}/>
-        			:<img className="board_img" src={talkImg}/>
-        		}
+        	<div className="board_background" style={
+        		name === "qna" ? 
+        		{ backgroundImage: 'url("/img/qna.png")' } :
+        		{ backgroundImage: 'url("/img/talk.png")' }
+        	}>
         		<div className="board_intro">
         			{name === "qna" ?
         			<div className="intro_sent">
@@ -177,6 +175,9 @@ function Board(props) {
 
 						</li>
 	        		</ul>
+	        		{
+	        			selSearch === "tag" && <span>태그는 세개까지 입력 가능하며, 스페이스바를 통해 구분 가능합니다.</span>
+	        		}
 	        	</div>
         	</div>
 			<div className="board_top">

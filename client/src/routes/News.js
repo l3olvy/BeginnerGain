@@ -9,7 +9,6 @@ import DatePicker, { registerLocale, setDefaultLocale } from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import ko from 'date-fns/locale/ko'; 
 import striptags from 'striptags';
-import slash from'../css/slash.png';
 
 registerLocale('ko', ko);
 
@@ -156,17 +155,17 @@ function News(props) {
          setNews(res.data);
       })
    }
-      console.log(des);
+
    return (      
       <div>
-         <div className="newstop">
+         <div className="newstop" style={{ backgroundImage: 'url("/img/newspic.png")' }}>
             <div>
             <h2>과거 뉴스 / 최신 뉴스</h2>
             <p>요약된 IT 뉴스로 과거부터 최신까지 빠르게 트렌드를 읽어보세요.</p>
             <table className="buttontable" border="1">
                <tr>
                   <td><button className="newsbtn" onClick={ (e) => {setNews([]); setSum([]); setKeyword(''); setKey(''); setMode(false); }}>과거 뉴스</button> </td>
-                  <td><img src={slash}/></td>
+                  <td><img src="/img/slash.png"/></td>
                   <td><button className="newsbtn" onClick={brandNews}>최신 뉴스</button> </td>
                </tr>
                <tr>

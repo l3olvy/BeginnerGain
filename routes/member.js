@@ -19,6 +19,26 @@ const LocalStrategy = require('passport-local').Strategy;
 router.use(passport.initialize());
 router.use(passport.session());
 
+router.post("/idCheck", (req, res) => {
+   const id = req.body.id;
+
+   connection.query(
+      "SELECT * FROM member WHERE id=?",
+      id,
+      (err, result) => {
+         if (err) {
+            res.send({ err: err });
+         }
+
+         if(result.length > 0) {
+            res.send("exist");
+         } else {
+            res.send("good");
+         }
+      }
+   );
+});
+
 router.get('/session', ensureAuthenticated, function(req, res) {
     // deserializeUser에서 추가로 저장한 정보까지 전달 받음
     let userInfo = req.user;

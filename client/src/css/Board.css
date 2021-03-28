@@ -8,36 +8,35 @@
 }
 
 /*board background - 배경 이미지, 소개글, 검색*/
-.menu__container > .board_background{
+.menu__container > .board_background {
    /*부모랑 상관 없이 width 주기*/
-   width: 100vw; 
-   margin-left: calc(-50vw + 50%);
+   width: 99.55vw;
+   background-position: center;
+   background-size: cover;
    height: 400px;
    position: relative;
-
-}
-.menu__container > .board_background > img{
-   width: 100%;
-   height: 100%;
+   margin-left: calc(-50vw + 50%);
 }
 
 .menu__container > .board_background > .board_intro{
    position: absolute;
    width: 650px;
-   top: 50%;
+   height: 160px;
+   top: 51%;
    left: 50%;
-   transform: translate(-50%, -50%); 
+   transform: translate(-50%, -51%); 
    color: white;            
    z-index: 2;
-
 }
+
+.menu__container > .board_background > .board_intro > .intro_sent > h2 { font-size: 24px; padding: 0; margin: 0; }
+.menu__container > .board_background > .board_intro > .intro_sent > p { font-size: 19px; padding: 0; margin: 0; padding: 15px 0; }
 
 .menu__container > .board_background > .board_intro > .board_list {
    border: #404144 solid 1px;
    border-radius: 4px;
    height: 44px;
    margin-top: 8px;
-
 }
 
 .menu__container > .board_background > .board_intro > .board_list>li {
@@ -55,9 +54,13 @@
    box-shadow: inset 7px 6px 4px -5px rgba(0, 0, 0, 0.15);
 }
 
-.menu__container > .board_background > .board_intro >.board_list>li>input{
+.menu__container > .board_background > .board_intro > .board_list > li > * { font-size: 17px; }
+
+.menu__container > .board_background > .board_intro >.board_list > li > input{
    padding-left: 10px;
 }
+
+.menu__container > .board_background > .board_intro > span { font-size: 15px; padding-top: 10px; display: inline-block; padding-left: 123px; }
 
 .menu__container > .board_background > .board_intro >.board_list>li>select {
    width: 120px;

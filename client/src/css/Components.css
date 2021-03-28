@@ -6,25 +6,26 @@ input,button,select:focus { outline: none; }
 
 .tagtest{
    background: #E1ECF4;
-   padding: 5px 5px;
+   padding: 3px 7px;
    margin-right: 5px;
    border-radius: 4px;
    display: inline-block;
-   font-size: 13px;
+   font-size: 17px;
    line-height: 15px;
    color: #39739D;
 }
 
 .btntest{
    background: #E1ECF4;
-   font-size: 15px;
+   font-size: 17px;
    border: none;
    color: #39739D;
-   padding: 0px 3px 0px 3px;
+   padding: 3px 5px;
    margin-left: 2px;
    font-weight: 600;
 }
 .btntest:hover{
+  cursor: pointer;
    background: #39739D;
    color: white;
    border-radius: 2px;
@@ -89,6 +90,7 @@ input,button,select:focus { outline: none; }
 }
 
 .tag-box {
+  padding-left: 10px;
    width: 100%;
    max-width: 1000px;
    min-height: 40px;
@@ -104,16 +106,17 @@ input,button,select:focus { outline: none; }
 }
 
 .tag-input {
+  font-size: 17px;
    border: none;
    width: auto;
    height: 40px;
-   padding-left: 10px;
 }
 .tag-input:focus {
    outline: none;
 }
 
 .tag-list{
+    font-size: 17px;
    width: auto;
    margin-top: 5px;
 }
@@ -127,7 +130,7 @@ input,button,select:focus { outline: none; }
   height: auto;
   display: grid;
   grid-template-columns: 25% 25% 25% 25%;
-
+  font-size: 17px;
   box-shadow: 0px 3px 6px -2px rgb(0 0 0 / 25%), -1px -1px 5px -4px rgb(0 0 0 / 30%), 0 -1px 4px -1px rgb(0 0 0 / 3%);
   border-radius: 5px;
   background-color: #fafafa;
@@ -817,7 +820,7 @@ blockquote:before {
 .chat-form button {
    width: 80px;
    border: 0px;
-   background: #4c7dfe;
+   background: #428bca;
    height: 50px;
    border-radius: 5px;
    outline: none;
@@ -827,9 +830,9 @@ blockquote:before {
 }
 
 .chat-form button:hover {
-   border: 3px solid #4c7dfe;
+   border: 3px solid #428bca;
    background: white;
-   color: #4c7dfe;
+   color: #428bca;
 }
 
 #send_box > select { margin-bottom: 20px; height: 40px; width: 185px; }
@@ -865,7 +868,7 @@ blockquote:before {
 }
 
 .mleft > .message-text { background: #efefef; color: #6a6a6a !important; }
-.mright > .message-text { background: #4c7dfe; }
+.mright > .message-text { background: #428bca; }
 .message-result { white-space: pre-wrap; }
 
 .message > .username {

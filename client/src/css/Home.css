@@ -1,0 +1,102 @@
+/*p, h2, h3 { padding: 0; margin: 0; }*/
+
+/* 1600 - 1100 */
+.width_box { width: 1210px;	margin: 0 auto; }
+.left { float: left; }
+.right { float: right; }
+
+.Home {
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	overflow: all;
+}
+
+.Home > #visual { 
+	width: 100%;
+	background-position: center;
+	background-size: cover; 
+}
+
+.Home > #visual > .width_box { 
+	height: 460px;
+	position: relative;
+}
+
+.Home > #visual > .width_box > #visual_title {
+	text-align: right;
+	position: absolute;
+	top: 50%;
+	right: 5%;
+	transform: translate(5%, -50%);
+}
+
+.title_bar1 { width: 50px; height: 2px; background: #f9b31d; margin-bottom: 20px; }
+.title_bar2 { width: 50px; height: 2px; background: #d1f03c; margin-bottom: 20px; }
+.intro_title { width: 100%; height: 110px; padding-top: 40px; }
+
+.Home > #visual > .width_box > #visual_title > h2 { margin: 0; padding: 0; font-size: 60px; color: #d1f03c; }
+.Home > #visual > .width_box > #visual_title > p { font-size: 28px; color: white; margin: 0; padding: 0; margin-top: 25px; margin-bottom: 12px; }
+.Home > #visual > .width_box > #visual_title > h3 { font-size: 32px; color: white; margin: 0; padding: 0; }
+.Home > #visual > .width_box > #visual_title > h3 > span:first-child { color: #d1f03c; }
+.Home > #visual > .width_box > #visual_title > h3 > span:last-child { color: #f9b31d; }
+
+.Home > .width_box { /*height: 480px;*/ }
+.Home > .width_box > #news_intro { width: 100%; height: 480px; }
+.Home > .width_box > #news_intro > .intro_title > h3 { font-size: 22px; margin: 0; padding: 0; }
+
+.Home > .width_box > #news_intro > .left { width: 48%; height: 310px; background-position: center; background-size: cover; box-shadow: 2px 2px 7px rgba(0,0,0,0.4); }
+
+.Home > .width_box > #news_intro > .right { width: 48%; height: 310px; padding-left: 10px;}
+.Home > .width_box > #news_intro > .right > h3 { font-size: 20px; margin: 0; padding: 0; padding-bottom: 15px; }
+.Home > .width_box > #news_intro > .right > h3 > span { color: #f2861c; }
+.Home > .width_box > #news_intro > .right > p { margin: 0; padding: 0; padding-bottom: 15px; font-size: 18px; line-height: 27px; }
+.Home > .width_box > #news_intro > .right > a { width: 127px; height: 47px; background: #f49a24; font-size: 20px; float: right; line-height: 47px; text-align: center; color: white; font-weight: bold; margin-top: 18px; margin-right: 10px; transition: all 0.3s; }
+.Home > .width_box > #news_intro > .right > a:hover { border: 1px solid #f49a24; background: none; color: #f49a24; }
+
+.Home > #compiler_intro { width: 100%; height: 475px; background-position: center center; background-size: cover; background-attachment: fixed; background-repeat: no-repeat; }
+.Home > #compiler_intro > .width_box { height: 100%; }
+.Home > #compiler_intro > .width_box > .intro_title { padding-top: 70px; height: 140px; }
+.Home > #compiler_intro > .width_box > .intro_title > h3 { margin: 0; padding: 0; font-size: 22px; color: white; }
+.Home > #compiler_intro > .width_box > #compiler_info > * { color: white; }
+.Home > #compiler_intro > .width_box > #compiler_info > h3 { margin: 0; padding: 0; font-size: 23px; padding: 20px 0; line-height: 38px; font-weight: bold; }
+.Home > #compiler_intro > .width_box > #compiler_info > * > span { color: #d1f03c; font-weight: bold; }
+.Home > #compiler_intro > .width_box > #compiler_info > p { margin: 0; padding: 0; font-size: 19px; line-height: 30px; }
+.Home > #compiler_intro > .width_box > a { display: inline-block; width: 143px; height: 51px; line-height: 51px; font-weight: bold; text-align: center; font-size: 20px; border: 1px solid #d1f03c; background: none; color: #d1f03c; transition: all 0.3s; margin-top: 33px; }
+.Home > #compiler_intro > .width_box > a:hover {  background: #d1f03c; color: #2e2e2e; }
+
+.Home > #board_intro { width: 100%; height: 475px; background: #f9f9f9; }
+.Home > #board_intro > .width_box > .intro_title > h3 { margin: 0; padding: 0; font-size: 22px; }
+.Home > #board_intro > .width_box > #board_con { width: 100%; height: 302px; }
+.Home > #board_intro > .width_box > #board_con > ul { width: 100%; height: 100%; }
+.Home > #board_intro > .width_box > #board_con > ul > li { width: 48%; display: inline-block; box-shadow: 2px 2px 7px rgba(0,0,0,0.2); }
+.Home > #board_intro > .width_box > #board_con > ul > li:first-child { margin-right: 4%; }
+.Home > #board_intro > .width_box > #board_con > ul > li > div { width: 100%; height: 302px; }
+.Home > #board_intro > .width_box > #board_con > ul > li > div > .left { width: 50%; height: 100%; }
+.Home > #board_intro > .width_box > #board_con > ul > li > div > .right { width: 50%; height: 100%; padding: 15px 20px; }
+.Home > #board_intro > .width_box > #board_con > ul > li > div > .right > h3 { margin: 0; padding: 0; font-size: 20px; padding-bottom: 10px; line-height: 26px; }
+.Home > #board_intro > .width_box > #board_con > ul > li:first-child > div > .right > h3:first-child { color:#f49a24; }
+.Home > #board_intro > .width_box > #board_con > ul > li:last-child > div > .right > h3:first-child { color:#a3be22; }
+.Home > #board_intro > .width_box > #board_con > ul > li > div > .right > p { margin: 0; padding: 0; font-size: 18px; line-height: 26px; }
+.Home > #board_intro > .width_box > #board_con > ul > li > div > .right > a { display: inline-block; width: 115px; height: 45px; line-height: 45px; text-align: center; font-size: 18px; background: none; transition: all 0.3s; margin-top: 15px; }
+.Home > #board_intro > .width_box > #board_con > ul > li:first-child > div > .right > a { color : #f49a24; border: 1px solid #f49a24; font-weight: bold; }
+.Home > #board_intro > .width_box > #board_con > ul > li:last-child > div > .right > a { color : #a3be22; border: 1px solid #a3be22; font-weight: bold; }
+.Home > #board_intro > .width_box > #board_con > ul > li:first-child > div > .right > a:hover {  background: #f49a24; color: white; }
+.Home > #board_intro > .width_box > #board_con > ul > li:last-child > div > .right > a:hover {  background: #a3be22; color: white; }
+
+.Home > #chat_intro { width: 100%; height: 480px;}
+.Home > #chat_intro > .width_box > .intro_title > h3 { margin: 0; padding: 0; font-size: 22px; }
+.Home > #chat_intro > .width_box > .intro_title { height: 100px; }
+.Home > #chat_intro > .width_box > #chat_info > h3 { margin: 0; padding: 0; font-size: 20px; line-height: 38px; font-weight: bold; padding-bottom: 10px; }
+.Home > #chat_intro > .width_box > #chat_info > * > span { color: #abc628; font-weight: bold; }
+.Home > #chat_intro > .width_box > #chat_info > p { margin: 0; padding: 0; font-size: 19px; line-height: 30px; padding-bottom: 20px; }
+.Home > #chat_intro > .width_box > #chat_info > a { color : #abc628; border: 1px solid #abc628; font-weight: bold; display: inline-block; width: 145px; height: 55px; line-height: 55px; text-align: center; font-size: 18px; background: none; transition: all 0.3s; margin-top: 15px; }
+.Home > #chat_intro > .width_box > #chat_info > a:hover {  background: #abc628; color: white; }
+	
+@media ( max-width: 1600px ) {
+  .width_box { width: 1100px; }
+}
+
+@media ( max-width: 1300px ) {
+  .width_box { width: 900px; }
+}

@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "../css/Main.css";
-import imga from "./logo.PNG"
+
 function Navigation() {
 	return (
 		<div className="box2">
@@ -12,7 +12,7 @@ function Navigation() {
 				<Link to="/compiler">Compiler</Link>
 				<Link to="/news">News</Link>
 				<Link to="/">INTRO</Link>
-				<div> <img src={imga} alt="img"/> </div>
+				<div><Link to="/"><img src="/img/logo.PNG" alt="img"/></Link></div>
 			</div>
 		</div>
 	);

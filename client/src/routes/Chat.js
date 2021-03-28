@@ -20,9 +20,11 @@ function Chat(props) {
 
 	const [inputMessage, setInputMessage] = useState(''); // 입력값을 저장하는 상태값
 	const [chatMonitor, setChatMonitor] = useState([]);
+	const [userMonitor, setUserMonitor] = useState([]);
 
 	const [user, setUser] = useState();
 	const [recentChat, setRecentChat] = useState('');
+	const [recentUser, setRecentUser] = useState('');
 
 	const getUser = async (e) => {
 		await Axios.get("/member/session").then((res) => {
@@ -35,6 +37,7 @@ function Chat(props) {
 
 	useEffect(() => {
 		getUser();
+		if(user === "") socket.emit('newUser', user);
 	}, [])
 
 	useEffect(() => {
@@ -59,16 +62,12 @@ function Chat(props) {
 		}
 		else{
 			switch(parseInt(num)){
-				//case 19 : setLang('crystal'); aceinput.current.editor.setValue(''); break;
-				//case 43 : setLang('plain_text'); aceinput.current.editor.setValue(''); break;
 				case 45 : setLang('assembly_x86'); aceinput.current.editor.setValue('section .data\nmsg   db    \'Hello world!\', 0AH\nlen   equ   $-msg\n\nsection .text\nglobal _WinMain@16\n\n_WinMain@16:\nmov   edx, len\nmov   ecx, msg\nmov   ebx, 1\nmov   eax, 4\n\nint   80h\n\nmov   ebx, 0\nmov   eax, 1\nint   80h\n'); break;
 				case 50 : setLang('c_cpp'); aceinput.current.editor.setValue('void main(){\n\tprintf("Hello World");\n}'); break;
 				case 51 : setLang('csharp'); aceinput.current.editor.setValue('using System;\nclass HelloWorld {\n  static void Main() {\n    Console.WriteLine("Hello World");\n  }\n}'); break;
 				case 54 : setLang('c_cpp'); aceinput.current.editor.setValue('#include <iostream>\nusing namespace std;\n\nint main(){\n    cout<<"Hello world";\nreturn 0;\n}'); break;
 				case 55 : setLang('lisp'); aceinput.current.editor.setValue('(defun hello ()\n    (format t "Hello, World!~%"))\n(hello)'); break;
 				case 56 : setLang('d'); aceinput.current.editor.setValue('import std.stdio; \n\nvoid main() {\n    writeln("Hello world!");\n}'); break;
-				//case 57 : setLang('elixir'); aceinput.current.editor.setValue(''); break;
-				//case 58 : setLang('erlang'); aceinput.current.editor.setValue(''); break;
 				case 59 : setLang('fortran'); aceinput.current.editor.setValue('Program Hello\nPrint *, "Hello World"\nEnd Program Hello'); break;
 				case 60 : setLang('golang'); aceinput.current.editor.setValue('package main  \n import "fmt"\n func main() {\n fmt.Println("Hello World")\n}'); break;
 				case 61 : setLang('haskell'); aceinput.current.editor.setValue('main = putStrLn "Hello World"'); break;
@@ -77,9 +76,7 @@ function Chat(props) {
 				case 64 : setLang('lua'); aceinput.current.editor.setValue('print "Hello world"'); break;
 				case 67 : setLang('pascal'); aceinput.current.editor.setValue('program Hello;\nbegin\n  writeln ("Hello, world.");\nend.'); break;
 				case 68 : setLang('php'); aceinput.current.editor.setValue('<?php\n echo "Hello World";'); break;
-				//case 69 : setLang('prolog'); aceinput.current.editor.setValue(''); break;
 				case 71 : setLang('python'); aceinput.current.editor.setValue('print("Hello World!")'); break;
-				//왜안돼 case 72 : setLang('ruby'); aceinput.current.editor.setValue('puts "Hello World"'); break;
 				case 73 : setLang('rust'); aceinput.current.editor.setValue('fn main() {\n    println!("Hello World");\n}'); break;
 				case 74 : setLang('typescript'); aceinput.current.editor.setValue('console.log("Hello");'); break;
 				case 86 : setLang('clojure'); aceinput.current.editor.setValue('(ns clojure.examples.main\n    (:gen-class))\n(defn Example []    (println (str "Hello World")) )\n(Example)'); break;
@@ -114,11 +111,10 @@ function Chat(props) {
                 body: JSON.stringify({
                 	source_code: input,
                 	language_id: language
-                	// stdin: user_input,
                 }),
             }
             );
-			//outputText.innerHTML += "Submission Created ...\n";
+			
 			outputText += "Submission Created ...\n";
 			const jsonResponse = await response.json();
 
@@ -133,7 +129,7 @@ function Chat(props) {
 				jsonGetSolution.stderr == null &&
 				jsonGetSolution.compile_output == null
 				){
-				//outputText.innerHTML = `Creating Submission ... \nSubmission Created ...\nChecking Submission Status\nstatus : ${jsonGetSolution.status.description}`;
+				
 					outputText = `Creating Submission ... \nSubmission Created ...\nChecking Submission Status\nstatus : ${jsonGetSolution.status.description}`;
 					if (jsonResponse.token) {
 						let url = `https://judge0-extra.p.rapidapi.com/submissions/${jsonResponse.token}?base64_encoded=true`;
@@ -142,8 +138,7 @@ function Chat(props) {
 							method: "GET",
 							headers: {
 								"x-rapidapi-host": "judge0-ce.p.rapidapi.com",
-		                         "x-rapidapi-key": "010d0e431bmsh5ec04bcfb3323c6p179977jsn34a62e011152", // Get yours for free at https://rapidapi.com/hermanzdosilovic/api/judge0
-		                          //"useQueryString": true
+		                         "x-rapidapi-key": "010d0e431bmsh5ec04bcfb3323c6p179977jsn34a62e011152",
 		                          "content-type": "application/json",
 		                      },
 		                  });
@@ -170,7 +165,7 @@ function Chat(props) {
 
 	const submit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		if(sendMode) { // txt - true
+		if(sendMode) { 
 			socket.emit('message', { name: name, message: inputMessage });
 		 	setInputMessage("");
 		} else {
@@ -184,19 +179,30 @@ function Chat(props) {
 		socket.on('upload', (data) => {
 			setRecentChat(data);
 		});
+
 	}, []);
 
 	useEffect(() => {
-		socket.on('uploads', (data) => {
+		socket.on('upload', (data) => {
 			setRecentChat(data);
 		});
 	}, []);
 
+	useEffect(() => {
+		socket.on('enter', (data) => {
+			setRecentUser(data);
+		});
+	}, []);
+
 	useEffect(async () => {		
-		(await Object.keys(recentChat).length) > 0 && setChatMonitor([...chatMonitor, recentChat]);
-		scrollToBottom();
+		(await Object.keys(recentUser).length) > 0 && setChatMonitor([...chatMonitor, recentChat]);
 		setRecentChat('');
 	}, [recentChat]);
+
+	useEffect(async () => {		
+		(await Object.keys(recentUser).length) > 0 && setUserMonitor([...userMonitor, recentUser]);
+		setRecentUser('');
+	}, [recentUser]);
 
    return (
 
@@ -204,6 +210,11 @@ function Chat(props) {
 		<div id="chat_box">
 			<h2>Chatting</h2>       
 			<section className="chat-list" id="chatMonitor">
+				{
+					userMonitor.map((item: Message, i: number) => 
+			    		<p>{item}님이 들어오셨습니다.</p>
+			    	)
+				}
 			    {
 			    	chatMonitor.map((item: Message, i: number) =>
 			    		<div className="msgbox">
@@ -215,7 +226,6 @@ function Chat(props) {
 					    	}>{item.name}</p>
 					    	{
 					    		(item.code) ? (
-					    			// 보낸 언어를 받아와서 mode = {itme.lang} 으로 뿌려줘야할듯
 					    			<div id="code_box">
 					    				
 					    				<div id="code-ace">
@@ -283,7 +293,6 @@ function Chat(props) {
 						{ (!sendMode) && 
 							(<select name="code_lang" onChange={lanChange}>
 								<option value="45">Assembly (NASM 2.14.02)</option>                     
-								<option value="html">HTML</option>
 								<option value="50">C (GCC 9.2.0)</option>
 								<option value="54">C++ (GCC 9.2.0)</option>
 								<option value="51">C# (Mono 6.6.0.161)</option>

@@ -138,19 +138,19 @@ function Compile() {
 			<div id="compile_header">
 				<div className="cover">
 					<ul>
-						<li>
+						{/*<li>
 						<span>Font Size</span> &nbsp;&nbsp;
 							<select name="fontsize" id="fontsize">
 								<option value="14">14</option>
 								<option value="15">15</option>
 								<option value="16">16</option>
 							</select>
-						</li>
+						</li>*/}
 						<li>
 							<span>Language</span>&nbsp;&nbsp;
 							<select onChange={lanChange}>    
 								<option value="45">Assembly (NASM 2.14.02)</option>                     
-								<option value="html">HTML</option>
+								{/*<option value="html">HTML</option>*/}
 								<option value="50">C (GCC 9.2.0)</option>
 								<option value="54">C++ (GCC 9.2.0)</option>
 								<option value="51">C# (Mono 6.6.0.161)</option>

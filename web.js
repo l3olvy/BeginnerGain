@@ -232,6 +232,7 @@ app.post('/upload', MultipartyMiddleware, (req, res)=>{
 
 io.on('connection', (socket) => { // 기본 연결
    socket.on('newUser', (data) => { // on 데이터를 받을때
+      console.log(data);
       io.emit('enter', data); // emit 데이터를 보낼때
    });
 
