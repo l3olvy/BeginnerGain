@@ -55,7 +55,7 @@ function SignUp(props) {
 	return (
 		<div className="container">
 			<div className="joinBox">
-				<form method="post" onSubmit={onSubmitHandler}>
+				<form method="post" onSubmit={onSubmitHandler} autocomplete="off">
 					<h3>회원가입</h3>
 					<label>성명</label>
 					<input className="Name-input" type='text' placeholder='성명' value={Name} id="name" onChange={onNameHandler} name='name' required />

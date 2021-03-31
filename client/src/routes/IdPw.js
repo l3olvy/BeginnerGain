@@ -78,7 +78,7 @@ function IdPw() {
 	return (
 		<div className="container">
 			<div>
-				<form>
+				<form autocomplete="off">
 					<h3>아이디 찾기</h3>
 					<label>성명</label>
 					<input className="Name-input" type='text' placeholder='성명' value={Name} onChange={onNameHandler} name='name' />

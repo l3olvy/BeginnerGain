@@ -11,14 +11,15 @@ tfidf_vectorizer = TfidfVectorizer() # TF-IDF 객체선언
 
 def komoran_tokenizer(sent):
     words = komoran.pos(sent) # 품사표 부착
-    words = ' '.join(w for w, p in words if ('NN' in p or 'XR' in p or 'VA' in p or 'VV' in p or 'VV' in p)) #NN:명사 XR:어근 VA:형용사 VV:동사
+    words = ' '.join(w for w, p in words if ('NN' in p or 'XR' in p or 'VA' in p or 'VV' in p or 'VV' in p or 'SL' in p)) #NN:명사 XR:어근 VA:형용사 VV:동사
     return words
 
 def init(sents):
     nouns = []
     summary = []
     for sent in sents:
-        nouns.append(komoran_tokenizer(sent))
+        sent = re.sub(r'[^ ㄱ-ㅣ가-힣A-Za-z0-9]', '', sent) #특수기호 제거, 정규 표현식  
+        nouns.append(komoran_tokenizer(sent.replace(' ', '').upper()))
     tfidf_mat = tfidf_vectorizer.fit_transform(nouns).toarray()
     sent_graph = np.dot(tfidf_mat, tfidf_mat.T)
     key_sents_idx = sorted(get_ranks(sent_graph))

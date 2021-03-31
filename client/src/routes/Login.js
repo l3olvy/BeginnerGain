@@ -78,7 +78,7 @@ function Login(props) {
 	return (
 		<div className="container">
 			<div>
-				<form action="/member/loginAf" method="post">
+				<form action="/member/loginAf" method="post" autocomplete="off">
 					<h3>로그인</h3>
 					<label htmlFor="userid">아이디</label>
 					<input className="ID-input" type='text' placeholder='아이디' name="id" id='userid' required />

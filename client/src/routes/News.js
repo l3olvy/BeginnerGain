@@ -323,6 +323,7 @@ function News(props) {
                         )
                      ))
                   }
+                  { !mode && <span>IT 뉴스 데이터는 국립국어원의 신문 말뭉치에서 제공 받았습니다.</span>}
                </div>
             </div>   
             }

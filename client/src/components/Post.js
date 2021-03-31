@@ -62,13 +62,11 @@ function Post(props) {
         }
     }, [user]);
 
-
-
     useEffect(() => {
         Prism();
-        if(post.tag)
+        if(name === 'qna' && post.tag)
             setTags(post.tag.split(' '));
-        else if(post.category)
+        else if(name === 'talk' && post.category)
             setTags(post.category.split(' '));
 
         setpostCommentN(post.commentN);
@@ -218,8 +216,7 @@ function Post(props) {
                                     idx : post.idx,
                                     title : post.title,
                                     contents : post.contents,
-                                    tag : post.tag,
-                                    category : post.category,
+                                    tag : tags,
                                     name : name
                                 }
                             }}>

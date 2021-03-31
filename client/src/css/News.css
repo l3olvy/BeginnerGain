@@ -106,6 +106,13 @@
 }
 
 /*newslist*/
+.menu__container>div>.news_contents>span {
+  font-size: 15px;
+  float: right;
+  padding: 5px 0;
+  display: inline-block;
+}
+
 .menu__container>div>.news_contents>.newslist {
     width: 100%;
     overflow:hidden;
@@ -200,6 +207,10 @@
     margin-top: -150px;
 }
 
+.menu__container>div>.news_contents>.newslist>div>.right>div>.right>button:hover {
+  cursor: pointer;  
+}
+
 .menu__container>div>.news_contents>.newslist>div>.right>div>.right>button:focus {
     color: white;
     background-color: #fd9622;
@@ -274,6 +285,11 @@ div>.menu__container>div>.tagSearch> button {
    font-size: 17px;
    line-height: 17px;
    vertical-align: -14px;
+}
+div>.menu__container>div>.tagSearch> button:hover {
+   background: #aec830;
+   cursor: pointer;
+   color: white;
 }
 div>.menu__container>div>.tagSearch> button:focus {
    background: #aec830;

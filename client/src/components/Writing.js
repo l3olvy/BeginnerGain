@@ -110,6 +110,8 @@ function Writing(props) {
 			alert("제목을 입력해주세요.");
 		else if(contents.length === 0)
 			alert("내용을 입력해주세요.");
+		else if(tag.length === 0)
+			alert("태그를 한 개 이상 입력해주세요.");
 		else{
 			if (props.match.params.name === "qna") {
 				Axios.post('/board/writing_qna', {
@@ -172,7 +174,7 @@ function Writing(props) {
 		        /> 
 		        <p className="bold">태그</p>
 		        {props.location.state ?
-		        <TagBox change={setOnTag} ex_tags={post.tag.split(' ')} name={props.match.params.name}/>
+		        <TagBox change={setOnTag} ex_tags={post.tag} name={props.match.params.name}/>
 		        :
 		        <TagBox change={setOnTag} name={props.match.params.name}/>
 		    	}
