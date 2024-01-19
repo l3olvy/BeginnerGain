@@ -7,16 +7,16 @@ from konlpy.tag import Komoran
 from collections import Counter
 import numpy as np
 
-with open('C:\\Users\\qhsl0\\NIRW_IT_link4.json', 'r', encoding='UTF-8') as json_file:
+with open('./news_data/NIRW_IT_link4.json', 'r', encoding='UTF-8') as json_file:
     json_data = json.load(json_file)
     
 start = int(sys.argv[1])
 end = int(sys.argv[2])
 
-komoran = Komoran(userdic='./no_space.txt')
+komoran = Komoran(userdic='./news_data/no_space.txt')
 
 stopwords=[]
-with open('./fire.txt', 'r', encoding='UTF-8') as file:
+with open('./news_data/fire.txt', 'r', encoding='UTF-8') as file:
     for line in file:
         stopwords.append(line.rstrip('\n')) 
 
